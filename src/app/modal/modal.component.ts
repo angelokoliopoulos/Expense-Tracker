@@ -16,30 +16,43 @@ export class ModalComponent implements OnInit {
   constructor(public activeModal:NgbActiveModal,
     private productsService:ProductService,private fb:FormBuilder){}
 
-ngOnInit() {
-    this.productForm = this.fb.group({
-      productName:['',Validators.required],
-      productDescription:['',Validators.required]
-    })
+    ngOnInit() {
+      this.initializeForm();
+    }
+
+    onAddProduct(){
+      const newProduct = 
+      new Product(this.productForm.value.productName,
+        this.productForm.value.productDescription)
+  
+        this.productsService.addProduct(newProduct).subscribe({
+          next: () => {
+              this.handleSuccess();
+          },
+          error: (error) => {
+              this.handleError(error);
+          }
+      });
+        }
+    
+
+initializeForm() {
+  this.productForm = this.fb.group({
+      productName: ['', Validators.required],
+      productDescription: ['', Validators.required]
+  });
 }
 
-  onAddProduct(){
-    const newProduct = 
-    new Product(this.productForm.value.productName,
-      this.productForm.value.productDescription)
+handleSuccess() {
+  this.productsService.triggerDataUpdate();
+  this.initializeForm(); // Reset the form after successful operation
+}
 
-      this.productsService.addProduct(newProduct).subscribe({
-        next: () => {
-          this.productsService.triggerDataUpdate();
-        },
-        error: (error) => {
-          this.productForm = this.fb.group({
-            productName:['',Validators.required],
-            productDescription:['',Validators.required]
-          })
-          console.log(error);
-        }
-      });
-  }
+handleError(error) {
+  this.initializeForm(); // Reset the form on error
+  console.log(error);
+}
+
+
 
 }

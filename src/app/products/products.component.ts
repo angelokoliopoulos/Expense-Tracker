@@ -14,29 +14,32 @@ export class ProductsComponent implements OnInit {
   
   
   constructor(private productsService:ProductService,private modalService:NgbModal){}
+
   ngOnInit() {
     this.productsService.dataUpdated$.subscribe(() => {
-      this.fetchProducts();
+        this.fetchProducts();
     });
     this.fetchProducts();
-  }
+}
 
-  fetchProducts(){
-    this.productsService.getProducts().subscribe( 
-      (data:Product[])=>{
-        this.products=data
-      }
-    ),(error)=>{
-      console.log(error)
-    }
-  }
+fetchProducts() {
+    this.productsService.getProducts().subscribe(
+        (data: Product[]) => {
+            this.products = data;
+        },
+        (error) => {
+            console.log(error);
+        }
+    );
+}
 
-  open(){
-    // const modalRef = this.modalService.open(ModalComponent)
-    // modalRef.componentInstance.lesson = lesson;
-    this.modalService.open(ModalComponent, {size: 'xl'})
-   
-  }
+ open(mode: 'add' | 'edit', product?: Product) {
+    const modalRef = this.modalService.open(ModalComponent, { size: 'xl' });
+    modalRef.componentInstance.mode = mode;
+    // if (mode === 'edit') {
+    //     modalRef.componentInstance.product = product;
+    // }
+}
 
 
 }
