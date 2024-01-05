@@ -1,7 +1,7 @@
 import {  Component,Input, OnDestroy } from '@angular/core';
 import { Product } from '../product.model';
 import { ProductService } from '../products.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 })
 export class ProductComponent  {
 @Input() product: Product 
+
 
   constructor(private productsService:ProductService){}
 
@@ -21,20 +22,7 @@ export class ProductComponent  {
   onDelete(){
 
    if(window.confirm('Delete Item?')){
-    this.productsService.deleteProduct(this.product.id).subscribe({
-      next: () => {
-        this.productsService.triggerDataUpdate();
-       
-      },
-      error: (error) => {
-        console.log(error);
-      },
-      complete: ()=>{
-        console.log('completed')
-        
-      }
-    
-  })
+    this.productsService.deleteProductAndNotify(this.product.id)
    }
  
 }
