@@ -6,9 +6,10 @@
   <div class="col text-end">
     <div class="col text-end">
       <div class="d-flex flex-row justify-content-end gap-2">
-        <a href="/v1/contacts/edit/657dda265e436ebc0f5f2ad0" type="button" class="btn btn-warning btn-sm">
+        <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit()">
           <i class="bi bi-pencil"></i>
-        </a>
+          </button>
+        
         <div class="position-relative">
           <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete()">
             <i class="bi bi-person-x"></i>

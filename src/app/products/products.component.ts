@@ -1,4 +1,4 @@
-import {  Component, OnInit} from '@angular/core';
+import {  Component, EventEmitter, OnInit} from '@angular/core';
 import { Product } from './product.model';
 import { ProductService } from './products.service';
 import { ModalComponent } from '../modal/modal.component';
@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit {
         this.fetchProducts();
     });
     this.fetchProducts();
+   
 }
 
 fetchProducts() {
@@ -44,12 +45,9 @@ fetchProducts() {
     );
 }
 
- open(mode: 'add' | 'edit', product?: Product) {
-    const modalRef = this.modalService.open(ModalComponent, { size: 'xl' });
-    modalRef.componentInstance.mode = mode;
-    // if (mode === 'edit') {
-    //     modalRef.componentInstance.product = product;
-    // }
+ open() {
+    this.modalService.open(ModalComponent, { size: 'xl' });
+   
 }
 
 

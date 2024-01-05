@@ -1,7 +1,7 @@
 
 import { Product } from "./product.model";
 import {  Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable ,Subject, catchError, takeUntil} from 'rxjs';
 @Injectable()
 export class ProductService  {
@@ -21,12 +21,14 @@ apiUrl = 'http://localhost:8000';
   }
 
   addProduct(prod:Product):Observable<Product>{
-    return this.http.post<Product>(`${this.apiUrl}/product/`,prod)
+    return this.http.post<Product>(`${this.apiUrl}/product/`,prod,
+   )
   }
 
- 
-
-  deleteProduct(id: number):Observable<Product>  {
+  editProduct(prod:Product):Observable<Product>{
+    return this.http.put<Product>(`${this.apiUrl}/product/`,prod)
+  }
+  deleteProduct(id: number):Observable<Product> {
    return  this.http.delete<Product>(`${this.apiUrl}/product/${id}/`)
    
   }
@@ -35,6 +37,7 @@ apiUrl = 'http://localhost:8000';
     this.deleteProduct(id).subscribe({
      next: () => {
         this.triggerDataUpdate();
+        console.log()
       },
       error: err => {
         console.log(err)
