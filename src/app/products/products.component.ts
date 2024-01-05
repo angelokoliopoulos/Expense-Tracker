@@ -11,25 +11,36 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProductsComponent implements OnInit {
   products: Product[] ;
+  isLoading:boolean = false;
+  error = null
   
   
   constructor(private productsService:ProductService,private modalService:NgbModal){}
 
   ngOnInit() {
     this.productsService.dataUpdated$.subscribe(() => {
+        this.isLoading = true
         this.fetchProducts();
     });
     this.fetchProducts();
 }
 
 fetchProducts() {
-    this.productsService.getProducts().subscribe(
-        (data: Product[]) => {
+    this.productsService.getProducts().subscribe({
+        next:  (data: Product[]) => {
+            
             this.products = data;
         },
-        (error) => {
-            console.log(error);
+        error: error=>{
+            this.isLoading = false
+            this.error = error.message
+            console.error((error.message))
+        },
+        complete: ()=>{
+            this.isLoading = false
         }
+    }
+       
     );
 }
 

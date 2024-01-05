@@ -16,7 +16,6 @@
           </div>
           <div class="card-body px-3 py-0">
        <app-product *ngFor="let prod of products" [product]="prod" ></app-product>
-       
           </div>
         </div>
         <div class="col pt-2 d-flex justify-content-center">
@@ -25,7 +24,13 @@
           >Add Product
         </button>
         </div>
-       
+        <div class="alert alert-success" *ngIf="isLoading && !error">
+            <p >Loading...</p>
+        </div>
+        <div class="alert alert-danger" *ngIf="error">
+          <h3>An Error Occurred!</h3>
+          <p>{{ error }}</p>
+        </div>
       </div>
   </div>
   </div>

@@ -8,7 +8,7 @@ export class ProductService  {
 products:Product[]
 dataUpdated = new Subject<void>();
 dataUpdated$ = this.dataUpdated.asObservable();
-
+error = new Subject<string>();
 
 apiUrl = 'http://localhost:8000';
 
