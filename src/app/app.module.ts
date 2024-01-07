@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from './products/products.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +24,9 @@ import { ModalComponent } from './modal/modal.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    NgxPaginationModule
+
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]

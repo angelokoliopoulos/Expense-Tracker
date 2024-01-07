@@ -11,8 +11,9 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<Product[]> {
-    return this.http.get<{ [key: string]: Product }>(`${this.apiUrl}/product.json`).pipe(
+  getProducts(startIndex:number, itemsPerPage:number): Observable<Product[]> {
+    const queryParams = `?start=${startIndex}&limit=${itemsPerPage}`;
+    return this.http.get<{ [key: string]: Product }>(`${this.apiUrl}/product.json${queryParams}`).pipe(
       map((responseData) => {
         console.log(responseData)
         

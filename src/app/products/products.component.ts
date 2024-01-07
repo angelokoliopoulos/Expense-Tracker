@@ -13,6 +13,9 @@ export class ProductsComponent implements OnInit {
   products: Product[];
   isLoading: boolean = false;
   error = null;
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  total: number;
 
   constructor(private productsService: ProductService, private modalService: NgbModal) {}
 
@@ -25,7 +28,8 @@ export class ProductsComponent implements OnInit {
   }
 
   fetchProducts() {
-    this.productsService.getProducts().subscribe({
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.productsService.getProducts(startIndex, this.itemsPerPage).subscribe({
       next: (data: Product[]) => {
         this.products = data;
       },
@@ -42,5 +46,10 @@ export class ProductsComponent implements OnInit {
 
   open() {
     this.modalService.open(ModalComponent, { size: 'xl' });
+  }
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.fetchProducts();
   }
 }

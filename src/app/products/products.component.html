@@ -15,8 +15,13 @@
             </div>
           </div>
           <div class="card-body px-3 py-0">
-       <app-product *ngFor="let prod of products" [product]="prod" ></app-product>
+       <app-product *ngFor="let prod of products | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" [product]="prod" ></app-product>
           </div>
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+          <pagination-controls
+            (pageChange)="onPageChange($event)"
+          ></pagination-controls>
         </div>
         <div class="col pt-2 d-flex justify-content-center">
           <button  class="btn btn-primary text-center" 
