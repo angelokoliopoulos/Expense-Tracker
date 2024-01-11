@@ -1,0 +1,22 @@
+
+<div class="row align-middle border-bottom px-0 py-2">
+    <div class="col">{{transaction.date}}</div>
+    <div class="col">{{transaction.shop}}</div>
+    <div class="col" *ngIf="!transaction.totalSpent">0</div>
+    <!-- <div class="col" *ngIf="transaction.totalSpent">{{transaction.totalSpent}}</div> -->
+    <div class="col text-end">
+      <div class="col text-end">
+        <div class="d-flex flex-row justify-content-end gap-2">
+          <button type="submit" class="btn btn-warning btn-sm" >
+            <i class="bi bi-pencil"></i>
+            </button>
+          
+          <div class="position-relative">
+            <button type="submit" class="btn btn-danger btn-sm" >
+              <i class="bi bi-person-x"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>

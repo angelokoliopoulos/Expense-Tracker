@@ -12,6 +12,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { TransactionComponent } from './transactions/transaction/transaction.component';
+import { TransactionModalComponent } from './transaction-modal/transaction-modal.component';
+import { TransactionService } from './transactions/transaction.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +22,9 @@ import { TransactionsComponent } from './transactions/transactions.component';
     HeaderComponent,
     ProductComponent,
     ModalComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    TransactionComponent,
+    TransactionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +35,7 @@ import { TransactionsComponent } from './transactions/transactions.component';
     NgxPaginationModule
 
   ],
-  providers: [ProductService],
+  providers: [ProductService,TransactionService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
