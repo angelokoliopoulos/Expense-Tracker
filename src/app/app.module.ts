@@ -9,12 +9,13 @@ import { ProductComponent } from './products/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from './products/products.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from './modals/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionComponent } from './transactions/transaction/transaction.component';
-import { TransactionModalComponent } from './transaction-modal/transaction-modal.component';
+import { TransactionModalComponent } from './modals/transaction-modal.component';
 import { TransactionService } from './transactions/transaction.service';
+import { TransactionsListComponent } from './transactions/transactions-list/transactions-list.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import { TransactionService } from './transactions/transaction.service';
     ModalComponent,
     TransactionsComponent,
     TransactionComponent,
-    TransactionModalComponent
+    TransactionModalComponent,
+    TransactionsListComponent
   ],
   imports: [
     BrowserModule,

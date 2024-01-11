@@ -1,32 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransactionModalComponent } from '../transaction-modal/transaction-modal.component';
-import { TransactionService } from './transaction.service';
-import { Transaction } from './transaction.model';
+import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-transactions',
   templateUrl: './transactions.component.html',
-  styleUrls: ['./transactions.component.css']
+ 
 })
-export class TransactionsComponent implements OnInit{
-  transactions: Transaction[]
+export class TransactionsComponent {
 
-  constructor(private modalService: NgbModal,private transactionService:TransactionService){}
-
-
-
-  ngOnInit() {
-   this.transactionService.getTransactions().subscribe({
-    next:(data:Transaction[])=>{
-      this.transactions = data
-    },
-     error: (error) => {
-      console.error(error.message);
-    },
-   })
-  }
-
-  open(){
-    this.modalService.open(TransactionModalComponent,{ size: 'xl' })
-  }
 }

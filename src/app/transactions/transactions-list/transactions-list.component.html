@@ -1,0 +1,28 @@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header px-0 py-2">
+                  <div class="row">
+                    <div class="col">Transaction Date</div>
+                    <div class="col">Shop</div>
+                    <div class="col">Total Spent</div>
+                    <div class="col text-end">
+                      <div class="d-flex flex-row justify-content-end gap-2">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body px-3 py-0">
+                    <transaction-list-item *ngFor="let t of transactions" [transaction]="t"></transaction-list-item>
+                </div>
+              </div>
+        </div>
+    </div>
+    <div class="col pt-2 d-flex justify-content-center">
+      <button  class="btn btn-primary text-center" 
+      (click)="open()"
+      >Create New
+    </button>
+    </div>
+</div>
