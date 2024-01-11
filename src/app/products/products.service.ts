@@ -1,61 +1,60 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Product } from './product.model';
 
-import { Product } from "./product.model";
-import {  Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable ,Subject, catchError, takeUntil} from 'rxjs';
 @Injectable()
-export class ProductService  {
-products:Product[]
-dataUpdated = new Subject<void>();
-error = new Subject<string>();
-dataUpdated$ = this.dataUpdated.asObservable();
+export class ProductService {
+  dataUpdated = new Subject<void>();
+  apiUrl = 'https://ng-complete-guide-4c27f-default-rtdb.europe-west1.firebasedatabase.app/products';
 
+  constructor(private http: HttpClient) {}
 
-
-apiUrl = 'http://localhost:8000';
-
- constructor(private http : HttpClient){}
-
- getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(`${this.apiUrl}/product/`);
+  getProducts(startIndex:number, itemsPerPage:number): Observable<Product[]> {
+    const queryParams = `?start=${startIndex}&limit=${itemsPerPage}`;
+    return this.http.get<{ [key: string]: Product }>(`${this.apiUrl}/product.json${queryParams}`).pipe(
+      map((responseData) => {
+        console.log(responseData)
+        
+        const productsArray: Product[] = [];
+        for (const key in responseData) {
+          console.log(responseData[key])
+          if (responseData.hasOwnProperty(key)) {
+            productsArray.push({ ...responseData[key], id: key });
+          }
+        }
+        return productsArray;
+      })
+    );
   }
 
-  addProduct(prod:Product):Observable<Product>{
-    return this.http.post<Product>(`${this.apiUrl}/product/`,prod,
-   )
+  addProduct(prod: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.apiUrl}/product.json`, prod);
   }
 
-  editProduct(prod:Product):Observable<Product>{
-    return this.http.put<Product>(`${this.apiUrl}/product/`,prod)
-  }
-  deleteProduct(id: number):Observable<Product> {
-   return  this.http.delete<Product>(`${this.apiUrl}/product/${id}/`)
-   
+  editProduct(prod: Product): Observable<Product> {
+    const productId = prod.id;
+    delete prod.id; // Remove id property before sending the request
+    return this.http.put<Product>(`${this.apiUrl}/product/${productId}.json`, prod);
   }
 
-  deleteProductAndNotify(id: number): void {
+  deleteProduct(id: string): Observable<Product> {
+    return this.http.delete<Product>(`${this.apiUrl}/product/${id}.json`);
+  }
+
+  deleteProductAndNotify(id: string): void {
     this.deleteProduct(id).subscribe({
-     next: () => {
+      next: () => {
         this.triggerDataUpdate();
-        console.log()
       },
-      error: err => {
-        console.log(err)
-      }
-    
-    })
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
-  
+
   triggerDataUpdate() {
     this.dataUpdated.next();
   }
-
-  
-
-
-  
-
- 
-
-
 }
