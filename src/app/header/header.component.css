@@ -1,0 +1,36 @@
+:root {
+    --primary-red: #FE5F55;
+    --primary-red-hover: #FE4134;
+    --grey: #50514F;
+    --white: #FFFFFF;
+    --light-grey: #F6F5F8;
+    /* App colors */
+    --project-grey: #a3a3a3;
+    --project-red: #dd8c94;
+    --project-yellow: #e9ca6d;
+    --project-green: #8dd3b3;
+    --project-light-blue: #81d9eb;
+    --project-blue: #7eaef1;
+  }
+
+
+
+header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+    padding: 0 36px;
+    color: var(--white);
+    background-color: var(--primary-red)!important;
+  }

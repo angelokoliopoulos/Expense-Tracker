@@ -11,13 +11,15 @@ import { ProductService } from './products/products.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { TransactionsComponent } from './transactions/transactions.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     HeaderComponent,
     ProductComponent,
-    ModalComponent
+    ModalComponent,
+    TransactionsComponent
   ],
   imports: [
     BrowserModule,
