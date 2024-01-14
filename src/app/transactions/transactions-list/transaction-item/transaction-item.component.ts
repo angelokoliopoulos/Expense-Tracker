@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Transaction } from '../../transaction.model';
 
 @Component({
@@ -6,10 +6,12 @@ import { Transaction } from '../../transaction.model';
   templateUrl: './transaction-item.component.html',
 
 })
-export class TransactionItemComponent {
+export class TransactionItemComponent implements OnInit {
 @Input() transaction: Transaction
-  
+id:string 
 
-
+ngOnInit() {
+    this.id = this.transaction.id
+}
 
 }

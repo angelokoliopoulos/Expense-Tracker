@@ -3,6 +3,8 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { ProductService } from '../products/products.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../products/product.model';
+import { ActivatedRoute, Params } from '@angular/router';
+import { TransactionService } from '../transactions/transaction.service';
 
 @Component({
   selector: 'app-modal',
@@ -13,14 +15,20 @@ export class ModalComponent implements OnInit {
   productForm: FormGroup
   editMode = false;
   product: Product;
-  
+  transactionId:string
 
   constructor(public activeModal:NgbActiveModal,
-    private productsService:ProductService,private fb:FormBuilder){}
+    private productsService:ProductService,private fb:FormBuilder,
+    private route: ActivatedRoute,private transactionService:TransactionService){}
 
     ngOnInit() {
       this.initializeForm();
-    
+      
+      this.route.params.subscribe((
+        params:Params
+      )=>{
+        this.transactionId = params['id']
+      })
 
 
       if (this.product) {
@@ -53,7 +61,7 @@ export class ModalComponent implements OnInit {
           } else {
             
             const newProduct = new Product(formValue.productName, formValue.productDescription);
-            this.productsService.addProduct(newProduct).subscribe({
+            this.transactionService.addProductToTransaction(this.transactionId, newProduct).subscribe({
               next: () => {
                 this.handleSuccess();
               },
@@ -73,7 +81,6 @@ initializeForm() {
 }
 
 handleSuccess() {
-  this.productsService.triggerDataUpdate();
   this.initializeForm(); // Reset the form after successful operation
 }
 

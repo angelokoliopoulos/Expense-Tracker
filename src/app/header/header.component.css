@@ -1,18 +1,3 @@
-:root {
-    --primary-red: #FE5F55;
-    --primary-red-hover: #FE4134;
-    --grey: #50514F;
-    --white: #FFFFFF;
-    --light-grey: #F6F5F8;
-    /* App colors */
-    --project-grey: #a3a3a3;
-    --project-red: #dd8c94;
-    --project-yellow: #e9ca6d;
-    --project-green: #8dd3b3;
-    --project-light-blue: #81d9eb;
-    --project-blue: #7eaef1;
-  }
-
 
 
 header {

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {AngularFireModule} from '@angular/fire/compat'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,6 +17,8 @@ import { TransactionModalComponent } from './modals/transaction-modal.component'
 import { TransactionService } from './transactions/transaction.service';
 import { TransactionsListComponent } from './transactions/transactions-list/transactions-list.component';
 import { TransactionItemComponent } from './transactions/transactions-list/transaction-item/transaction-item.component';
+import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
+import { environment } from 'src/environments/environment.development';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,17 +30,19 @@ import { TransactionItemComponent } from './transactions/transactions-list/trans
     TransactionsListComponent,
     TransactionItemComponent,
     TransactionModalComponent,
+    TransactionEditComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
     NgxPaginationModule
 
   ],
-  providers: [ProductService,TransactionService],
+  providers: [ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
