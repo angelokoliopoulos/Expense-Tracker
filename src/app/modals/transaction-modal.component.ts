@@ -3,33 +3,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Transaction } from '../transactions/transaction.model';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { TransactionService } from '../transactions/transaction.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
   selector: 'app-transaction-modal',
   templateUrl: './transaction-modal.component.html',
-  styleUrls: ['./transaction-modal.component.css']
 })
 export class TransactionModalComponent {
 transactionForm: FormGroup
 
-constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,private transactionService: TransactionService){}
+constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
+  private transactionService: TransactionService,private route: ActivatedRoute){}
   ngOnInit() {
     this.initializeForm();
+    console.log(this.route.pathFromRoot)
+
   }
 
 
       onSubmit(){
         const formValue = this.transactionForm.value;
           const newTransaction = new Transaction(formValue.transactionDate, formValue.shop);
-          this.transactionService.addTransaction(newTransaction).subscribe({
-            next: () => {
-              this.handleSuccess();
-            },
-            error: (error) => {
-              this.handleError(error);
-            }
-          });
+          this.transactionService.addTransaction(newTransaction)
+          // .then(()=>{
+          //     this.handleSuccess();
+          // })
+          // .catch((error) => {
+          //   this.handleError(error);
+          // });
         }
       
   

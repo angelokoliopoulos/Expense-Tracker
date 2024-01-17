@@ -9,7 +9,6 @@ import { TransactionService } from '../transactions/transaction.service';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
   productForm: FormGroup
@@ -17,18 +16,15 @@ export class ModalComponent implements OnInit {
   product: Product;
   transactionId:string
 
-  constructor(public activeModal:NgbActiveModal,
-    private productsService:ProductService,private fb:FormBuilder,
+  constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
     private route: ActivatedRoute,private transactionService:TransactionService){}
 
     ngOnInit() {
       this.initializeForm();
-      
-      this.route.params.subscribe((
-        params:Params
-      )=>{
-        this.transactionId = params['id']
-      })
+      this.route.params.subscribe((params: Params) => {
+        this.transactionId = params['id'];
+        console.log(this.transactionId);
+      });
 
 
       if (this.product) {
@@ -42,35 +38,42 @@ export class ModalComponent implements OnInit {
     }
 
 
-        onSubmit(){
-          const formValue = this.productForm.value;
-          if (this.editMode) {
-            
-            this.productsService.editProduct({
-              id: this.product.id,
-              name: formValue.productName,
-              description: formValue.productDescription
-            }).subscribe({
-              next: () => {
-                this.handleSuccess();
-              },
-              error: (error) => {
-                this.handleError(error);
-              }
-            });
-          } else {
-            
-            const newProduct = new Product(formValue.productName, formValue.productDescription);
-            this.transactionService.addProductToTransaction(this.transactionId, newProduct).subscribe({
-              next: () => {
-                this.handleSuccess();
-              },
-              error: (error) => {
-                this.handleError(error);
-              }
-            });
-          }
-        }
+      // ...
+
+  onSubmit() {
+    const formValue = this.productForm.value;
+
+    // if (this.editMode) {
+    //   // Update existing product
+    //   this.productsService
+    //     .editProduct({
+    //       id: this.product.id,
+    //       name: formValue.productName,
+    //       description: formValue.productDescription,
+    //     })
+    //     .subscribe({
+    //       next: () => {
+    //         this.handleSuccess();
+    //       },
+    //       error: (error) => {
+    //         this.handleError(error);
+    //       },
+    //     });
+    // } else {
+      // Add a new product to the transaction
+      const newProduct = new Product(formValue.productName, formValue.productDescription);
+      this.transactionService
+        .addProductToTransaction(this.transactionId, newProduct)
+        .then(() => {
+          this.handleSuccess();
+        })
+        .catch((error) => {
+          this.handleError(error);
+        });
+    
+  }
+
+
     
 
 initializeForm() {

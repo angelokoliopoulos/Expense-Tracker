@@ -10,4 +10,11 @@ export class Transaction {
       this.date = date;
       this.shop = shop;
     }
+
+    toJSON(): any {
+      return {
+        date: this.date,
+        shop: this.shop,
+      };
+    }
   }

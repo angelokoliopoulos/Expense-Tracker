@@ -1,87 +1,82 @@
-import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable, Subject } from "rxjs";
-import { map, switchMap } from 'rxjs/operators';
-import { Transaction } from "./transaction.model";
-import { Product } from "../products/product.model";
-import { Firestore } from '@angular/fire/firestore';
-
-
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, Subject, from, map, of } from 'rxjs';
+import { Transaction } from './transaction.model';
+import { Product } from '../products/product.model';
+import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, collectionData, query, where, Query, DocumentData } from '@angular/fire/firestore';
+import { applyStyles } from '@popperjs/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
   dataUpdated = new Subject<void>();
-  apiUrl = 'https://ng-complete-guide-4c27f-default-rtdb.europe-west1.firebasedatabase.app';
+  private firestore = inject(Firestore) // Assuming Firestore class has been imported and provided correctly
+  private transactionsCollection = collection(this.firestore, 'Transactions');
+  // private productsCollection = collection(this.firestore, 'products')
 
-  constructor(private http: HttpClient,private db:Firestore) {}
+  constructor(private http: HttpClient) {}
 
+  // Get all transactions
+  getTransactions(): Observable<Transaction[]> {
+    return collectionData(this.transactionsCollection,{ idField: 'id' })as Observable<Transaction[]>;
+  }
 
+  getTransaction(id:string){
+    return from(getDoc(doc(this.firestore, 'Transactions', id))).pipe(
+      map((snapshot) => snapshot.data() as Transaction)
+    );
+  }
+  addTransaction(transaction: Transaction){
+    const tran = transaction.toJSON()
+    return of(addDoc(this.transactionsCollection, tran));
+  }
 
-
-
-  // getTransactions(): Observable<Transaction[]> {
-  //   return this.http.get<{ [key: string]: Transaction }>(`${this.apiUrl}/transactions.json`)
-  //     .pipe(
-  //       map(responseData => {
-  //         const transactionsArray: Transaction[] = [];
-  //         for (const key in responseData) {
-  //           if (responseData.hasOwnProperty(key)) {
-  //             transactionsArray.push({ ...responseData[key], id: key });
-  //           }
-  //         }
-  //         return transactionsArray;
-  //       })
-  //     );
-  // }
-
-  // getTransaction(id: string): Observable<Transaction> {
-  //   return this.http.get<Transaction>(`${this.apiUrl}/transactions/${id}.json`);
-  // }
-
-  // addTransaction(transaction: Transaction): Observable<Transaction> {
-  //   return this.http.post<Transaction>(`${this.apiUrl}/transactions.json`, transaction);
-  // }
-
-
-  // addProductToTransaction(transactionId: string, product: Product): Observable<Transaction> {
-  //   return this.getTransaction(transactionId).pipe(
-  //     switchMap((transaction: Transaction) => {
-  //       if (!transaction.hasOwnProperty('products')) {
-  //         transaction.products = [product];
-  //         return this.http.put<Transaction>(`${this.apiUrl}/transactions/${transactionId}.json`, transaction);
-  //       } else {
-  //         transaction.products.push(product);
-  //         return this.http.patch<Transaction>(`${this.apiUrl}/transactions/${transactionId}.json`, {
-  //           products: transaction.products
-  //         });
-  //       }
-  //     })
-  //   );
-  // }
   
+  addProductToTransaction(transactionId: string, product: Product): Promise<any> {
+    console.log(transactionId)
+    // Ensure that transactionId is not undefined or null
+    if (!transactionId) {
+      return Promise.reject(new Error('Invalid transactionId'));
+    }
   
+    // Set the transactionId property before adding the product
+    product.transactionId = transactionId;
   
-
-  // getProductsForTransaction(transactionId: string,startIndex:number, itemsPerPage:number): Observable<Product[]> {
-  //   const queryParams = `?start=${startIndex}&limit=${itemsPerPage}`;
-  //   return this.http.get<{ [key: string]: Product }>(`${this.apiUrl}/transactions/${transactionId}/products.json${queryParams}`)
-  //     .pipe(
-  //       map(responseData => {
-  //         const productsArray: Product[] = [];
-  //         for (const key in responseData) {
-  //           if (responseData.hasOwnProperty(key)) {
-  //             productsArray.push({ ...responseData[key], id: key });
-  //           }
-  //         }
-  //         return productsArray;
-  //       })
-  //     );
+    // Check if the product.toJSON() method exists on your Product model
+    if (typeof product.toJSON === 'function') {
+      // Now add the product to the collection
+      const productsCollection = collection(this.firestore, 'products');
+      return addDoc(productsCollection, product.toJSON());
+    } else {
+      return Promise.reject(new Error('Invalid toJSON method on Product model'));
+    }
+  }
+  
+  // addProductToTransaction(transactionId: string, product: Product): Promise<any> {
+  //   product.transactionId = transactionId;
+  // const productsCollection = collection(this.firestore, 'Products'); // Adjust to the actual name of your Products Collection
+  // return addDoc(productsCollection, product.toJSON());
   // }
 
+  getTransactionProducts(transactionId: string):Observable<Product[]> {
+    const productsCollection = collection(this.firestore, 'Products');
+    const appQuery = query(productsCollection,where('transactionId','==',transactionId));
+
+    return collectionData(appQuery).pipe(
+      map((actions) => {
+        return actions.map((a) => {
+          const data = a as Product; // Make sure 'Product' is your actual model
+          const uid = a['id'];
+          return { uid, ...data };
+        });
+      })
+    ) as Observable<Product[]>;
+  }  
 
 
+
+  // Trigger data update
   triggerDataUpdate() {
     this.dataUpdated.next();
   }

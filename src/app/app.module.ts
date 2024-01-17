@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import {AngularFireModule} from '@angular/fire/compat'
+import { provideFirebaseApp, getApp, initializeApp } from '@angular/fire/app';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +15,6 @@ import { ModalComponent } from './modals/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionModalComponent } from './modals/transaction-modal.component';
-import { TransactionService } from './transactions/transaction.service';
 import { TransactionsListComponent } from './transactions/transactions-list/transactions-list.component';
 import { TransactionItemComponent } from './transactions/transactions-list/transaction-item/transaction-item.component';
 import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
@@ -35,11 +35,12 @@ import { environment } from 'src/environments/environment.development';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
     ReactiveFormsModule,
     NgbModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()),
 
   ],
   providers: [ProductService],

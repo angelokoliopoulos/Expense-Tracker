@@ -24,7 +24,7 @@ export class ProductComponent  {
 
   onDelete(){
    if(window.confirm('Delete Item?')){
-    this.productsService.deleteProductAndNotify(this.product.id)
+    // this.productsService.deleteProductAndNotify(this.product.id)
    }
  
 }

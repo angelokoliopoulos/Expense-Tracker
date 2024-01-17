@@ -18,6 +18,7 @@ export class TransactionsListComponent  implements OnInit{
   ngOnInit() {
    this.transactionService.getTransactions().subscribe({
     next:(data:Transaction[])=>{
+      console.log(data)
       this.transactions = data
     },
      error: (error) => {

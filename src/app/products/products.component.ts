@@ -26,15 +26,15 @@ export class ProductsComponent implements OnInit {
       this.transactionId = params['id'];
       this.transactionService.dataUpdated.subscribe(() => {
         this.isLoading = true;
-        this.fetchProducts();
+        // this.fetchProducts();
       });
-      this.fetchProducts();
+      // this.fetchProducts();
     });
   }
 
   fetchProducts() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.transactionService.getProductsForTransaction(this.transactionId, startIndex, this.itemsPerPage).subscribe({
+    this.transactionService.getTransactionProducts(this.transactionId).subscribe({
       next: (data: Product[]) => {
         this.products = data;
       },
