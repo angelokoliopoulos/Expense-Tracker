@@ -11,7 +11,6 @@ import { ProductComponent } from './products/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductService } from './products/products.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from './modals/modal.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionModalComponent } from './modals/transaction-modal.component';
@@ -25,7 +24,6 @@ import { environment } from 'src/environments/environment.development';
     ProductsComponent,
     HeaderComponent,
     ProductComponent,
-    ModalComponent,
     TransactionsComponent,
     TransactionsListComponent,
     TransactionItemComponent,

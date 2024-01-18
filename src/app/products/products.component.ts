@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalComponent } from '../modals/modal.component';
 import { Product } from './product.model';
-import { ProductService } from './products.service';
 import { TransactionService } from '../transactions/transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-products',
@@ -18,17 +17,25 @@ export class ProductsComponent implements OnInit {
   itemsPerPage: number = 10;
   total: number;
   transactionId: string;
-  constructor(private transactionService: TransactionService, private modalService: NgbModal,
-    private route:ActivatedRoute) {}
+  // Modal Variables
+ customModal : ElementRef
+  productForm: FormGroup
+  editMode = false;
+  product: Product;
+
+  constructor(private transactionService: TransactionService,
+    private route:ActivatedRoute,private fb:FormBuilder) {}
 
   ngOnInit() {
+    this.initializeForm();
+
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
       this.transactionService.dataUpdated.subscribe(() => {
         this.isLoading = true;
-        // this.fetchProducts();
+        this.fetchProducts();
       });
-      // this.fetchProducts();
+      this.fetchProducts();
     });
   }
 
@@ -36,6 +43,7 @@ export class ProductsComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.transactionService.getTransactionProducts(this.transactionId).subscribe({
       next: (data: Product[]) => {
+        console.log(data)
         this.products = data;
       },
       error: (error) => {
@@ -49,12 +57,32 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  open() {
-    this.modalService.open(ModalComponent, { size: 'xl' });
-  }
 
   onPageChange(page: number) {
     this.currentPage = page;
     this.fetchProducts();
   }
+
+  // Modal Methods
+
+  initializeForm() {
+    this.productForm = this.fb.group({
+        productName: ['', Validators.required],
+        productDescription: ['', Validators.required]
+    });
+  }
+onSubmit(){
+  const formValue = this.productForm.value;
+  const newProduct = new Product(formValue.productName, formValue.productDescription);
+  this.transactionService
+    .addProductToTransaction(this.transactionId, newProduct)
+    .then(() => {
+      // this.handleSuccess();
+    })
+    .catch((error) => {
+      // this.handleError(error);
+    });
+
+}
+ 
 }

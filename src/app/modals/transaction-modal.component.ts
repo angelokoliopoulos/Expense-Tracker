@@ -17,7 +17,6 @@ constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
   private transactionService: TransactionService,private route: ActivatedRoute){}
   ngOnInit() {
     this.initializeForm();
-    console.log(this.route.pathFromRoot)
 
   }
 

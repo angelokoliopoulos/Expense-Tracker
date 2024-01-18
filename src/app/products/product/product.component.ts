@@ -1,8 +1,6 @@
 import {  Component,Input } from '@angular/core';
 import { Product } from '../product.model';
-import { ProductService } from '../products.service';
-import { ModalComponent } from 'src/app/modals/modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-product',
@@ -13,11 +11,11 @@ export class ProductComponent  {
 @Input() product: Product 
 
 
-  constructor(private productsService:ProductService,private modalService:NgbModal){}
+  constructor(){}
 
   onEdit(){
-    const modalRef  = this.modalService.open(ModalComponent, { size: 'xl' },);
-   modalRef.componentInstance.product = this.product;
+  //   const modalRef  = this.modalService.open(ModalComponent, { size: 'xl' },);
+  //  modalRef.componentInstance.product = this.product;
    
   }
  
