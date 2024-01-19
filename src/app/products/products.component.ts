@@ -31,10 +31,6 @@ export class ProductsComponent implements OnInit {
 
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
-      this.transactionService.dataUpdated.subscribe(() => {
-        this.isLoading = true;
-        this.fetchProducts();
-      });
       this.fetchProducts();
     });
   }

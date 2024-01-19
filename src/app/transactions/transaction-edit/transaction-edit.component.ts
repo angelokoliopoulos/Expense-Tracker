@@ -8,8 +8,8 @@ import { Transaction } from '../transaction.model';
   templateUrl: './transaction-edit.component.html',
 })
 export class TransactionEditComponent implements OnInit {
+  transaction:Transaction
 id:string
-transaction:Transaction
 date:string
   constructor(private transactionService:TransactionService,private route:ActivatedRoute){}
 

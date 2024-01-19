@@ -24,11 +24,8 @@
           ></pagination-controls>
         </div>
         <div class="col pt-2 d-flex justify-content-center">
-          <!-- <button  class="btn btn-primary text-center" 
-          (click)="open()"
-          >Add Product
-        </button> -->
-        <button (click)="customModal.show()">Add</button>
+         
+        <button (click)="customModal.show()">Add Product</button>
         </div>
         <div class="alert alert-success" *ngIf="isLoading && !error">
             <p >Loading...</p>
