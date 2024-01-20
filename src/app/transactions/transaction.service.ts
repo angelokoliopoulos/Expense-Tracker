@@ -51,7 +51,7 @@ export class TransactionService {
   }
   
 
-  getTransactionProducts(transactionId: string):Observable<Product[]> {
+  getTransactionProducts(transactionId: string,startIndex?:number):Observable<Product[]> {
     const productsCollection = collection(this.firestore, 'products');
     console.log(productsCollection)
     const appQuery = query(productsCollection,where('transactionId','==',transactionId));

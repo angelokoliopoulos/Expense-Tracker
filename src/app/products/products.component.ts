@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
   isLoading: boolean = false;
   error = null;
   currentPage: number = 1;
-  itemsPerPage: number = 10;
+  itemsPerPage: number = 3;
   total: number;
   transactionId: string;
   // Modal Variables
@@ -29,17 +29,20 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.initializeForm();
 
+  
+
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
+     
       this.fetchProducts();
     });
+
+    
   }
 
   fetchProducts() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.transactionService.getTransactionProducts(this.transactionId).subscribe({
       next: (data: Product[]) => {
-        console.log(data)
         this.products = data;
       },
       error: (error) => {
@@ -52,9 +55,10 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
-
+ 
 
   onPageChange(page: number) {
+    console.log(this.currentPage)
     this.currentPage = page;
     this.fetchProducts();
   }

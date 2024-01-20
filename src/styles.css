@@ -12,10 +12,42 @@
     --red: #E67B7B;
     --dark-red: #C46161;
   }
- 
+
   *, ::after, ::before {
     box-sizing: border-box;
 }
+
+
+  /* Modal */
+
+  .product-modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    height:100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    text-align: center;
+  }
+  
+  .product-modal.active.active {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .product-modal-box {
+    margin: 10% auto;
+    width: 600px;
+    background-color:  #D4B4CB;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation-name: modalopen;
+    animation-duration: var(--modal-duration);
+  }
+ 
+ 
   /* GENERAL STYLES */
   #body {
     font-family: 'Roboto', sans-serif;
