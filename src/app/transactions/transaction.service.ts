@@ -15,7 +15,6 @@ export class TransactionService {
 
  
 
-  // Get all transactions
   getTransactions(): Observable<Transaction[]> {
     return collectionData(this.transactionsCollection,{ idField: 'id' })as Observable<Transaction[]>;
   }
@@ -36,8 +35,7 @@ export class TransactionService {
       return Promise.reject(new Error('Invalid transactionId'));
     }
     // Set the transactionId property before adding the product
-    product.transactionId = transactionId;
-    
+      product.transactionId = transactionId;
       const productsCollection = collection(this.firestore, 'products');
       return addDoc(productsCollection, product.toJSON());
     
@@ -51,7 +49,7 @@ export class TransactionService {
   }
   
 
-  getTransactionProducts(transactionId: string,startIndex?:number):Observable<Product[]> {
+  getTransactionProducts(transactionId: string):Observable<Product[]> {
     const productsCollection = collection(this.firestore, 'products');
     console.log(productsCollection)
     const appQuery = query(productsCollection,where('transactionId','==',transactionId));

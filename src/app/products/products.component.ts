@@ -14,7 +14,7 @@ export class ProductsComponent implements OnInit {
   isLoading: boolean = false;
   error = null;
   currentPage: number = 1;
-  itemsPerPage: number = 3;
+  itemsPerPage: number = 8;
   total: number;
   transactionId: string;
   // Modal Variables
