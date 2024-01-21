@@ -1,6 +1,7 @@
-import {  Component,Input } from '@angular/core';
+import {  Component,Input, OnInit } from '@angular/core';
 import { Product } from '../product.model';
 import { TransactionService } from 'src/app/transactions/transaction.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -8,17 +9,40 @@ import { TransactionService } from 'src/app/transactions/transaction.service';
   templateUrl: './product.component.html',
 
 })
-export class ProductComponent  {
+export class ProductComponent implements OnInit  {
 @Input() product: Product 
+productForm: FormGroup
+
+modalOpen:boolean = false
 
 
-  constructor(private transactionService: TransactionService){}
+  constructor(private transactionService: TransactionService,private fb:FormBuilder){}
 
-  onEdit(){
-  //   const modalRef  = this.modalService.open(ModalComponent, { size: 'xl' },);
-  //  modalRef.componentInstance.product = this.product;
-   
+  ngOnInit() {
+    this.initializeForm()
   }
+  onEdit(){
+    this.modalOpen = true
+  }
+
+ 
+
+  closeModal(){
+    this.modalOpen = false
+  }
+
+  initializeForm() {
+    this.productForm = this.fb.group({
+        productName: [this.product.name, Validators.required],
+        productDescription: [this.product.description, Validators.required]
+    });
+  }
+
+  handleSuccess(){
+    this.initializeForm()
+    this.closeModal()
+  }
+
  
   onDelete() {
     console.log('Deleting product with transactionId:', this.product.transactionId, 'and productId:', this.product.id);
@@ -27,12 +51,26 @@ export class ProductComponent  {
       this.transactionService.deleteProduct( this.product.id)
         .then(() => {
           console.log('Product deleted successfully');
-          // You may want to trigger any additional logic or UI updates
         })
         .catch((error) => {
           console.error('Error deleting product:', error);
-          // Handle the error as needed
         });
     }
+  }
+
+  onSubmit(){
+    const formValue = this.productForm.value;
+    const updatedProduct: Partial<Product> = {
+      name: formValue.productName,
+      description: formValue.productDescription,
+    };
+    this.transactionService.updateProduct(this.product.id, updatedProduct).then(
+      ()=>{
+        this.handleSuccess()
+      }
+    ).catch((error)=>{
+      console.log(error)
+    })
+
   }
 }

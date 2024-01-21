@@ -20,3 +20,26 @@
 
 </div>
 </div>
+<div class="product-modal "  *ngIf="modalOpen">
+  <div class="card product-modal-box">
+    <div class="card-body  mt-5">
+        <h4 class="card-title mb-5">Product Name</h4>
+      <form [formGroup]="productForm"  class="m-0">
+        <div class="col-auto mb-3">
+          <input formControlName='productName'  type="text"  class="form-control" id="productName"placeholder="Product Name" >
+        </div>
+        <div class="col-auto mb-3">
+          <input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
+        </div>
+        <div class="col-auto d-flex justify-content-center mb-5">
+          <button type="submit" class="btn btn-warning mb-3" (click)="onSubmit()">Edit Product</button>
+        </div>
+        </form>
+    </div>
+    <button type="button" class="btn btn-outline-dark" style="width:10%; position: absolute; top: 20px; right: 20px;"
+    (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+</div>

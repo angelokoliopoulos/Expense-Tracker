@@ -37,16 +37,7 @@ export class TransactionService {
       product.transactionId = transactionId;
       const productsCollection = collection(this.firestore, 'products');
       return addDoc(productsCollection, product.toJSON());
-    
   }
-
-
-  deleteProduct( productId: string): Promise<void> {
-    const productDocPath = `products/${productId}`;
-    console.log('Deleting product at path:', productDocPath);
-    return deleteDoc(doc(this.firestore, productDocPath));
-  }
-  
 
   getTransactionProducts(transactionId: string):Observable<Product[]> {
     const productsCollection = collection(this.firestore, 'products');
@@ -55,6 +46,23 @@ export class TransactionService {
     return collectionData(appQuery,{idField:'id'}) as Observable<Product[]>;
   }  
 
+
+  deleteProduct( productId: string): Promise<void> {
+    const productDocPath = `products/${productId}`;
+    console.log('Deleting product at path:', productDocPath);
+    return deleteDoc(doc(this.firestore, productDocPath));
+  }
+
+  updateProduct(productId:string,updatedProduct:Partial<Product>):Promise<void>{
+    const productDocRef = doc(this.firestore,'products',productId)
+    return updateDoc(productDocRef, updatedProduct);
+
+
+
+  }
+  
+
+  
 
 
   triggerDataUpdate() {
