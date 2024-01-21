@@ -21,6 +21,7 @@ export class ProductsComponent implements OnInit {
  customModal : ElementRef
   productForm: FormGroup
   editMode = false;
+  modalOpen = false
   product: Product;
 
   constructor(private transactionService: TransactionService,
@@ -28,16 +29,10 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.initializeForm();
-
-  
-
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
-     
       this.fetchProducts();
     });
-
-    
   }
 
   fetchProducts() {
@@ -65,11 +60,24 @@ export class ProductsComponent implements OnInit {
 
   // Modal Methods
 
+  openModal(mode?:string){
+    this.modalOpen = true
+  }
+
+  closeModal(){
+    this.modalOpen = false
+  }
+
   initializeForm() {
     this.productForm = this.fb.group({
         productName: ['', Validators.required],
         productDescription: ['', Validators.required]
     });
+  }
+
+  handleSuccess(){
+    this.initializeForm()
+    this.closeModal()
   }
 onSubmit(){
   const formValue = this.productForm.value;
@@ -77,8 +85,8 @@ onSubmit(){
   this.transactionService
     .addProductToTransaction(this.transactionId, newProduct)
     .then(() => {
-      // this.handleSuccess();
-    })
+      this.handleSuccess()
+        })
     .catch((error) => {
       // this.handleError(error);
     });

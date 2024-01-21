@@ -9,9 +9,8 @@ import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, colle
 })
 export class TransactionService {
   dataUpdated = new Subject<void>();
-  private firestore = inject(Firestore) // Assuming Firestore class has been imported and provided correctly
+  private firestore = inject(Firestore) 
   private transactionsCollection = collection(this.firestore, 'Transactions');
-  // private productsCollection = collection(this.firestore, 'products')
 
  
 

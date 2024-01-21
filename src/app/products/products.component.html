@@ -1,76 +1,71 @@
 <div class="container mt-3">
   
-  <div class="row">
-    <div class="col">
-        <div class="card">
-          <div class="card-header px-0 py-2">
-            <div class="row">
-              <div class="col">Product Id</div>
-              <div class="col">Product Name</div>
-              <div class="col">Product Description</div>
-              <div class="col text-end">
-                <div class="d-flex flex-row justify-content-end gap-2">
+    <div class="row">
+      <div class="col">
+          <div class="card">
+            <div class="card-header px-0 py-2">
+              <div class="row">
+                <div class="col">Product Id</div>
+                <div class="col">Product Name</div>
+                <div class="col">Product Description</div>
+                <div class="col text-end">
+                  <div class="d-flex flex-row justify-content-end gap-2">
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="card-body px-3 py-0">
+         <app-product *ngFor="let prod of products | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" [product]="prod" ></app-product>
+            </div>
           </div>
-          <div class="card-body px-3 py-0">
-       <app-product *ngFor="let prod of products | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" [product]="prod" ></app-product>
+          <div class="d-flex justify-content-center mt-3">
+            <pagination-controls
+              (pageChange)="onPageChange($event)"
+            ></pagination-controls>
+          </div>
+          <div class="col pt-2 d-flex justify-content-center">
+           
+          <button (click)="openModal('add')">Add Product</button>
+          </div>
+          <div class="alert alert-success" *ngIf="isLoading && !error">
+              <p >Loading...</p>
+          </div>
+          <div class="alert alert-danger" *ngIf="error">
+            <h3>An Error Occurred!</h3>
+            <p>{{ error }}</p>
           </div>
         </div>
-        <div class="d-flex justify-content-center mt-3">
-          <pagination-controls
-            (pageChange)="onPageChange($event)"
-          ></pagination-controls>
-        </div>
-        <div class="col pt-2 d-flex justify-content-center">
-         
-        <button (click)="customModal.show()">Add Product</button>
-        </div>
-        <div class="alert alert-success" *ngIf="isLoading && !error">
-            <p >Loading...</p>
-        </div>
-        <div class="alert alert-danger" *ngIf="error">
-          <h3>An Error Occurred!</h3>
-          <p>{{ error }}</p>
-        </div>
-      </div>
-  </div>
-  </div>
-
-<dialog #customModal>
-
-  <div class="modal-header py-1">
-    <h4 class="modal-title">Product Name</h4>
-    <button type="button" class="close" aria-label="Close" (click)="customModal.close('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-  </div>
-  <div class="modal-body">
-    <div class="card">
-      
-      <div class="card-body  mt-5">
-        <form [formGroup]="productForm"  class="m-0">
-          <div class="col-auto mb-3">
-            <input formControlName='productName'  type="text"  class="form-control" id="productName"placeholder="Product Name" >
-          </div>
-          <div class="col-auto mb-3">
-            <input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
-          </div>
-          <div class="col-auto d-flex justify-content-center">
-            <button *ngIf="!editMode" type="submit" class="btn btn-primary mb-3" (click)="onSubmit()">Add Product</button>
-            <button *ngIf="editMode" type="submit" class="btn btn-warning mb-3" (click)="onSubmit()">Edit Product</button>
-  
-          </div>
-          </form>
-      
-      </div>
     </div>
-  </div>
-  <div class="modal-footer py-0">
-    <button type="button" class="btn btn-outline-dark" (click)="customModal.close('Close click')">Close</button>
-  </div>
-</dialog>
+    </div>
+    
+<div class="product-modal "  *ngIf="modalOpen">
+      <div class="card product-modal-box">
+        <div class="card-body  mt-5">
+            <h4 class="card-title mb-5">Product Name</h4>
+          <form [formGroup]="productForm"  class="m-0">
+            <div class="col-auto mb-3">
+              <input formControlName='productName'  type="text"  class="form-control" id="productName"placeholder="Product Name" >
+            </div>
+            <div class="col-auto mb-3">
+              <input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
+            </div>
+            <div class="col-auto d-flex justify-content-center mb-5">
+              <button *ngIf="!editMode" type="submit" class="btn btn-primary mb-3" (click)="onSubmit()">Add Product</button>
+              <button *ngIf="editMode" type="submit" class="btn btn-warning mb-3" (click)="onSubmit()">Edit Product</button>
+            </div>
+            </form>
+        </div>
+        <button type="button" class="btn btn-outline-dark" style="width:10%; position: absolute; top: 20px; right: 20px;"
+        (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    </div>
+   
   
   
- 
+
+    
+    
+   
