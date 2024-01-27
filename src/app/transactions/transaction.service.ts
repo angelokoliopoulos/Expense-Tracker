@@ -56,9 +56,6 @@ export class TransactionService {
   updateProduct(productId:string,updatedProduct:Partial<Product>):Promise<void>{
     const productDocRef = doc(this.firestore,'products',productId)
     return updateDoc(productDocRef, updatedProduct);
-
-
-
   }
   
 

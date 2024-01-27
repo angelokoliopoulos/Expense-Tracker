@@ -5,7 +5,7 @@ export class Transaction {
     public date: string;
     public shop: string;
     public products: Product[] 
-    public totalSpent:number
+    public totalSpent:number = 0
     constructor(date: string, shop: string) {
       this.date = date;
       this.shop = shop;

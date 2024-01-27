@@ -34,7 +34,8 @@ modalOpen:boolean = false
   initializeForm() {
     this.productForm = this.fb.group({
         productName: [this.product.name, Validators.required],
-        productDescription: [this.product.description, Validators.required]
+        productDescription: [this.product.description, Validators.required],
+        productPrice:[this.product.price,Validators.required]
     });
   }
 

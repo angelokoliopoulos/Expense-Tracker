@@ -71,7 +71,8 @@ export class ProductsComponent implements OnInit {
   initializeForm() {
     this.productForm = this.fb.group({
         productName: ['', Validators.required],
-        productDescription: ['', Validators.required]
+        productDescription: ['', Validators.required],
+        productPrice:['',Validators.required]
     });
   }
 
@@ -81,7 +82,8 @@ export class ProductsComponent implements OnInit {
   }
 onSubmit(){
   const formValue = this.productForm.value;
-  const newProduct = new Product(formValue.productName, formValue.productDescription);
+  console.log(formValue)
+  const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
   this.transactionService
     .addProductToTransaction(this.transactionId, newProduct)
     .then(() => {

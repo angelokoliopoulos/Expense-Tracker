@@ -2,11 +2,12 @@ export class Product {
     public id:string
     public name:string;
     public description:string;
+    public price: number
     public transactionId: string;
-    public uid: any
-    constructor(name:string,description:string){
-        this.name=name
-        this.description=description
+    constructor(name:string,description:string,price:number){
+        this.name = name
+        this.description = description
+        this.price = price
      }
 
      setTransactionId(transactionId: string): void {
@@ -18,6 +19,7 @@ export class Product {
           name: this.name,
           description: this.description,
           transactionId : this.transactionId,
+          price: this.price
         }
       }
 }

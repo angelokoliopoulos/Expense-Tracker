@@ -1,6 +1,6 @@
 
 <div class="row align-middle border-bottom px-0 py-2">
-  <div class="col">{{product.id}}</div>
+  <div class="col">{{product.price}}</div>
   <div class="col">{{product.name}}</div>
   <div class="col">{{product.description}}</div>
   <div class="col text-end">
@@ -30,6 +30,9 @@
         </div>
         <div class="col-auto mb-3">
           <input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
+        </div>
+        <div class="col-auto mb-3">
+          <input formControlName='productPrice'  type="number" class="form-control" id="productPrice" placeholder="Price">
         </div>
         <div class="col-auto d-flex justify-content-center mb-5">
           <button type="submit" class="btn btn-warning mb-3" (click)="onSubmit()">Edit Product</button>

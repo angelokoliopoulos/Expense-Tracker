@@ -11,6 +11,7 @@ export class TransactionEditComponent implements OnInit {
   transaction:Transaction
 id:string
 date:string
+totalSpent:number 
   constructor(private transactionService:TransactionService,private route:ActivatedRoute){}
 
   ngOnInit() {
@@ -25,8 +26,8 @@ date:string
           this.transaction = data
           console.log(this.transaction)
           this.date = this.transaction.date
-        }
-      )
+          
+        })
 
       
   }
