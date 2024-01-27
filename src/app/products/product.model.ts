@@ -4,6 +4,7 @@ export class Product {
     public description:string;
     public price: number
     public transactionId: string;
+    
     constructor(name:string,description:string,price:number){
         this.name = name
         this.description = description

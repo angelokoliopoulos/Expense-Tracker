@@ -55,6 +55,19 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
+  onSubmit(){
+    const formValue = this.productForm.value;
+    const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
+    this.transactionService
+      .addProductToTransaction(this.transactionId, newProduct)
+      .then(() => {
+        this.handleSuccess()
+          })
+      .catch((error) => {
+        // this.handleError(error);
+      });
+  
+  }
  
 
   onPageChange(page: number) {
@@ -77,7 +90,7 @@ export class ProductsComponent implements OnInit {
     this.productForm = this.fb.group({
         productName: ['', Validators.required],
         productDescription: ['', Validators.required],
-        productPrice:['',Validators.required]
+        productPrice:['', Validators.required]
     });
   }
 
@@ -85,19 +98,6 @@ export class ProductsComponent implements OnInit {
     this.initializeForm()
     this.closeModal()
   }
-onSubmit(){
-  const formValue = this.productForm.value;
-  console.log(formValue)
-  const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
-  this.transactionService
-    .addProductToTransaction(this.transactionId, newProduct)
-    .then(() => {
-      this.handleSuccess()
-        })
-    .catch((error) => {
-      // this.handleError(error);
-    });
 
-}
  
 }
