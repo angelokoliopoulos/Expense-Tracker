@@ -28,7 +28,11 @@ totalSpent:number
           this.date = this.transaction.date
           
         })
-
+        this.transactionService.totalSpentSubject.subscribe(
+          (data:number)=>{
+            this.totalSpent = data
+          }
+        )
       
   }
 }

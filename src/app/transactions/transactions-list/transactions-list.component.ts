@@ -30,5 +30,8 @@ export class TransactionsListComponent  implements OnInit{
   open(){
     this.modalService.open(TransactionModalComponent,{ size: 'xl' })
   }
+
+
+  
 }
 

@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
 import { TransactionService } from '../transactions/transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-products',
@@ -15,7 +16,7 @@ export class ProductsComponent implements OnInit {
   error = null;
   currentPage: number = 1;
   itemsPerPage: number = 8;
-  total: number;
+ totalSpent: number;
   transactionId: string;
   // Modal Variables
  customModal : ElementRef
@@ -36,9 +37,13 @@ export class ProductsComponent implements OnInit {
   }
 
   fetchProducts() {
+    this.totalSpent = 0
     this.transactionService.getTransactionProducts(this.transactionId).subscribe({
       next: (data: Product[]) => {
         this.products = data;
+        
+        this.totalSpent = this.products.reduce((total, prod) => total + prod.price, 0);
+        this.transactionService.totalSpentSubject.next(this.totalSpent)
       },
       error: (error) => {
         this.isLoading = false;

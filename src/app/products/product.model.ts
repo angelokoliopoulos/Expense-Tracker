@@ -10,16 +10,12 @@ export class Product {
         this.price = price
      }
 
-     setTransactionId(transactionId: string): void {
-        this.transactionId = transactionId;
-      }
-
       toJSON(){
         return {
           name: this.name,
           description: this.description,
-          transactionId : this.transactionId,
-          price: this.price
+          price: this.price,
+          transactionId: this.transactionId,
         }
       }
 }

@@ -64,6 +64,7 @@ modalOpen:boolean = false
     const updatedProduct: Partial<Product> = {
       name: formValue.productName,
       description: formValue.productDescription,
+      price:formValue.productPrice  
     };
     this.transactionService.updateProduct(this.product.id, updatedProduct).then(
       ()=>{

@@ -8,9 +8,10 @@ import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, colle
   providedIn: 'root'
 })
 export class TransactionService {
-  dataUpdated = new Subject<void>();
   private firestore = inject(Firestore) 
   private transactionsCollection = collection(this.firestore, 'Transactions');
+  dataUpdated = new Subject<void>();
+  totalSpentSubject = new Subject<number>()
 
  
 
@@ -36,9 +37,10 @@ export class TransactionService {
     // Set the transactionId property before adding the product
       product.transactionId = transactionId;
       const productsCollection = collection(this.firestore, 'products');
-      return addDoc(productsCollection, product.toJSON());
+      return addDoc(productsCollection, product.toJSON())
   }
 
+ 
   getTransactionProducts(transactionId: string):Observable<Product[]> {
     const productsCollection = collection(this.firestore, 'products');
     console.log(productsCollection)
@@ -53,8 +55,8 @@ export class TransactionService {
     return deleteDoc(doc(this.firestore, productDocPath));
   }
 
-  updateProduct(productId:string,updatedProduct:Partial<Product>):Promise<void>{
-    const productDocRef = doc(this.firestore,'products',productId)
+  updateProduct(productId: string, updatedProduct: Partial<Product>): Promise<void> {
+    const productDocRef = doc(this.firestore, 'products', productId);
     return updateDoc(productDocRef, updatedProduct);
   }
   
@@ -65,4 +67,5 @@ export class TransactionService {
   triggerDataUpdate() {
     this.dataUpdated.next();
   }
+
 }

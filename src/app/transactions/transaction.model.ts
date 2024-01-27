@@ -15,6 +15,7 @@ export class Transaction {
       return {
         date: this.date,
         shop: this.shop,
+        totalSpent:this.totalSpent
       };
     }
   }
