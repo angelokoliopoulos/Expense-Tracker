@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, Subject, from, map, of } from 'rxjs';
+import { Observable, Subject, from, map, of,switchMap,lastValueFrom} from 'rxjs';
 import { Transaction } from './transaction.model';
 import { Product } from '../products/product.model';
 import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, collectionData, query, where, Query, DocumentData, getDocs } from '@angular/fire/firestore';
@@ -24,17 +24,31 @@ export class TransactionService {
       map((snapshot) => snapshot.data() as Transaction)
     );
   }
-  addTransaction(transaction: Transaction){
+  addTransaction(transaction: Transaction):Observable<any>{
     const tran = transaction.toJSON()
     return of(addDoc(this.transactionsCollection, tran));
   }
 
   
+  deleteTransaction(transactionId: string){
+    const transactionDocPath = `Transactions/${transactionId}`;
+      return lastValueFrom(this.getTransactionProducts(transactionId).pipe(
+      switchMap((products: Product[]) => {
+        const deleteProductPromises = products.map((product: Product) =>
+          this.deleteProduct(product.id)
+        );
+          return Promise.all(deleteProductPromises);
+      }),
+      switchMap(() => {
+        return deleteDoc(doc(this.firestore, transactionDocPath));
+      })
+    ))
+  }
+  
   addProductToTransaction(transactionId: string, product: Product): Promise<any> {
     if (!transactionId) {
       return Promise.reject(new Error('Invalid transactionId'));
     }
-    // Set the transactionId property before adding the product
       product.transactionId = transactionId;
       const productsCollection = collection(this.firestore, 'products');
       return addDoc(productsCollection, product.toJSON())

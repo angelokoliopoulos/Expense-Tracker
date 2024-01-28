@@ -1,6 +1,5 @@
-<a style="cursor: pointer; "
-[routerLink]="[id,'edit']">
-<div class="row align-middle border-bottom px-0 py-2">
+
+<div class="row align-middle border-bottom px-0 py-2" (click)="navigateToTransactionItem()">
     <div class="col">{{transaction.date}}</div>
     <div class="col">{{transaction.shop}}</div>
     <div class="col">{{totalSpent}}</div>
@@ -8,7 +7,8 @@
       <div class="col text-end">
         <div class="d-flex flex-row justify-content-end gap-2">
           <div class="position-relative">
-            <button type="submit" class="btn btn-danger btn-sm" >
+            <button type="submit" class="btn btn-danger btn-sm"
+            (click)="onDelete($event)" >
               <i class="bi bi-person-x"></i>
             </button>
           </div>
@@ -16,4 +16,3 @@
       </div>
   </div>
   </div>
-</a>

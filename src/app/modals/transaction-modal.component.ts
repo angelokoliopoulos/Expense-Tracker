@@ -20,36 +20,35 @@ constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
 
   }
 
-
-      onSubmit(){
-        const formValue = this.transactionForm.value;
-          const newTransaction = new Transaction(formValue.transactionDate, formValue.shop);
-          this.transactionService.addTransaction(newTransaction)
-          // .then(()=>{
-          //     this.handleSuccess();
-          // })
-          // .catch((error) => {
-          //   this.handleError(error);
-          // });
-        }
+onSubmit(){
+  const formValue = this.transactionForm.value;
+  const newTransaction = new Transaction(formValue.transactionDate, formValue.shop);
+  this.transactionService.addTransaction(newTransaction).subscribe({
+    next: ()=>{
+    this.handleSuccess()
+    },
+    error:(err)=>{
+    this.handleError(err)
+    }
+  })
+          
+}
       
-  
-
 initializeForm() {
-this.transactionForm = this.fb.group({
+  this.transactionForm = this.fb.group({
     transactionDate: ['', Validators.required],
     shop: ['', Validators.required]
-});
+  });
 }
 
 handleSuccess() {
-
-this.initializeForm(); // Reset the form after successful operation
+  this.activeModal.close()
+  this.initializeForm(); 
 }
 
 handleError(error) {
-this.initializeForm(); // Reset the form on error
-console.log(error);
+  this.initializeForm(); 
+  console.log(error);
 }
 
 
