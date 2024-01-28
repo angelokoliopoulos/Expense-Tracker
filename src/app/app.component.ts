@@ -6,10 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'crm-app';
+  isSidebarVisible: boolean = true;
 
-
-  onClick(e:Event){
-
+  // Function to toggle sidebar visibility
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
   }
 }
