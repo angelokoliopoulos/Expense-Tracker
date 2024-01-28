@@ -74,19 +74,19 @@
     left: 0;
     top: 0;
     text-align: center;
+    
   }
   
   .product-modal.active {
     transform: translate(-50%, -50%) scale(1);
   }
   .product-modal-box {
+    width: 30rem;
     margin: 10% auto;
-    width: 600px;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation-name: modalopen;
-    animation-duration: var(--modal-duration);
+    
   }
  
 
