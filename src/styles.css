@@ -28,30 +28,7 @@
   p {
     margin: 0;
   }
-  button {
-    padding: 10px 17px;
-    cursor: pointer;
-  }
-  input:focus,
-  button:focus,
-  textarea:focus,
-  select:focus {
-    outline: none;
-  }
-  
-  /* VISUAL STYLES */
-  .padding-right {
-    padding-right: 7px;
-  }
-  .hide {
-    display: none;
-  }
-  .flex {
-    display: flex;
-  }
-  .hover-element:hover {
-    cursor: pointer;
-  }
+
   .scale-element:hover {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
@@ -62,7 +39,6 @@
   height: 34px;
   width: 34px;
   padding:12px 6px;
-  /* padding: 9px 5px 4px 5px; */
   color: var(--white);
   background-color: var(--dark-aqua);
   border-radius: 3px;
@@ -147,6 +123,7 @@
     display: block !important;
     z-index: 10!important
   }
+  
 
   #sidebar-menu p {
     display: inline-block;
@@ -199,6 +176,17 @@
     position: fixed; 
     left:8rem; 
     top:2rem;
+  }
+
+  a{
+    text-decoration: none!important;
+    color:black;
+    transition: transform 0.3s ease; 
+
+  }
+  a:hover{
+    
+    transform: scale(1.1);
   }
   /* RESPONSIVE */
   

@@ -6,6 +6,13 @@ import { Product } from 'src/app/products/product.model';
 @Component({
   selector: 'transaction-item',
   templateUrl: './transaction-item.component.html',
+  styles: `
+  .row{
+    transition: transform 0.1 ease; 
+  }
+  .row:hover{
+    transform: scaleY(1.1);
+  }`
 
 })
 export class TransactionItemComponent implements OnInit {
