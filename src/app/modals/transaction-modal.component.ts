@@ -14,7 +14,7 @@ export class TransactionModalComponent {
 transactionForm: FormGroup
 
 constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
-  private transactionService: TransactionService,private route: ActivatedRoute){}
+  private transactionService: TransactionService){}
   ngOnInit() {
     this.initializeForm();
 

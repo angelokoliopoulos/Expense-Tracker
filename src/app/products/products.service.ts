@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from './product.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProductService {
-  dataUpdated = new Subject<void>();
+  private productSource = new BehaviorSubject<Product | null>(null);
+  currentProduct = this.productSource.asObservable();
 
-  constructor() {}
-
- 
-
-  triggerDataUpdate() {
-    this.dataUpdated.next();
+  setProduct(product: Product) {
+    this.productSource.next(product);
   }
 }

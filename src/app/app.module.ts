@@ -17,11 +17,13 @@ import { TransactionsListComponent } from './transactions/transactions-list/tran
 import { TransactionItemComponent } from './transactions/transactions-list/transaction-item/transaction-item.component';
 import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
 import { environment } from 'src/environments/environment.development';
+import { ProductModalComponent } from './modals/product-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     ProductComponent,
+    ProductModalComponent,
     TransactionsComponent,
     TransactionsListComponent,
     TransactionItemComponent,

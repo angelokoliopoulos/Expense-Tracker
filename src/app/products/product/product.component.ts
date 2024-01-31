@@ -1,8 +1,9 @@
 import {  Component,Input, OnInit } from '@angular/core';
 import { Product } from '../product.model';
 import { TransactionService } from 'src/app/transactions/transaction.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ProductModalComponent } from 'src/app/modals/product-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ProductService } from '../products.service';
 
 @Component({
   selector: 'app-product',
@@ -11,40 +12,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ProductComponent implements OnInit  {
 @Input() product: Product 
-productForm: FormGroup
-
-modalOpen:boolean = false
 
 
-  constructor(private transactionService: TransactionService,private fb:FormBuilder){}
+constructor(private transactionService: TransactionService,private productService:ProductService,
+  private modalService: NgbModal){}
 
   ngOnInit() {
-    this.initializeForm()
   }
-  onEdit(){
-    this.modalOpen = true
-  }
-
- 
-
-  closeModal(){
-    this.modalOpen = false
+  onEdit() {
+    this.productService.setProduct(this.product)
+    const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
   }
 
-  initializeForm() {
-    this.productForm = this.fb.group({
-        productName: [this.product.name, Validators.required],
-        productDescription: [this.product.description, Validators.required],
-        productPrice:[this.product.price,Validators.required]
-    });
-  }
-
-  handleSuccess(){
-    this.initializeForm()
-    this.closeModal()
-  }
-
- 
   onDelete() {
     console.log('Deleting product with transactionId:', this.product.transactionId, 'and productId:', this.product.id);
   
@@ -59,20 +38,5 @@ modalOpen:boolean = false
     }
   }
 
-  onSubmit(){
-    const formValue = this.productForm.value;
-    const updatedProduct: Partial<Product> = {
-      name: formValue.productName,
-      description: formValue.productDescription,
-      price:formValue.productPrice  
-    };
-    this.transactionService.updateProduct(this.product.id, updatedProduct).then(
-      ()=>{
-        this.handleSuccess()
-      }
-    ).catch((error)=>{
-      console.log(error)
-    })
-
-  }
+ 
 }
