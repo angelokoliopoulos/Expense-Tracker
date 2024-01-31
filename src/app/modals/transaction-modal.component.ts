@@ -35,8 +35,10 @@ onSubmit(){
 }
       
 initializeForm() {
+  const today = new Date().toISOString().split('T')[0];
+
   this.transactionForm = this.fb.group({
-    transactionDate: ['', Validators.required],
+    transactionDate: [today, Validators.required],
     shop: ['', Validators.required]
   });
 }

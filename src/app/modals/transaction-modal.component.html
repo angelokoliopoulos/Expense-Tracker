@@ -1,4 +1,4 @@
-<div class="modal-header py-1">
+<div class="modal-header py-1 border-0">
 	<h4 class="modal-title">New Transaction</h4>
 	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -10,7 +10,8 @@
 		<div class="card-body  mt-5">
 			<form [formGroup]="transactionForm"  class="m-0">
 				<div class="col-auto mb-3">
-				  <input formControlName='transactionDate'  type="text"  class="form-control" id="transactionDate" placeholder="Transaction Date">
+				  <input formControlName='transactionDate'  type="date"  class="form-control"
+				  value="2018-07-22" min="2018-01-01"  id="transactionDate" placeholder="Transaction Date">
 				</div>
 				<div class="col-auto mb-3">
 				  <input formControlName='shop'  type="text" class="form-control" id="shop" placeholder="Shop">
@@ -23,7 +24,7 @@
 		</div>
 	</div>
 </div>
-<div class="modal-footer py-0">
+<div class="modal-footer py-0 border-0">
 	<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>
 
