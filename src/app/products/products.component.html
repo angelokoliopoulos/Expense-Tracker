@@ -27,7 +27,7 @@
           </div>
           <div class="col pt-2 d-flex justify-content-center">
            
-          <button (click)="openModal('add')">Add Product</button>
+          <button class="btn btn-primary" (click)="openModal()">Add Product</button>
           </div>
           <div class="alert alert-success" *ngIf="isLoading && !error">
               <p >Loading...</p>

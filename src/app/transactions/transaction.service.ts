@@ -10,7 +10,6 @@ import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, colle
 export class TransactionService {
   private firestore = inject(Firestore) 
   private transactionsCollection = collection(this.firestore, 'Transactions');
-  dataUpdated = new Subject<void>();
   totalSpentSubject = new Subject<number>()
 
  
@@ -74,12 +73,4 @@ export class TransactionService {
     return updateDoc(productDocRef, updatedProduct);
   }
   
-
-  
-
-
-  triggerDataUpdate() {
-    this.dataUpdated.next();
-  }
-
 }

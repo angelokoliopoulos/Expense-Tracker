@@ -13,44 +13,77 @@ import { ProductService } from '../products/products.service';
 export class ProductModalComponent implements OnInit {
 product : Product
 productForm: FormGroup
-
+mode: string
+transactionId:string
 constructor(private transactionService: TransactionService,private fb:FormBuilder,
   public activeModal:NgbActiveModal,private productService:ProductService){}
 
 
 ngOnInit() {
-this.productService.currentProduct.subscribe((data)=>{
-  this.product = data
-})
-this.initializeForm()
-}
-
-onEdit(){
-  const formValue = this.productForm.value;
-  const updatedProduct: Partial<Product> = {
-    name: formValue.productName,
-    description: formValue.productDescription,
-    price:formValue.productPrice  
-  };
-  this.transactionService.updateProduct(this.product.id, updatedProduct).then(
-    ()=>{
-      this.handleSuccess()
-    }
-  ).catch((error)=>{
-    console.log(error)
+if(this.mode=='edit'){
+  console.log(this.product)
+  this.productService.currentProduct.subscribe((data)=>{
+    this.product = data
   })
+  this.initializeEditForm()
+
+}else if(this.mode = 'add'){
+  this.initializeForm()
+}
+
+}
+onSubmit(){
+  const formValue = this.productForm.value;
+  if(this.mode = 'add'){
+    const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
+    this.transactionService
+      .addProductToTransaction(this.transactionId, newProduct)
+      .then(() => {
+        this.handleSuccess()
+          })
+      .catch((error) => {
+        this.handleError(error);
+      });
+  }
+  else if(this.mode == 'edit'){
+    const updatedProduct: Partial<Product> = {
+      name: formValue.productName,
+      description: formValue.productDescription,
+      price:formValue.productPrice  
+    };
+    this.transactionService.updateProduct(this.product.id, updatedProduct).then(
+      ()=>{
+        this.handleSuccess()
+      }
+    ).catch((error)=>{
+      console.log(error)
+    })
+  
+
 
 }
 
 
 
-initializeForm() {
+}
+
+
+
+initializeEditForm() {
   this.productForm = this.fb.group({
     productName: [this.product.name, Validators.required],
     productDescription: [this.product.description, Validators.required],
     productPrice:[this.product.price,Validators.required]
 });
 }
+initializeForm() {
+  this.productForm = this.fb.group({
+    productName: ['', Validators.required],
+    productDescription: ['', Validators.required],
+    productPrice:['',Validators.required]
+});
+}
+
 
 handleSuccess() {
   this.activeModal.close()

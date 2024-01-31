@@ -22,6 +22,7 @@ constructor(private transactionService: TransactionService,private productServic
   onEdit() {
     this.productService.setProduct(this.product)
     const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
+    modalRef.componentInstance.mode = 'edit'
   }
 
   onDelete() {

@@ -27,7 +27,8 @@ export class TransactionsListComponent  implements OnInit{
   }
 
   open(){
-    this.modalService.open(TransactionModalComponent,{ size: 'xl' })
+   const modalRef= this.modalService.open(TransactionModalComponent,{ size: 'xl' ,animation:true})
+  
   }
 
 

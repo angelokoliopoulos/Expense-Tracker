@@ -5,6 +5,7 @@ import { TransactionService } from '../transactions/transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { ProductModalComponent } from '../modals/product-modal.component';
 
 @Component({
   selector: 'app-products',
@@ -16,26 +17,30 @@ export class ProductsComponent implements OnInit {
   error = null;
   currentPage: number = 1;
   itemsPerPage: number = 8;
- totalSpent: number;
+  totalSpent: number;
   transactionId: string;
-  // Modal Variables
- customModal : ElementRef
-  productForm: FormGroup
-  editMode = false;
-  modalOpen = false
   product: Product;
 
   constructor(private transactionService: TransactionService,
-    private route:ActivatedRoute,private fb:FormBuilder) {}
+    private route:ActivatedRoute,private modalService:NgbModal) {}
 
   ngOnInit() {
-    this.initializeForm();
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
       this.fetchProducts();
     });
   }
 
+
+    // Modal Methods
+
+    openModal(){
+      const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
+      modalRef.componentInstance.mode = 'add'
+      modalRef.componentInstance.transactionId = this.transactionId
+    }
+  
+    
   fetchProducts() {
     this.totalSpent = 0
     this.transactionService.getTransactionProducts(this.transactionId).subscribe({
@@ -55,20 +60,6 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
-  onSubmit(){
-    const formValue = this.productForm.value;
-    const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
-    this.transactionService
-      .addProductToTransaction(this.transactionId, newProduct)
-      .then(() => {
-        this.handleSuccess()
-          })
-      .catch((error) => {
-        // this.handleError(error);
-      });
-  
-  }
- 
 
   onPageChange(page: number) {
     console.log(this.currentPage)
@@ -76,28 +67,9 @@ export class ProductsComponent implements OnInit {
     this.fetchProducts();
   }
 
-  // Modal Methods
 
-  openModal(mode?:string){
-    this.modalOpen = true
-  }
 
-  closeModal(){
-    this.modalOpen = false
-  }
 
-  initializeForm() {
-    this.productForm = this.fb.group({
-        productName: ['', Validators.required],
-        productDescription: ['', Validators.required],
-        productPrice:['', Validators.required]
-    });
-  }
-
-  handleSuccess(){
-    this.initializeForm()
-    this.closeModal()
-  }
-
+ 
  
 }
