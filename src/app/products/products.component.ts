@@ -6,6 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ProductModalComponent } from '../modals/product-modal.component';
+import { ProductService } from './products.service';
 
 @Component({
   selector: 'app-products',
@@ -22,7 +23,7 @@ export class ProductsComponent implements OnInit {
   product: Product;
 
   constructor(private transactionService: TransactionService,
-    private route:ActivatedRoute,private modalService:NgbModal) {}
+    private route:ActivatedRoute,private modalService:NgbModal,private productService:ProductService) {}
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -66,7 +67,26 @@ export class ProductsComponent implements OnInit {
     this.currentPage = page;
     this.fetchProducts();
   }
+  onEdit(prod:Product) {
+    console.log(prod)
+    this.productService.setProduct(prod)
+    const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
+    modalRef.componentInstance.mode = 'edit'
+  }
 
+  onDelete(prod: Product) {
+    this.productService.setProduct(prod)
+      console.log('Deleting product with transactionId:', prod.transactionId, 'and productId:', prod.id);
+    if (window.confirm('Delete Item?')) {
+      this.transactionService.deleteProduct(prod.id)
+        .then(() => {
+          console.log('Product deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Error deleting product:', error);
+        });
+    }
+  }
 
 
 

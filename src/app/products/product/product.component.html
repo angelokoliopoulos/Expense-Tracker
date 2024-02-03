@@ -1,22 +1,12 @@
-
-<div class="row align-middle border-bottom px-1 py-2">
-  <div class="col">{{product.price}}</div>
-  <div class="col">{{product.name}}</div>
-  <div class="col">{{product.description}}</div>
-  <div class="col text-end">
-    <div class="col text-end">
-      <div class="d-flex flex-row justify-content-end gap-2">
-        <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit()">
-          <i class="bi bi-pencil"></i>
-          </button>
-        
-        <div class="position-relative">
-          <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete()">
-            <i class="bi bi-person-x"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-</div>
-</div>
+<tr>
+<th scope="row">{{ product.price | number }}</th>
+<td>{{ product.name }} </td>
+<td>{{ product.description  }}</td>
+<td> <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit()">
+    <i class="bi bi-pencil"></i>
+    </button>
+    <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete()">
+        <i class="bi bi-person-x"></i>
+    </button>
+</td>
+</tr>

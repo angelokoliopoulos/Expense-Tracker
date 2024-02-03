@@ -20,12 +20,15 @@ constructor(private transactionService: TransactionService,private fb:FormBuilde
 
 
 ngOnInit() {
+  console.log(this.mode)
 if(this.mode=='edit'){
-  console.log(this.product)
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
+    this.transactionId = data.transactionId
+    console.log(this.product)
+
+    this.initializeEditForm()
   })
-  this.initializeEditForm()
 
 }else if(this.mode = 'add'){
   this.initializeForm()
@@ -34,7 +37,7 @@ if(this.mode=='edit'){
 }
 onSubmit(){
   const formValue = this.productForm.value;
-  if(this.mode = 'add'){
+  if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.transactionService
       .addProductToTransaction(this.transactionId, newProduct)
