@@ -8,16 +8,22 @@
                     <th scope="col">Product Price</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Product Description</th>
+                    <th scope="col">
+                        <form>
+                        <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
+                        </form>
+                    </th>
                 </tr>
             </thead>
             <tbody>
-                @for (prod of products;  track prod.id ) {
+                @for (prod of filteredProducts$ | async; track prod.id ) {
                     
                     <tr>
                         <th scope="row">{{ prod.price | number }}</th>
-                        <td>{{ prod.name }} </td>
+                        <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
                         <td>{{ prod.description  }}</td>
-                        <td> <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">
+                        <td> 
+                            <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">
                             <i class="bi bi-pencil"></i>
                             </button>
                             <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete(prod)">

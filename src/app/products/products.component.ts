@@ -1,19 +1,26 @@
-import { Component, ElementRef, OnInit, Output } from '@angular/core';
+import { Component, OnInit, PipeTransform } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
 import { TransactionService } from '../transactions/transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 import { ProductModalComponent } from '../modals/product-modal.component';
 import { ProductService } from './products.service';
+import { ReactiveFormsModule,FormControl} from '@angular/forms';
+import { NgbHighlight } from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
+import { AsyncPipe, DecimalPipe } from '@angular/common';
+import {search} from '../shared/utils'
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
+  providers: [DecimalPipe]
 })
 export class ProductsComponent implements OnInit {
-  products: Product[];
+  filteredProducts$:Observable<Product[]>
+  private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+
   isLoading: boolean = false;
   error = null;
   currentPage: number = 1;
@@ -21,18 +28,23 @@ export class ProductsComponent implements OnInit {
   totalSpent: number;
   transactionId: string;
   product: Product;
-
+  filter = new FormControl('', { nonNullable: true });
   constructor(private transactionService: TransactionService,
-    private route:ActivatedRoute,private modalService:NgbModal,private productService:ProductService) {}
+    private route:ActivatedRoute,private modalService:NgbModal,private productService:ProductService,private pipe:DecimalPipe) {}
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
       this.fetchProducts();
     });
+    // filteredProducts$ getting their value from the search method which using the allProducts$ behavioral subject
+    this.filteredProducts$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      debounceTime(300),
+      switchMap((text) => search(text,this.allProducts$))
+    );
   }
-
-
+ 
     // Modal Methods
 
     openModal(){
@@ -46,9 +58,10 @@ export class ProductsComponent implements OnInit {
     this.totalSpent = 0
     this.transactionService.getTransactionProducts(this.transactionId).subscribe({
       next: (data: Product[]) => {
-        this.products = data;
-        
-        this.totalSpent = this.products.reduce((total, prod) => total + prod.price, 0);
+        // Get all products from the service and pass it to allProducts$ Behavioral subject
+        this.allProducts$.next(data);
+        const productsArray = this.allProducts$.value
+        this.totalSpent = productsArray.reduce((total, prod) => total + prod.price, 0);
         this.transactionService.totalSpentSubject.next(this.totalSpent)
       },
       error: (error) => {
