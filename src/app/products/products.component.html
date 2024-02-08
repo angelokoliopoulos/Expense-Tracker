@@ -5,9 +5,9 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Product Price</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Product Description</th>
+                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Price</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
+                    <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
                     <th scope="col">
                         <form>
                         <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />

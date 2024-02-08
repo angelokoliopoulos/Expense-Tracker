@@ -18,6 +18,7 @@ import { TransactionItemComponent } from './transactions/transactions-list/trans
 import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
 import { environment } from 'src/environments/environment.development';
 import { ProductModalComponent } from './modals/product-modal.component';
+import { NgbdSortableHeader } from './shared/sortable.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { ProductModalComponent } from './modals/product-modal.component';
     TransactionItemComponent,
     TransactionModalComponent,
     TransactionEditComponent,
+    NgbdSortableHeader
   ],
   imports: [
     BrowserModule,

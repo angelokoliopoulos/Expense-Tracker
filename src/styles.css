@@ -162,6 +162,14 @@
     
     transform: scale(1.1);
   }
+
+  th.asc::after {
+    content: ' ▲';
+  }
+  
+  th.desc::after {
+    content: ' ▼';
+  }
   /* RESPONSIVE */
   
   @media (max-width: 980px) {

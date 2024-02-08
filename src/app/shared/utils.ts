@@ -13,16 +13,6 @@ export function search(text: string,items:BehaviorSubject<any>): Observable<Prod
 			  }
 
 
+      export const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 
-
- // search(text: string): Observable<Product[]> {
-  //   return this.allProducts$.pipe(
-  //     map((products) =>
-  //       products.filter(
-  //         (product) =>
-  //           product.name.toLowerCase().includes(text.toLowerCase()) ||
-  //           this.pipe.transform(product.name).includes(text)
-  //       )
-  //     )
-  //   );
-  // }
+ 
