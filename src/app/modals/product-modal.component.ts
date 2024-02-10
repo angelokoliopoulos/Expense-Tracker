@@ -74,14 +74,14 @@ onSubmit(){
 initializeEditForm() {
   this.productForm = this.fb.group({
     productName: [this.product.name, Validators.required],
-    productDescription: [this.product.description, Validators.required],
+    productDescription: [this.product.description ? this.product.description : ''],
     productPrice:[this.product.price,Validators.required]
 });
 }
 initializeForm() {
   this.productForm = this.fb.group({
     productName: ['', Validators.required],
-    productDescription: ['', Validators.required],
+    productDescription: [''],
     productPrice:['',Validators.required]
 });
 }

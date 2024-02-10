@@ -1,4 +1,4 @@
-<div class="modal-header py-1">
+<div class="modal-header py-1 border-0">
 	<h4 class="modal-title" *ngIf="mode=='add'">Add Product</h4>
 	<h4 class="modal-title" *ngIf="mode=='edit'">Edit Product</h4>
 
@@ -10,26 +10,33 @@
 	<div class="card">
 		
 		<div class="card-body  mt-5">
-			<form [formGroup]="productForm"  class="m-0">
+			<form [formGroup]="productForm"  class="m-0" (ngSubmit)="onSubmit()">
 			    <div class="col-auto mb-3">
 					<input formControlName='productPrice'  type="number" class="form-control" id="productPrice" placeholder="Price">
+					<div class="col-auto p-5 mb-5" *ngIf="!productForm.get('productPrice').valid && productForm.get('productPrice').touched" class="help-block">Required Field</div>
+
 				  </div>
+
 				  <div class="col-auto mb-3">
 					<input formControlName='productName'  type="text"  class="form-control" id="productName"placeholder="Product Name" >
+					<span *ngIf="!productForm.get('productName').valid && productForm.get('productName').touched" class="help-block">Required Field</span>
 				  </div>
 				  <div class="col-auto mb-3">
 					<input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
 				  </div>
 				  <div class="col-auto d-flex justify-content-center">
-					<button *ngIf="mode==='edit'"  type="submit" class="btn btn-warning mb-3" (click)="onSubmit()">Edit</button>
-					<button *ngIf="mode==='add'"  type="submit" class="btn btn-primary mb-3" (click)="onSubmit()">Add</button>
-
+					<button *ngIf="mode==='edit'"  type="submit" class="btn btn-warning mb-3" [disabled]="!productForm.valid" >Edit</button>
+					<button *ngIf="mode==='add'"  type="submit" class="btn btn-primary mb-3" [disabled]="!productForm.valid">Submit</button>
 				  </div>
+				  <div *ngIf="!productForm.valid && productForm.touched" class="col-auto d-flex justify-content-center" >
+					<span  class="help-block text-center">Please fill the required fields</span>
+				  </div>
+
 			  </form>
 		</div>
 	</div>
 </div>
-<div class="modal-footer py-0">
+<div class="modal-footer py-0 border-0">
 	<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>
 

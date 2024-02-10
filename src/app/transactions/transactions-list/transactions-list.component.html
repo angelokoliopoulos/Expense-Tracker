@@ -1,28 +1,51 @@
 <div class="container mt-3">
+  
     <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header px-0 py-2">
-                  <div class="row">
-                    <div class="col">Transaction Date</div>
-                    <div class="col">Shop</div>
-                    <div class="col">Total Spent</div>
-                    <div class="col text-end">
-                      <div class="d-flex flex-row justify-content-end gap-2">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body px-3 py-0">
-                    <transaction-item *ngFor="let t of transactions" [transaction]="t"></transaction-item>
-                </div>
-              </div>
-        </div>
-    </div>
-    <div class="col pt-2 d-flex justify-content-center">
-      <button  class="btn btn-primary text-center" 
-      (click)="open()"
-      >Create New
-    </button>
-    </div>
+      <div class="col">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col"  >Transaction Date</th>
+                    <th scope="col"  >Shop</th>
+                    <th scope="col"  >Total Spent</th>
+                    <!-- <th scope="col">
+                        <form>
+                        <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
+                        </form>
+                    </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                @for (trans of transactions ; track trans.date ) {
+                    
+                    <tr>
+                        <td scope="row">{{ trans.date  }}</td>
+                        <td>{{trans.shop}}</td>
+                        <td>{{ totalSpent[trans.id]  }}</td>
+                        <td class="text-end"> 
+                          <div class="d-flex flex-row justify-content-end gap-2">
+                            <button type="submit" class="btn btn-warning btn-sm" (click)="navigateToTransactionItem(trans.id)">
+                                <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete(trans.id)">
+                                    <i class="bi bi-person-x"></i>
+                                </button>
+
+                          </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col pt-2 d-flex justify-content-center">
+            <button  class="btn btn-primary text-center" 
+            (click)="open()"
+            >Create New
+          </button>
+          </div>    </div>
+  </div>
 </div>
+
+    
+    
+   
