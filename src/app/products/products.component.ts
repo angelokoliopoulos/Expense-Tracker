@@ -55,7 +55,6 @@ export class ProductsComponent implements OnInit {
         header.direction = '';
       }
     }
-  
     // Sorting products
     if (direction !== '' || column !== '') {
       this.filteredProducts$.pipe(take(1)).subscribe(products => {
@@ -105,9 +104,6 @@ export class ProductsComponent implements OnInit {
     this.fetchProducts();
   }
   onEdit(prod:Product) {
-    console.log(prod)
-    console.log(this.headers)
-
     this.productService.setProduct(prod)
     const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
     modalRef.componentInstance.mode = 'edit'

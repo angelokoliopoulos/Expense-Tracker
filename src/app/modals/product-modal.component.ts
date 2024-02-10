@@ -20,7 +20,6 @@ constructor(private transactionService: TransactionService,private fb:FormBuilde
 
 
 ngOnInit() {
-  console.log(this.mode)
 if(this.mode=='edit'){
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
