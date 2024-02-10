@@ -24,13 +24,13 @@ ngOnInit() {
 if(this.mode=='edit'){
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
-    this.transactionId = data.transactionId
+    // this.transactionId = data.transactionId
     console.log(this.product)
 
     this.initializeEditForm()
   })
 
-}else if(this.mode = 'add'){
+}else if(this.mode == 'add'){
   this.initializeForm()
 }
 

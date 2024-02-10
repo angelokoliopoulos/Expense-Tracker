@@ -19,7 +19,7 @@
                 @for (prod of filteredProducts$ | async; track prod.id ) {
                     
                     <tr>
-                        <th scope="row">{{ prod.price | number }}</th>
+                        <td scope="row">{{ prod.price | number }}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
                         <td>{{ prod.description  }}</td>
                         <td> 
@@ -34,6 +34,7 @@
                 }
             </tbody>
         </table>
+        <button class="btn btn-primary"(click)="addProduct()">Add </button>
     </div>
   </div>
 </div>

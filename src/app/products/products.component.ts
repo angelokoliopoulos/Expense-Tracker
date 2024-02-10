@@ -27,7 +27,7 @@ export class ProductsComponent implements OnInit {
   isLoading: boolean = false;
   error = null;
   currentPage: number = 1;
-  itemsPerPage: number = 8;
+  itemsPerPage: number = 15;
   totalSpent: number;
   transactionId: string;
   product: Product;
@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit {
  
     // Modal Methods
 
-    openModal(){
+    addProduct(){
       const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
       modalRef.componentInstance.mode = 'add'
       modalRef.componentInstance.transactionId = this.transactionId
