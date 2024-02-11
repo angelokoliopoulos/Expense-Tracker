@@ -8,16 +8,20 @@
 	<div class="card">
 		
 		<div class="card-body  mt-5">
-			<form [formGroup]="transactionForm"  class="m-0">
+			<form [formGroup]="transactionForm"  class="m-0" (ngSubmit)="onSubmit()">
 				<div class="col-auto mb-3">
 				  <input formControlName='transactionDate'  type="date"  class="form-control"
 				  value="2018-07-22" min="2018-01-01"  id="transactionDate" placeholder="Transaction Date">
 				</div>
 				<div class="col-auto mb-3">
 				  <input formControlName='shop'  type="text" class="form-control" id="shop" placeholder="Shop">
+				  <span class="help-block text-center" *ngIf="!transactionForm.get('shop').valid && transactionForm.get('shop').touched" >Required field</span>
 				</div>
 				<div class="col-auto d-flex justify-content-center">
-				  <button  type="submit" class="btn btn-primary mb-3" (click)="onSubmit()">Add Transaction</button>
+				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionForm.valid">Add Transaction</button>
+				</div>
+				<div class="col-auto d-flex justify-content-center" *ngIf="!transactionForm.valid && transactionForm.touched">
+					<span class="help-block text-center">Please fill the required fields</span>
 				</div>
 			  </form>
 		
