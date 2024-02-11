@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductComponent } from './products/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ProductService } from './products/products.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -19,12 +18,14 @@ import { TransactionEditComponent } from './transactions/transaction-edit/transa
 import { environment } from 'src/environments/environment.development';
 import { ProductModalComponent } from './modals/product-modal.component';
 import { NgbdSortableHeader } from './shared/sortable.directive';
+import { SettingsComponent } from './settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
     ProductComponent,
     ProductModalComponent,
+    SettingsComponent,
     TransactionsComponent,
     TransactionsListComponent,
     TransactionItemComponent,
@@ -43,7 +44,7 @@ import { NgbdSortableHeader } from './shared/sortable.directive';
     provideFirestore(() => getFirestore()),
 
   ],
-  providers: [ProductService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,23 @@
+<div class="container rounded bg-white mt-1 mb-5">
+    <div class="row">
+        <div class="col-md-8 border-right">
+            <div class="p-3 py-5">
+                <div class="row mt-3">
+                    <form [formGroup]="settingsForm">
+                    <div class="col-md-12">
+                        <label for="currency" class="labels">Select Currency:</label>
+                        <select class="form-select" name="currency" >
+                            @for(cur of currencies; track cur.name){
+                                <option [value]='cur'>{{cur.name}}</option>
+                            }
+                        </select>
+                    </div>
+                </form> 
+                </div>
+                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save</button></div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+
