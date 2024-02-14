@@ -19,7 +19,7 @@
                 @for (prod of filteredProducts$ | async; track prod.name ) {
                     
                     <tr>
-                        <td scope="row">{{ prod.price | number }}</td>
+                        <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
                         <td>{{ prod.description  }}</td>
                         <td class="text-end"> 

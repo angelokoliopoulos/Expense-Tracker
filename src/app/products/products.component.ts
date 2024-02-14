@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { debounceTime,  startWith, switchMap, take } from 'rxjs/operators';
 import {  DecimalPipe  } from '@angular/common';
 import {compare, search} from '../shared/utils'
+import { Currency, CurrencyService } from '../shared/currency.service';
 
 @Component({
   selector: 'app-products',
@@ -26,6 +27,7 @@ export class ProductsComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   isLoading: boolean = false;
   error = null;
+  currency : Currency
   currentPage: number = 1;
   itemsPerPage: number = 15;
   totalSpent: number;
@@ -34,9 +36,13 @@ export class ProductsComponent implements OnInit {
   filter = new FormControl('', { nonNullable: true });
 
   constructor(private transactionService: TransactionService,
-    private route:ActivatedRoute,private modalService:NgbModal,private productService:ProductService) {}
+    private route:ActivatedRoute,private modalService:NgbModal,
+    private productService:ProductService,private currencyService:CurrencyService ) {}
 
   ngOnInit() {
+    this.currencyService.currencies$.subscribe((data)=>{
+      this.currency = data
+    })
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
       this.fetchProducts();
@@ -47,6 +53,7 @@ export class ProductsComponent implements OnInit {
       debounceTime(300),
       switchMap((text) => search(text,this.allProducts$))
     );
+    
   }
 
   onSort({ column, direction }: SortEvent) {

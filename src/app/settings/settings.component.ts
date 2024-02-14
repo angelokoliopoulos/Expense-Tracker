@@ -14,6 +14,7 @@ constructor(private fb: FormBuilder,private currencyService:CurrencyService){}
   ngOnInit() {
    this.currencies = this.currencyService.getCurrencies()
     this.initializeForm()
+    console.log(this.settingsForm)
   }
 
 
@@ -21,5 +22,16 @@ constructor(private fb: FormBuilder,private currencyService:CurrencyService){}
     this.settingsForm = this.fb.group({
       selectedCurrency:['']
     })
+  }
+
+
+  onSubmit() {
+    const formValue = this.settingsForm.value;
+    const selectedCurrency = this.currencies.find(cur => cur.name === formValue.selectedCurrency.name);
+    if (selectedCurrency) {
+      this.currencyService.updateCurrencyByName(selectedCurrency);
+    } else {
+      console.log("Selected currency not found");
+    }
   }
 }
