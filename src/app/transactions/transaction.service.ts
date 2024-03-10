@@ -3,6 +3,7 @@ import { Observable, Subject, from, map, of,switchMap,lastValueFrom} from 'rxjs'
 import { Transaction } from './transaction.model';
 import { Product } from '../products/product.model';
 import { Firestore, collection, doc, getDoc, addDoc, updateDoc, deleteDoc, collectionData, query, where, Query, DocumentData, getDocs } from '@angular/fire/firestore';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,18 @@ export class TransactionService {
   private firestore = inject(Firestore) 
   private transactionsCollection = collection(this.firestore, 'Transactions');
   totalSpentSubject = new Subject<number>()
+  apiUrl = "http://localhost:8080/products"
 
- 
+  constructor(private http: HttpClient) { }
 
-  getTransactions(): Observable<Transaction[]> {
-    return collectionData(this.transactionsCollection,{ idField: 'id' })as Observable<Transaction[]>;
+  // getTransactions(): Observable<Transaction[]> {
+  //   return collectionData(this.transactionsCollection,{ idField: 'id' })as Observable<Transaction[]>;
+  // }
+
+
+  getTransactions(): Observable<any> {
+    return this.http.get(this.apiUrl)
   }
-
   getTransaction(id:string){
     return from(getDoc(doc(this.firestore, 'Transactions', id))).pipe(
       map((snapshot) => snapshot.data() as Transaction)
