@@ -48,7 +48,7 @@ export class TransactionsListComponent  implements OnInit{
 
   /**
    * A method that calculates totalspent for each transactions.
-   * Replace this with one source of truth for both transactions and products component.
+   * To DO : Replace this with one source of truth for both transactions and products component.
    */
   calculateTotalSpent() {
     for (const transaction of this.transactions) {

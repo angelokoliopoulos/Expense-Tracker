@@ -11,11 +11,12 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 })
 export class CurrencyService {
     private  currencies : Currency[] = [
-        {name: 'Euro',symbol: '€'},
           {name: 'Dollar', symbol: '$'},
           {name: "Pound", symbol: '£'},
+          {name:'Hryvnia', symbol: '₴'},
           {name: "Yen", symbol:'¥'},
-          {name:'Hryvnia', symbol: '₴'}
+          {name: 'Euro',symbol: '€'},
+
       ]
       
 // Holds the state of currencies
@@ -38,9 +39,7 @@ getCurrency(selectedCurrency: Currency){
 }
 
 updateCurrencyByName(currency: Currency):void{
-console.log(currency)
     this.currencySubject.next(currency);
-  
 }
 
 }
