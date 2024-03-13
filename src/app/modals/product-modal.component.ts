@@ -14,7 +14,7 @@ export class ProductModalComponent implements OnInit {
 product : Product
 productForm: FormGroup
 mode: string
-transactionId:string
+transactionId:number
 constructor(private transactionService: TransactionService,private fb:FormBuilder,
   public activeModal:NgbActiveModal,private productService:ProductService){}
 
@@ -39,13 +39,14 @@ onSubmit(){
   if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.transactionService
-      .addProductToTransaction(this.transactionId, newProduct)
-      .then(() => {
-        this.handleSuccess()
-          })
-      .catch((error) => {
-        this.handleError(error);
-      });
+      .addProductToTransaction(this.transactionId, newProduct).subscribe({
+        next:()=>{
+          this.handleSuccess
+        },
+        error:(err)=>{
+          this.handleError(err)
+        }
+      })
   }
   else if(this.mode == 'edit'){
     const updatedProduct: Partial<Product> = {
@@ -53,13 +54,13 @@ onSubmit(){
       description: formValue.productDescription,
       price:formValue.productPrice  
     };
-    this.transactionService.updateProduct(this.product.id, updatedProduct).then(
-      ()=>{
-        this.handleSuccess()
-      }
-    ).catch((error)=>{
-      console.log(error)
-    })
+    // this.transactionService.updateProduct(this.product.id, updatedProduct).then(
+    //   ()=>{
+    //     this.handleSuccess()
+    //   }
+    // ).catch((error)=>{
+    //   console.log(error)
+    // })
   
 
 

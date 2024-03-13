@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
@@ -34,16 +34,24 @@ export class TransactionsListComponent  implements OnInit{
     this.currencyService.currencies$.subscribe((data)=>{
       this.currency = data
     })
-   this.transactionService.getTransactions().subscribe({
-    next:(data:Transaction[])=>{
-      this.transactions = data
-      this.calculateTotalSpent()
-      
-    },
-     error: (error) => {
-      console.error(error.message);
-    },
-   })
+
+    this.loadTransactions();
+    this.transactionService.transactionsUpdated
+    .subscribe(()=>{
+      this.loadTransactions()
+    })
+  }
+
+
+  loadTransactions(){
+    this.transactionService.getTransactions().subscribe({
+      next: (data:Transaction[])=>{
+        this.transactions = data
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
   }
 
   /**
@@ -74,13 +82,19 @@ export class TransactionsListComponent  implements OnInit{
   
   }
 
-  navigateToTransactionItem(id:string) {
+  navigateToTransactionItem(id:number) {
     this.router.navigate(['/transactions', id, 'edit']);
   }
   
-  onDelete(id:string){
-    this.transactionService.deleteTransaction(id)
+  onDelete(id:number){
+    this.transactionService.deleteTransaction(id).subscribe({
+      next: () => {
+        console.log('item deleted')
+      }
+    })
   }
+
+ 
 
 
   

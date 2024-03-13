@@ -21,7 +21,7 @@ export class TransactionItemComponent implements OnInit {
 @Input() transaction: Transaction
 products : Product[]
 totalSpent :number
-id:string 
+id:number 
 constructor(private transactionService:TransactionService,private router:Router){}
 ngOnInit() {
     this.id = this.transaction.id

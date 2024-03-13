@@ -1,7 +1,7 @@
 import { Product } from "../products/product.model";
 
 export class Transaction {
-    public id: string;
+    public id: number;
     public date: string;
     public shop: string;
     public products: Product[] 

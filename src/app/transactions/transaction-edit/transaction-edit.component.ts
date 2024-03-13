@@ -9,7 +9,7 @@ import { Transaction } from '../transaction.model';
 })
 export class TransactionEditComponent implements OnInit {
   transaction:Transaction
-id:string
+id:number
 date:string
 totalSpent:number 
   constructor(private transactionService:TransactionService,private route:ActivatedRoute){}

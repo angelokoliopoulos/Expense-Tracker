@@ -31,8 +31,9 @@ export class ProductsComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 15;
   totalSpent: number;
-  transactionId: string;
+  transactionId: number;
   product: Product;
+  products: Product[]
   filter = new FormControl('', { nonNullable: true });
 
   constructor(private transactionService: TransactionService,
@@ -91,8 +92,10 @@ export class ProductsComponent implements OnInit {
         // Get all products from the service and pass it to allProducts$ Behavioral subject
         this.allProducts$.next(data);
         const productsArray = this.allProducts$.value
+        console.log(productsArray)
         this.totalSpent = productsArray.reduce((total, prod) => total + prod.price, 0);
         this.transactionService.totalSpentSubject.next(this.totalSpent)
+        // this.products = data
       },
       error: (error) => {
         this.isLoading = false;

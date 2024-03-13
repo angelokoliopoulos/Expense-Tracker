@@ -1,9 +1,9 @@
 export class Product {
-    public id:string
+    public id:number
     public name:string;
     public description:string;
     public price: number
-    public transactionId: string;
+    public transactionId: number;
     
     constructor(name:string,description:string,price:number){
         this.name = name
