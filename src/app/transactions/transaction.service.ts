@@ -43,7 +43,6 @@ export class TransactionService {
   }
   
   addProductToTransaction(transactionId: number, product: Product):Observable<any> {
-    console.log(product)
     product.transactionId = transactionId
    return this.http.post(`${this.apiRoot}/products`,product)
   }
@@ -60,9 +59,10 @@ export class TransactionService {
     return deleteDoc(doc(this.firestore, productDocPath));
   }
 
-  updateProduct(productId: number, updatedProduct: Partial<Product>) {
-    // const productDocRef = doc(this.firestore, 'products', productId);
-    // return updateDoc(productDocRef, updatedProduct);
+  updateProduct(productId: number, updatedProduct: Partial<Product>):Observable<any> {
+
+    return this.http.put(`${this.apiRoot}/products/${productId}`,updatedProduct)
+    
   }
   
 }

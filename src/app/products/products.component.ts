@@ -95,7 +95,6 @@ export class ProductsComponent implements OnInit {
         console.log(productsArray)
         this.totalSpent = productsArray.reduce((total, prod) => total + prod.price, 0);
         this.transactionService.totalSpentSubject.next(this.totalSpent)
-        // this.products = data
       },
       error: (error) => {
         this.isLoading = false;

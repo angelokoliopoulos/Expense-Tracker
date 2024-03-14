@@ -23,7 +23,6 @@ ngOnInit() {
 if(this.mode=='edit'){
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
-    // this.transactionId = data.transactionId
     console.log(this.product)
 
     this.initializeEditForm()
@@ -51,16 +50,18 @@ onSubmit(){
   else if(this.mode == 'edit'){
     const updatedProduct: Partial<Product> = {
       name: formValue.productName,
-      description: formValue.productDescription,
-      price:formValue.productPrice  
+      // description: formValue.productDescription,
+      price:formValue.productPrice ,
+      transactionId: this.product.transactionId
     };
-    // this.transactionService.updateProduct(this.product.id, updatedProduct).then(
-    //   ()=>{
-    //     this.handleSuccess()
-    //   }
-    // ).catch((error)=>{
-    //   console.log(error)
-    // })
+    this.transactionService.updateProduct(this.product.id, updatedProduct).subscribe({
+      next: ()=>{
+        this.handleSuccess()
+      },
+      error: (err)=>{
+        this.handleError(err)
+      }
+    })
   
 
 
