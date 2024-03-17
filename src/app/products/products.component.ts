@@ -122,13 +122,14 @@ export class ProductsComponent implements OnInit {
     this.productService.setProduct(prod)
       console.log('Deleting product with transactionId:', prod.transactionId, 'and productId:', prod.id);
     if (window.confirm('Delete Item?')) {
-      this.transactionService.deleteProduct(prod.id)
-        .then(() => {
-          console.log('Product deleted successfully');
-        })
-        .catch((error) => {
-          console.error('Error deleting product:', error);
-        });
+      this.transactionService.deleteProduct(prod.transactionId, prod.id).subscribe({
+        next:( )=>{
+          console.log('product deleted')
+          
+        },
+        error:(err)=> console.log(err)
+      })
+        
     }
   }
 

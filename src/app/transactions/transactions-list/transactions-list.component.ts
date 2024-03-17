@@ -47,6 +47,7 @@ export class TransactionsListComponent  implements OnInit{
     this.transactionService.getTransactions().subscribe({
       next: (data:Transaction[])=>{
         this.transactions = data
+        this.calculateTotalSpent()
       },
       error:(err)=>{
         console.log(err)
@@ -69,6 +70,8 @@ export class TransactionsListComponent  implements OnInit{
             return  total + prod.price
           }, 0);
           this.totalSpent[transaction.id] = transactionPrice;
+          
+          
         },
         error: (error) => {
           console.error(`Error calculating total spent for transaction ${transaction.id}: ${error.message}`);

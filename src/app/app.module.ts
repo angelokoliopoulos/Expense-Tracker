@@ -6,14 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
-import { ProductComponent } from './products/product/product.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionModalComponent } from './modals/transaction-modal.component';
 import { TransactionsListComponent } from './transactions/transactions-list/transactions-list.component';
-import { TransactionItemComponent } from './transactions/transactions-list/transaction-item/transaction-item.component';
 import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
 import { environment } from 'src/environments/environment.development';
 import { ProductModalComponent } from './modals/product-modal.component';
@@ -23,12 +21,10 @@ import { SettingsComponent } from './settings/settings.component';
   declarations: [
     AppComponent,
     ProductsComponent,
-    ProductComponent,
     ProductModalComponent,
     SettingsComponent,
     TransactionsComponent,
     TransactionsListComponent,
-    TransactionItemComponent,
     TransactionModalComponent,
     TransactionEditComponent,
     NgbdSortableHeader

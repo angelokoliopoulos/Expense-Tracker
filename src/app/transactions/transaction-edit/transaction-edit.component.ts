@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Transaction } from '../transaction.model';
-
+import {  DecimalPipe  } from '@angular/common';
 @Component({
   selector: 'app-transaction-edit',
   templateUrl: './transaction-edit.component.html',
+  providers: [DecimalPipe]
 })
 export class TransactionEditComponent implements OnInit {
   transaction:Transaction

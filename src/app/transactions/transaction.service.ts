@@ -53,10 +53,8 @@ export class TransactionService {
   }  
 
 
-  deleteProduct( productId: number): Promise<void> {
-    const productDocPath = `products/${productId}`;
-    console.log('Deleting product at path:', productDocPath);
-    return deleteDoc(doc(this.firestore, productDocPath));
+  deleteProduct( transactionId:number ,productId: number):Observable<any> {
+    return this.http.delete(`${this.apiRoot}/products/${transactionId}/${productId}`)
   }
 
   updateProduct(productId: number, updatedProduct: Partial<Product>):Observable<any> {
