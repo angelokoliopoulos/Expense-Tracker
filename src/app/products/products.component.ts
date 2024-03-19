@@ -9,7 +9,7 @@ import { ProductService } from './products.service';
 import { FormControl} from '@angular/forms';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { debounceTime,  startWith, switchMap, take } from 'rxjs/operators';
+import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators';
 import {  DecimalPipe  } from '@angular/common';
 import {compare, search} from '../shared/utils'
 import { Currency, CurrencyService } from '../shared/currency.service';
@@ -22,19 +22,18 @@ import { Currency, CurrencyService } from '../shared/currency.service';
   
 })
 export class ProductsComponent implements OnInit {
-  filteredProducts$:Observable<Product[]>
+  products$:Observable<Product[]>
   private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   isLoading: boolean = false;
   error = null;
   currency : Currency
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 10;
   collectionSize: number;
   totalSpent: number;
   transactionId: number;
   product: Product;
-  products: Product[]
   filter = new FormControl('', { nonNullable: true });
 
   constructor(private transactionService: TransactionService,
@@ -49,7 +48,6 @@ export class ProductsComponent implements OnInit {
       this.transactionId = params['id'];
     });
     this.fetchProducts();
-
     this.productService.productsUpdated.subscribe({
       next: ()=>{
         this.fetchProducts()
@@ -60,8 +58,10 @@ export class ProductsComponent implements OnInit {
     })
 
 
-    // filteredProducts$ getting their value from the search method which using the allProducts$ behavioral subject
-    this.filteredProducts$ = this.filter.valueChanges.pipe(
+   
+
+    // products$ getting their value from the search method which using the allProducts$ behavioral subject
+    this.products$ = this.filter.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
       switchMap((text) => search(text,this.allProducts$))
@@ -77,16 +77,16 @@ export class ProductsComponent implements OnInit {
     }
     // Sorting products
     if (direction !== '' || column !== '') {
-      this.filteredProducts$.pipe(take(1)).subscribe(products => {
-        const sortedProducts = [...products].sort((a, b) => {
-          const res = compare(a[column] as string | number, b[column] as string | number);
-          return direction === 'asc' ? res : -res;
-        });
-        this.filteredProducts$ = of(sortedProducts);
-      });
-    }
+      this.products$ = this.products$.pipe(
+        map((products) =>
+          [...products].sort((a, b) => {
+            const res = compare(a[column] as string | number, b[column] as string | number);
+            return direction === 'asc' ? res : -res;
+          })
+        )
+      );
   }
-
+  }
  
     // Modal Methods
 
@@ -99,12 +99,15 @@ export class ProductsComponent implements OnInit {
     
   fetchProducts() {
     this.totalSpent = 0
-    this.productService.getProducts(this.transactionId).subscribe({
+    this.productService.getProducts(this.transactionId)
+    .subscribe({
       next: (data: any) => {
         // Get all products from the service and pass it to allProducts$ Behavioral subject
         this.allProducts$.next(data.content);
         const productsArray = this.allProducts$.value
         this.collectionSize = data.totalElements
+
+        //calculate total spent
         this.totalSpent = productsArray.reduce((total, prod) => total + prod.price, 0);
         this.transactionService.totalSpentSubject.next(this.totalSpent)
       },
@@ -119,10 +122,7 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  onPageChange(page: number) {
-    this.currentPage = page;
-    this.fetchProducts();
-  }
+
   onEdit(prod:Product) {
     this.productService.setProduct(prod)
     const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
@@ -145,9 +145,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  refreshItems(){
-
-  }
+ 
 
 
 

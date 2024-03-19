@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (prod of filteredProducts$ | async; track prod.name ) {
+                @for (prod of products$ | async; track prod.name ) {
                     
                     <tr>
                         <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
@@ -47,8 +47,7 @@
     [collectionSize]="collectionSize"
     [(page)]="currentPage"
     [pageSize]="itemsPerPage"
-    (pageChange)="onPageChange($event)"
->
+    (pageChange)="onPageChange($event)">
 </ngb-pagination> -->
   </div>
 </div>
