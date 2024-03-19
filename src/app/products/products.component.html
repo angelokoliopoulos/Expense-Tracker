@@ -2,17 +2,22 @@
   
     <div class="row">
       <div class="col">
+        <div class="input-group float-end my-3">
+            <form>
+                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                </form>
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Price</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
                     <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
-                    <th scope="col">
+                    <!-- <th scope="col">
                         <form>
                         <input  class="form-control" type="text" [formControl]="filter" />
                         </form>
-                    </th>
+                    </th> -->
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +43,13 @@
         </table>
         <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
     </div>
+    <!-- <ngb-pagination
+    [collectionSize]="collectionSize"
+    [(page)]="currentPage"
+    [pageSize]="itemsPerPage"
+    (pageChange)="onPageChange($event)"
+>
+</ngb-pagination> -->
   </div>
 </div>
 

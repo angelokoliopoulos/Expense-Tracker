@@ -3,6 +3,7 @@ import { TransactionService } from '../transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Transaction } from '../transaction.model';
 import {  DecimalPipe  } from '@angular/common';
+import { ProductService } from 'src/app/products/products.service';
 @Component({
   selector: 'app-transaction-edit',
   templateUrl: './transaction-edit.component.html',
@@ -34,6 +35,7 @@ totalSpent:number
             this.totalSpent = data
           }
         )
+
       
   }
 }

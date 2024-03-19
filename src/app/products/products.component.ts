@@ -1,6 +1,6 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal , NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
 import { TransactionService } from '../transactions/transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -29,7 +29,8 @@ export class ProductsComponent implements OnInit {
   error = null;
   currency : Currency
   currentPage: number = 1;
-  itemsPerPage: number = 15;
+  itemsPerPage: number = 5;
+  collectionSize: number;
   totalSpent: number;
   transactionId: number;
   product: Product;
@@ -46,8 +47,19 @@ export class ProductsComponent implements OnInit {
     })
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
-      this.fetchProducts();
     });
+    this.fetchProducts();
+
+    this.productService.productsUpdated.subscribe({
+      next: ()=>{
+        this.fetchProducts()
+      },
+      error: (err)=>{
+        console.log(err)
+      }
+    })
+
+
     // filteredProducts$ getting their value from the search method which using the allProducts$ behavioral subject
     this.filteredProducts$ = this.filter.valueChanges.pipe(
       startWith(''),
@@ -87,12 +99,12 @@ export class ProductsComponent implements OnInit {
     
   fetchProducts() {
     this.totalSpent = 0
-    this.transactionService.getTransactionProducts(this.transactionId).subscribe({
-      next: (data: Product[]) => {
+    this.productService.getProducts(this.transactionId).subscribe({
+      next: (data: any) => {
         // Get all products from the service and pass it to allProducts$ Behavioral subject
-        this.allProducts$.next(data);
+        this.allProducts$.next(data.content);
         const productsArray = this.allProducts$.value
-        console.log(productsArray)
+        this.collectionSize = data.totalElements
         this.totalSpent = productsArray.reduce((total, prod) => total + prod.price, 0);
         this.transactionService.totalSpentSubject.next(this.totalSpent)
       },
@@ -108,7 +120,6 @@ export class ProductsComponent implements OnInit {
   }
 
   onPageChange(page: number) {
-    console.log(this.currentPage)
     this.currentPage = page;
     this.fetchProducts();
   }
@@ -122,15 +133,20 @@ export class ProductsComponent implements OnInit {
     this.productService.setProduct(prod)
       console.log('Deleting product with transactionId:', prod.transactionId, 'and productId:', prod.id);
     if (window.confirm('Delete Item?')) {
-      this.transactionService.deleteProduct(prod.transactionId, prod.id).subscribe({
+      this.productService.deleteProduct(prod.transactionId, prod.id).subscribe({
         next:( )=>{
           console.log('product deleted')
+          this.productService.productsUpdated.next()
           
         },
         error:(err)=> console.log(err)
       })
         
     }
+  }
+
+  refreshItems(){
+
   }
 
 

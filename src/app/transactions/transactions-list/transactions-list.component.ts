@@ -6,6 +6,7 @@ import { Transaction } from '../transaction.model';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/products/product.model';
 import { Currency, CurrencyService } from 'src/app/shared/currency.service';
+import { ProductService } from 'src/app/products/products.service';
 
 @Component({
   selector: 'app-transactions-list',
@@ -26,7 +27,7 @@ export class TransactionsListComponent  implements OnInit{
   totalSpent : {[key:string] : number} = {}
   id:string 
 
-  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,private currencyService:CurrencyService){}
+  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,private currencyService:CurrencyService,private productService: ProductService){}
 
 
 
@@ -61,9 +62,9 @@ export class TransactionsListComponent  implements OnInit{
    */
   calculateTotalSpent() {
     for (const transaction of this.transactions) {
-      this.transactionService.getTransactionProducts(transaction.id).subscribe({
-        next: (products: Product[]) => {
-          const transactionPrice = products.reduce((total, prod) =>{
+      this.productService.getProducts(transaction.id).subscribe({
+        next: (products: any) => {
+          const transactionPrice = products.content.reduce((total, prod) =>{
             if(prod.price <=0){
               return total
             }
