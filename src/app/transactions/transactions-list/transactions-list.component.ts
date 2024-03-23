@@ -48,37 +48,11 @@ export class TransactionsListComponent  implements OnInit{
     this.transactionService.getTransactions().subscribe({
       next: (data:Transaction[])=>{
         this.transactions = data
-        this.calculateTotalSpent()
       },
       error:(err)=>{
         console.log(err)
       }
     })
-  }
-
-  /**
-   * A method that calculates totalspent for each transactions.
-   * To DO : Replace this with one source of truth for both transactions and products component.
-   */
-  calculateTotalSpent() {
-    for (const transaction of this.transactions) {
-      this.productService.getProducts(transaction.id).subscribe({
-        next: (products: any) => {
-          const transactionPrice = products.content.reduce((total, prod) =>{
-            if(prod.price <=0){
-              return total
-            }
-            return  total + prod.price
-          }, 0);
-          this.totalSpent[transaction.id] = transactionPrice;
-          
-          
-        },
-        error: (error) => {
-          console.error(`Error calculating total spent for transaction ${transaction.id}: ${error.message}`);
-        },
-      });
-    }
   }
 
   open(){

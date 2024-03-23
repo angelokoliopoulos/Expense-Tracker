@@ -11,12 +11,4 @@ export class Product {
         this.price = price
      }
 
-      toJSON(){
-        return {
-          name: this.name,
-          description: this.description,
-          price: this.price,
-          transactionId: this.transactionId,
-        }
-      }
 }

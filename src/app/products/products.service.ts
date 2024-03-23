@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, tap } from 'rxjs';
 import { Product } from './product.model';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductService {
   private productSource = new BehaviorSubject<Product | null>(null);
   currentProduct = this.productSource.asObservable();
-   productsUpdated = new Subject<void>();
+  productsUpdated = new Subject<void>();
   apiRoot = "http://localhost:8080"
 
 
@@ -19,26 +19,40 @@ export class ProductService {
     this.productSource.next(product);
   }
 
-  addProductToTransaction(transactionId: number, product: Product):Observable<any> {
-    product.transactionId = transactionId
-   return this.http.post(`${this.apiRoot}/products`,product)
+  addProduct( product: Product):Observable<any> {
+   return this.http.post(`${this.apiRoot}/products`,product).pipe(
+    tap(()=> this.productsUpdated.next()),
+    catchError(err => {
+      console.log('Error adding product',err)
+      throw err
+    })
+   )
   }
 
- 
-  getProducts(transactionId: number):Observable<any> {
-    return this.http.get(`${this.apiRoot}/products/${transactionId}`)
+  getProducts():Observable<any> {
+    return this.http.get(`${this.apiRoot}/products`)
   }  
   getPaginatedProducts(transactionId: number, size:number, page:number):Observable<any> {
     return this.http.get(`${this.apiRoot}/products/${transactionId}?size=${size}&page=${page}`)
   }  
 
-
-
-  deleteProduct( transactionId:number ,productId: number):Observable<any> {
-    return this.http.delete(`${this.apiRoot}/products/${transactionId}/${productId}`)
+  deleteProduct(productId: number):Observable<any> {
+    return this.http.delete(`${this.apiRoot}/products/${productId}`).pipe(
+      tap(()=> this.productsUpdated.next()),
+      catchError(err => {
+        console.log('Error deleting product',err)
+        throw err
+      })
+     )
   }
 
   updateProduct(productId: number, updatedProduct: Partial<Product>):Observable<any> {
-    return this.http.put(`${this.apiRoot}/products/${productId}`,updatedProduct)
+    return this.http.put(`${this.apiRoot}/products/${productId}`,updatedProduct).pipe(
+      tap(()=> this.productsUpdated.next()),
+      catchError(err => {
+        console.log('Error updating product',err)
+        throw err
+      })
+     )
   }
 }

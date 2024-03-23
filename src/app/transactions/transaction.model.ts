@@ -11,11 +11,5 @@ export class Transaction {
       this.shop = shop;
     }
 
-    toJSON(): any {
-      return {
-        date: this.date,
-        shop: this.shop,
-        totalSpent:this.totalSpent
-      };
-    }
+    
   }

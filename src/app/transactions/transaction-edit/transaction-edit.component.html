@@ -1,6 +1,63 @@
-<div class="d-flex justify-content-between">
-    <h2>Date: {{date}}</h2>
-    <h2>Total: {{totalSpent | number}}</h2>
+<div class="container mt-3">
+    <div class="d-flex justify-content-between">
+        <h2>Date: {{date}}</h2>
+        <h2>Total: {{totalSpent | number}}</h2>
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="input-group float-end my-3">
+            <form>
+                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Price</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
+                    <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
+                    <!-- <th scope="col">
+                        <form>
+                        <input  class="form-control" type="text" [formControl]="filter" />
+                        </form>
+                    </th> -->
+                </tr>
+            </thead>
+            <tbody>
+                @for (prod of products$ | async; track prod.name ) {
+                    
+                    <tr>
+                        <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
+                        <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
+                        <td>{{ prod.description  }}</td>
+                        <td class="text-end"> 
+                          <div class="d-flex flex-row justify-content-end gap-2">
+                            <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">
+                                <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete(prod)">
+                                    <i class="bi bi-person-x"></i>
+                                </button>
+                          </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
+    </div>
+    <!-- <ngb-pagination
+    [collectionSize]="collectionSize"
+    [(page)]="currentPage"
+    [pageSize]="itemsPerPage"
+    (pageChange)="onPageChange($event)">
+</ngb-pagination> -->
+  </div>
 </div>
 
-<app-products></app-products>
+    
+    
+   
+
+
+

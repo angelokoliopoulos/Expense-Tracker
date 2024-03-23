@@ -10,21 +10,17 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Price</th>
+                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Id</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
                     <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
-                    <!-- <th scope="col">
-                        <form>
-                        <input  class="form-control" type="text" [formControl]="filter" />
-                        </form>
-                    </th> -->
+
                 </tr>
             </thead>
             <tbody>
                 @for (prod of products$ | async; track prod.name ) {
                     
                     <tr>
-                        <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
+                        <td scope="row">{{ prod.id | number }}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
                         <td>{{ prod.description  }}</td>
                         <td class="text-end"> 

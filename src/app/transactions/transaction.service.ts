@@ -14,14 +14,12 @@ export class TransactionService {
   constructor(private http: HttpClient) { }
 
   
-
   getTransactions(): Observable<any> {
     return this.http.get(`${this.apiRoot}/transactions`)
   }
   getTransaction(id:number){
     return this.http.get(`${this.apiRoot}/transactions/${id}`)
   }
-
 
   addTransaction(transaction: Transaction):Observable<any>{
     return this.http.post(`${this.apiRoot}/transactions`, transaction).pipe(
@@ -41,7 +39,14 @@ export class TransactionService {
       console.error("Error deleting transaction", error);
       throw error; 
     }))
-  
+  }
+
+  getProducts(transactionId: number){
+    return this.http.get(`${this.apiRoot}/${transactionId}/products`)
+  }
+
+  deleteProduct(transactionId:number, productId:number){
+    return this.http.delete(`${this.apiRoot}/${transactionId}/${productId}`)
   }
   
 

@@ -19,7 +19,7 @@ constructor(private fb:FormBuilder,
 
 
 ngOnInit() {
-if(this.mode=='edit'){
+if(this.mode == 'edit'){
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
     console.log(this.product)
@@ -37,9 +37,8 @@ onSubmit(){
   if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.productService
-      .addProductToTransaction(this.transactionId, newProduct).subscribe({
+      .addProduct(newProduct).subscribe({
         next:()=>{
-          this.productService.productsUpdated.next()
           this.handleSuccess()
         },
         error:(err)=>{

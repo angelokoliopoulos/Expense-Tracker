@@ -1,20 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TransactionService } from '../transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Transaction } from '../transaction.model';
 import {  DecimalPipe  } from '@angular/common';
+import { NgbModal , NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators';
+import {compare, search} from '../../shared/utils'
+import { Currency, CurrencyService } from '../../shared/currency.service';
+import { Product } from 'src/app/products/product.model';
+import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
+import { FormControl } from '@angular/forms';
 import { ProductService } from 'src/app/products/products.service';
+import { ProductModalComponent } from 'src/app/modals/product-modal.component';
 @Component({
   selector: 'app-transaction-edit',
   templateUrl: './transaction-edit.component.html',
   providers: [DecimalPipe]
 })
 export class TransactionEditComponent implements OnInit {
-  transaction:Transaction
+transaction:Transaction
 id:number
 date:string
-totalSpent:number 
-  constructor(private transactionService:TransactionService,private route:ActivatedRoute){}
+
+
+products$:Observable<Product[]>
+private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+@ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+isLoading: boolean = false;
+error = null;
+currency : Currency
+currentPage: number = 1;
+itemsPerPage: number = 10;
+collectionSize: number;
+totalSpent: number;
+transactionId: number;
+product: Product;
+filter = new FormControl('', { nonNullable: true });
+constructor(private transactionService: TransactionService,
+  private route:ActivatedRoute,private modalService:NgbModal,
+  private productService:ProductService,private currencyService:CurrencyService ) {}
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -22,6 +47,9 @@ totalSpent:number
         this.id = params['id']
       }
     )
+    this.currencyService.currencies$.subscribe((data)=>{
+      this.currency = data
+    })
 
       this.transactionService.getTransaction(this.id).subscribe(
         (data:Transaction) =>{
@@ -30,12 +58,85 @@ totalSpent:number
           this.date = this.transaction.date
           
         })
-        this.transactionService.totalSpentSubject.subscribe(
-          (data:number)=>{
-            this.totalSpent = data
-          }
-        )
+  
+        this.products$ = this.filter.valueChanges.pipe(
+          startWith(''),
+          debounceTime(300),
+          switchMap((text) => search(text,this.allProducts$))
+        );
+         
+  }
 
-      
+  onSort({ column, direction }: SortEvent) {
+    for (const header of this.headers) {
+  if (header.sortable !== column) {
+    header.direction = '';
   }
 }
+// Sorting products
+if (direction !== '' || column !== '') {
+  this.products$ = this.products$.pipe(
+    map((products) =>
+      [...products].sort((a, b) => {
+        const res = compare(a[column] as string | number, b[column] as string | number);
+        return direction === 'asc' ? res : -res;
+      })
+    )
+  );
+}
+}
+
+// Modal Methods
+addProduct(){
+  const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
+  modalRef.componentInstance.mode = 'add'
+  modalRef.componentInstance.transactionId = this.transactionId
+}
+
+
+fetchProducts() {
+this.totalSpent = 0
+this.transactionService.getProducts(this.transactionId)
+.subscribe({
+  next: (data: any) => {
+    // Get all products from the service and pass it to allProducts$ Behavioral subject
+    console.log(data)
+    this.allProducts$.next(data.content);
+  },
+  error: (error) => {
+    this.isLoading = false;
+    this.error = error.message;
+    console.error(error.message);
+  },
+  complete: () => {
+    this.isLoading = false;
+  },
+});
+}
+
+
+onEdit(prod:Product) {
+this.productService.setProduct(prod)
+const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
+modalRef.componentInstance.mode = 'edit'
+}
+
+onDelete(prod: Product) {
+this.productService.setProduct(prod)
+  console.log('Deleting product with transactionId:', prod.transactionId, 'and productId:', prod.id);
+if (window.confirm('Delete Item?')) {
+  this.transactionService.deleteProduct(prod.transactionId, prod.id).subscribe({
+    next:( )=>{
+      console.log('product deleted')
+    },
+    error:(err)=> console.log(err)
+  })
+    
+}
+}
+
+
+}
+
+  
+
