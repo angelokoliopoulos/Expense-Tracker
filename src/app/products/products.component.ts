@@ -12,6 +12,7 @@ import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators'
 import {  DecimalPipe  } from '@angular/common';
 import {compare, search} from '../shared/utils'
 import { Currency, CurrencyService } from '../shared/currency.service';
+import { NgbService } from '../shared/ngb.service';
 
 @Component({
   selector: 'app-products',
@@ -22,7 +23,7 @@ import { Currency, CurrencyService } from '../shared/currency.service';
 })
 export class ProductsComponent implements OnInit {
   products$:Observable<Product[]>
-  private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+   allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   isLoading: boolean = false;
   error = null;
@@ -36,7 +37,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private route:ActivatedRoute,private modalService:NgbModal,
-    private productService:ProductService,private currencyService:CurrencyService ) {}
+    private productService:ProductService,private currencyService:CurrencyService) {}
 
   ngOnInit() {
     this.currencyService.currencies$.subscribe((data)=>{
@@ -47,10 +48,10 @@ export class ProductsComponent implements OnInit {
     });
     this.fetchProducts();
     this.productService.productsUpdated.subscribe({
-      next: ()=>{
+      next: () => {
         this.fetchProducts()
       },
-      error: (err)=>{
+      error: (err) => {
         console.log(err)
       }
     })
