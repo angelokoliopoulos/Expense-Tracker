@@ -20,10 +20,8 @@ import { ProductModalComponent } from 'src/app/modals/product-modal.component';
 })
 export class TransactionEditComponent implements OnInit {
 transaction:Transaction
-id:number
+transactionId: number;
 date:string
-
-
 products$:Observable<Product[]>
 private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
 @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -34,7 +32,7 @@ currentPage: number = 1;
 itemsPerPage: number = 10;
 collectionSize: number;
 totalSpent: number;
-transactionId: number;
+
 product: Product;
 filter = new FormControl('', { nonNullable: true });
 constructor(private transactionService: TransactionService,
@@ -44,20 +42,24 @@ constructor(private transactionService: TransactionService,
   ngOnInit() {
     this.route.params.subscribe(
       (params:Params) =>{
-        this.id = params['id']
+        this.transactionId = params['id']
       }
     )
     this.currencyService.currencies$.subscribe((data)=>{
       this.currency = data
     })
 
-      this.transactionService.getTransaction(this.id).subscribe(
+      this.transactionService.getTransaction(this.transactionId).subscribe(
         (data:Transaction) =>{
           this.transaction = data
-          console.log(this.transaction)
           this.date = this.transaction.date
+
+          this.fetchProducts(this.transactionId)
           
         })
+
+       
+        
   
         this.products$ = this.filter.valueChanges.pipe(
           startWith(''),
@@ -91,17 +93,18 @@ addProduct(){
   const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
   modalRef.componentInstance.mode = 'add'
   modalRef.componentInstance.transactionId = this.transactionId
+  console.log(this.transactionId)
 }
 
 
-fetchProducts() {
+fetchProducts(id: number) {
 this.totalSpent = 0
-this.transactionService.getProducts(this.transactionId)
+this.transactionService.getProducts(id)
 .subscribe({
   next: (data: any) => {
     // Get all products from the service and pass it to allProducts$ Behavioral subject
     console.log(data)
-    this.allProducts$.next(data.content);
+    this.allProducts$.next(data);
   },
   error: (error) => {
     this.isLoading = false;
