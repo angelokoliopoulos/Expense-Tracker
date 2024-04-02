@@ -10,7 +10,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Id</th>
+                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
                     <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
 
@@ -39,12 +39,12 @@
         </table>
         <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
     </div>
-    <!-- <ngb-pagination
+    <ngb-pagination
     [collectionSize]="collectionSize"
     [(page)]="currentPage"
     [pageSize]="itemsPerPage"
     (pageChange)="onPageChange($event)">
-</ngb-pagination> -->
+</ngb-pagination>
   </div>
 </div>
 

@@ -29,11 +29,9 @@ export class ProductService {
    )
   }
 
-  getProducts():Observable<any> {
-    return this.http.get(`${this.apiRoot}/products`)
-  }  
-  getPaginatedProducts(transactionId: number, size:number, page:number):Observable<any> {
-    return this.http.get(`${this.apiRoot}/products/${transactionId}?size=${size}&page=${page}`)
+  
+  getProducts( size:number, page:number):Observable<any> {
+    return this.http.get(`${this.apiRoot}/products?size=${size}&page=${page}`)
   }  
 
   deleteProduct(productId: number):Observable<any> {

@@ -1,14 +1,14 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
-import { NgbModal , NgbPaginationModule,NgbPagination} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ProductModalComponent } from '../modals/product-modal.component';
 import { ProductService } from './products.service';
 import { FormControl} from '@angular/forms';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { debounceTime,  map,  startWith, switchMap } from 'rxjs/operators';
 import {  DecimalPipe  } from '@angular/common';
 import {compare, search} from '../shared/utils'
 import { Currency, CurrencyService } from '../shared/currency.service';
@@ -31,7 +31,6 @@ export class ProductsComponent implements OnInit {
   itemsPerPage: number = 3;
   collectionSize: number;
   transactionId: number;
-  product: Product;
   filter = new FormControl('', { nonNullable: true });
 
   constructor(
@@ -94,11 +93,12 @@ export class ProductsComponent implements OnInit {
   
     
   fetchProducts() {
-    this.productService.getProducts()
+    this.productService.getProducts(this.itemsPerPage, this.currentPage)
     .subscribe({
       next: (data: any) => {
         // Get all products from the service and pass it to allProducts$ Behavioral subject
-        this.allProducts$.next(data);
+        this.allProducts$.next(data.content);
+        this.collectionSize = data.totalElements;
       
       },
       error: (error) => {
@@ -135,6 +135,7 @@ export class ProductsComponent implements OnInit {
 
   onPageChange(page: number){
     this.currentPage = page
+    this.fetchProducts();
   }
 
  
