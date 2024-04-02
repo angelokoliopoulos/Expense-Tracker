@@ -10,9 +10,9 @@ import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators';
 import {  DecimalPipe  } from '@angular/common';
-import {compare, search} from '../shared/utils'
+
 import { Currency, CurrencyService } from '../shared/currency.service';
-import { NgbService } from '../shared/ngb.service';
+
 
 @Component({
   selector: 'app-products',
@@ -22,8 +22,7 @@ import { NgbService } from '../shared/ngb.service';
   
 })
 export class ProductsComponent implements OnInit {
-  products$:Observable<Product[]>
-   allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
+  products:Product[]
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   isLoading: boolean = false;
   error = null;
@@ -32,12 +31,12 @@ export class ProductsComponent implements OnInit {
   itemsPerPage: number = 3;
   collectionSize: number;
   transactionId: number;
-  product: Product;
   filter = new FormControl('', { nonNullable: true });
 
   constructor(
     private route:ActivatedRoute,private modalService:NgbModal,
-    private productService:ProductService,private currencyService:CurrencyService) {}
+    public productService:ProductService,private currencyService:CurrencyService) {
+    }
 
   ngOnInit() {
     this.currencyService.currencies$.subscribe((data)=>{
@@ -46,7 +45,13 @@ export class ProductsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.transactionId = params['id'];
     });
+
+   
+    //1. Subscribe to the getProducts subscription.
+    this.productService.getProducts()
+    //2. Fetch products from the productSubject.
     this.fetchProducts();
+    //3. Re fetch the products on  subject trigger.
     this.productService.productsUpdated.subscribe({
       next: () => {
         this.fetchProducts()
@@ -55,17 +60,6 @@ export class ProductsComponent implements OnInit {
         console.log(err)
       }
     })
-
-
-   
-
-    // products$ getting their value from the search method which using the allProducts$ behavioral subject
-    this.products$ = this.filter.valueChanges.pipe(
-      startWith(''),
-      debounceTime(100),
-      switchMap((text) => search(text,this.allProducts$))
-    );
-    
   }
 
   onSort({ column, direction }: SortEvent) {
@@ -74,33 +68,16 @@ export class ProductsComponent implements OnInit {
         header.direction = '';
       }
     }
-    // Sorting products
-    if (direction !== '' || column !== '') {
-      this.products$ = this.products$.pipe(
-        map((products) =>
-          [...products].sort((a, b) => {
-            const res = compare(a[column] as string | number, b[column] as string | number);
-            return direction === 'asc' ? res : -res;
-          })
-        )
-      );
   }
-  }
- 
-    // Modal Methods
-    addProduct(){
-      const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
-      modalRef.componentInstance.mode = 'add'
-    }
-  
+
     
   fetchProducts() {
-    this.productService.getProducts()
+    this.productService.products$
     .subscribe({
       next: (data: any) => {
-        // Get all products from the service and pass it to allProducts$ Behavioral subject
-        this.allProducts$.next(data);
-      
+        console.log('Fetched products:', data);
+
+        this.products = data
       },
       error: (error) => {
         this.isLoading = false;
@@ -111,6 +88,13 @@ export class ProductsComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+
+   // Modal Methods
+   addProduct(){
+    const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
+    modalRef.componentInstance.mode = 'add'
   }
 
 
@@ -134,9 +118,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  onPageChange(page: number){
-    this.currentPage = page
-  }
+  
 
  
 

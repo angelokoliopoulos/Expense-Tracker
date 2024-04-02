@@ -4,7 +4,12 @@
       <div class="col">
         <div class="input-group float-end my-3">
             <form>
-                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                <input  
+                class="form-control" 
+                placeholder="Search" 
+                 type="text" 
+                 [(ngModel)]="productService.searchTerm"
+                 name ="searchTerm" />
                 </form>
         </div>
         <table class="table table-striped">
@@ -17,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (prod of products$ | async; track prod.name ) {
+                @for (prod of products ; track prod.name ) {
                     
                     <tr>
                         <td scope="row">{{ prod.id | number }}</td>
