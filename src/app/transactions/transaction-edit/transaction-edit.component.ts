@@ -13,6 +13,7 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive
 import { FormControl } from '@angular/forms';
 import { ProductService } from 'src/app/products/products.service';
 import { ProductModalComponent } from 'src/app/modals/product-modal.component';
+import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal.component';
 @Component({
   selector: 'app-transaction-edit',
   templateUrl: './transaction-edit.component.html',
@@ -90,7 +91,7 @@ if (direction !== '' || column !== '') {
 
 // Modal Methods
 addProduct(){
-  const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
+  const modalRef = this.modalService.open(TransactionProductsModalComponent,{size: 'xl'})
   modalRef.componentInstance.mode = 'add'
   modalRef.componentInstance.transactionId = this.transactionId
   console.log(this.transactionId)

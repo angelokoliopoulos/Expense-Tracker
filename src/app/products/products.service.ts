@@ -28,7 +28,9 @@ export class ProductService {
     })
    )
   }
-
+  getAllProducts( ):Observable<any> {
+    return this.http.get(`${this.apiRoot}/products/all`)
+  }  
   
   getProducts( size:number, page:number):Observable<any> {
     return this.http.get(`${this.apiRoot}/products?size=${size}&page=${page}`)

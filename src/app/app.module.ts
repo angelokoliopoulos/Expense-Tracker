@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { TransactionModalComponent } from './modals/transaction-modal.component';
@@ -14,15 +14,17 @@ import { TransactionEditComponent } from './transactions/transaction-edit/transa
 import { ProductModalComponent } from './modals/product-modal.component';
 import { NgbdSortableHeader } from './shared/sortable.directive';
 import { SettingsComponent } from './settings/settings.component';
+import { TransactionProductsModalComponent } from './modals/transactionProducts-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
     ProductsComponent,
-    ProductModalComponent,
     SettingsComponent,
     TransactionsComponent,
     TransactionsListComponent,
     TransactionModalComponent,
+    TransactionProductsModalComponent,
+    ProductModalComponent,
     TransactionEditComponent,
     NgbdSortableHeader
   ],
@@ -33,6 +35,7 @@ import { SettingsComponent } from './settings/settings.component';
     ReactiveFormsModule,
     NgbModule,
     NgxPaginationModule,
+    NgbTypeaheadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

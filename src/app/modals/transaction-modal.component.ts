@@ -15,6 +15,8 @@ transactionForm: FormGroup
 
 constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
   private transactionService: TransactionService){}
+
+  
   ngOnInit() {
     this.initializeForm();
 
