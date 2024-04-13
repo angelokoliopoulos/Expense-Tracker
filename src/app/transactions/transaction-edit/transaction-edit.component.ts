@@ -54,14 +54,9 @@ constructor(private transactionService: TransactionService,
         (data:Transaction) =>{
           this.transaction = data
           this.date = this.transaction.date
-
           this.fetchProducts(this.transactionId)
-          
         })
 
-       
-        
-  
         this.products$ = this.filter.valueChanges.pipe(
           startWith(''),
           debounceTime(300),
@@ -94,7 +89,7 @@ addProduct(){
   const modalRef = this.modalService.open(TransactionProductsModalComponent,{size: 'xl'})
   modalRef.componentInstance.mode = 'add'
   modalRef.componentInstance.transactionId = this.transactionId
-  console.log(this.transactionId)
+  console.log(`transactionId : ${this.transactionId}`)
 }
 
 

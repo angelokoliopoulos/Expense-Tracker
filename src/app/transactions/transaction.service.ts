@@ -45,6 +45,14 @@ export class TransactionService {
     return this.http.get(`${this.apiRoot}/transactions/${transactionId}/products`)
   }
 
+
+  addProductTotransaction(transactionId: number, productId: number, price: number){
+    return this.http.post(`${this.apiRoot}/transactions/${transactionId}/products`, { 
+      productId: productId, 
+      price: price
+  });    
+  }
+
   deleteProduct(transactionId:number, productId:number){
     return this.http.delete(`${this.apiRoot}/${transactionId}/${productId}`)
   }

@@ -24,8 +24,8 @@ if(this.mode == 'edit'){
     this.product = data
     console.log(this.product)
 
-    this.initializeEditForm()
   })
+  this.initializeEditForm()
 
 }else if(this.mode == 'add'){
   this.initializeForm()

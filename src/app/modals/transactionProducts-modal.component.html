@@ -8,13 +8,18 @@
 	<div class="card">
 		
 		<div class="card-body  mt-5">
-			<form [formGroup]="transactionProductForm"  class="m-0" >
+			<form [formGroup]="transactionProductForm"  class="m-0" (ngSubmit)="onSubmit()" >
 				<div class="col-auto mb-3">
                 <label for="typeahead-focus">Search for a Product:</label>
 				<input formControlName='product'  type="text"  class="form-control"
 				  id="product" placeholder="Choose a product"
 				[ngbTypeahead]="search"
+				(ngModelChange)="onProductSelected($event)"
                   >	
+				  <input type="hidden" formControlName="productId" [value]="selectedProduct?.id">
+
+				  <span class="help-block text-center" *ngIf="!selectedProduct?.id && transactionProductForm.get('product').touched" >No Such Product</span>
+
 				</div>
 				<div class="col-auto mb-3">
 				  <input formControlName='price'  type="text" class="form-control" id="price" placeholder="price">
@@ -25,6 +30,7 @@
 				</div>
 				<div class="col-auto d-flex justify-content-center" *ngIf="!transactionProductForm.valid && transactionProductForm.touched">
 					<span class="help-block text-center">Please fill the required fields</span>
+					
 				</div>
 			  </form>
 		
