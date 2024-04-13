@@ -122,9 +122,9 @@ modalRef.componentInstance.mode = 'edit'
 
 onDelete(prod: Product) {
 this.productService.setProduct(prod)
-  console.log('Deleting product with transactionId:', prod.transactionId, 'and productId:', prod.id);
+  console.log('Deleting product with transactionId:', this.transactionId, 'and productId:', prod.id);
 if (window.confirm('Delete Item?')) {
-  this.transactionService.deleteProduct(prod.transactionId, prod.id).subscribe({
+  this.transactionService.deleteProduct(this.transactionId, prod.id).subscribe({
     next:( )=>{
       console.log('product deleted')
     },

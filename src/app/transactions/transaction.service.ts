@@ -54,7 +54,7 @@ export class TransactionService {
   }
 
   deleteProduct(transactionId:number, productId:number){
-    return this.http.delete(`${this.apiRoot}/${transactionId}/${productId}`)
+    return this.http.delete(`${this.apiRoot}/transactions/${transactionId}/products/${productId}`)
   }
   
 

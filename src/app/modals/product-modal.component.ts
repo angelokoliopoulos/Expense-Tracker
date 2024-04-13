@@ -34,6 +34,7 @@ if(this.mode == 'edit'){
 }
 onSubmit(){
   const formValue = this.productForm.value;
+  console.log(this.mode)
   if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.productService
@@ -49,9 +50,8 @@ onSubmit(){
   else if(this.mode == 'edit'){
     const updatedProduct: Partial<Product> = {
       name: formValue.productName,
-      // description: formValue.productDescription,
-      price:formValue.productPrice ,
-      transactionId: this.product.transactionId
+      description: formValue.productDescription,
+  
     };
     this.productService.updateProduct(this.product.id, updatedProduct).subscribe({
       next: ()=>{
@@ -65,9 +65,6 @@ onSubmit(){
 
 
 }
-
-
-
 }
 
 
@@ -76,20 +73,17 @@ initializeEditForm() {
   this.productForm = this.fb.group({
     productName: [this.product.name, Validators.required],
     productDescription: [this.product.description ? this.product.description : ''],
-    productPrice:[this.product.price,Validators.required]
 });
 }
 initializeForm() {
   this.productForm = this.fb.group({
     productName: ['', Validators.required],
     productDescription: [''],
-    productPrice:['',Validators.required]
 });
 }
 
 
 handleSuccess() {
-  console.log('closed')
   this.activeModal.close()
   this.initializeForm(); 
 }
