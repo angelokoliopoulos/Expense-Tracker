@@ -42,7 +42,7 @@ export class TransactionService {
   }
 
   getProducts(transactionId: number){
-    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/products`)
+    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details`)
   }
 
 

@@ -1,14 +1,14 @@
 export class Product {
     public id:number
     public name:string;
+    public quantity: number;
     public description:string;
     public price: number
-    public transactionId: number;
     
-    constructor(name:string,description:string,price:number){
+    constructor(name:string,quantity:number,price:number){
         this.name = name
-        this.description = description
         this.price = price
+        this.quantity = quantity
      }
 
 }

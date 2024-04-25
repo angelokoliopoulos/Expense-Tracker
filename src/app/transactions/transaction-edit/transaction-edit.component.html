@@ -13,18 +13,18 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="price"  (sort)="onSort($event)" >Product Price</th>
-                    <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
-                    <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)"> Name</th>
+                    <th scope="col" sortable="price"  (sort)="onSort($event)" > Price</th>
+                    <th scope="col" sortable="quantity" (sort)="onSort($event)"> Quantity</th>
                 </tr>
             </thead>
             <tbody>
                 @for (prod of products$ | async; track prod.name ) {
                     
                     <tr>
-                        <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
-                        <td>{{ prod.description  }}</td>
+                        <td scope="row">{{ prod.price | number }} {{currency.symbol}}</td>
+                        <td>{{ prod.quantity  }}</td>
                         <td class="text-end"> 
                           <div class="d-flex flex-row justify-content-end gap-2">
                             <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">
