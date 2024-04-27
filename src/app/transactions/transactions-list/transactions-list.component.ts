@@ -36,18 +36,19 @@ export class TransactionsListComponent  implements OnInit{
       this.currency = data
     })
 
-    this.loadTransactions();
+    this.fetchTransactions();
     this.transactionService.transactionsUpdated
     .subscribe(()=>{
-      this.loadTransactions()
+      this.fetchTransactions()
     })
   }
 
 
-  loadTransactions(){
+  fetchTransactions(){
     this.transactionService.getTransactions().subscribe({
       next: (data:Transaction[])=>{
         this.transactions = data
+        console.log(data)
       },
       error:(err)=>{
         console.log(err)

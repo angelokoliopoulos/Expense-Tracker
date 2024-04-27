@@ -27,8 +27,8 @@ export class ProductsComponent implements OnInit {
   isLoading: boolean = false;
   error = null;
   currency : Currency
-  currentPage: number = 1;
-  itemsPerPage: number = 3;
+  currentPage: number = 0;
+  itemsPerPage: number = 8;
   collectionSize: number;
   transactionId: number;
   filter = new FormControl('', { nonNullable: true });
