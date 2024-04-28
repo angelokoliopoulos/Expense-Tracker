@@ -67,8 +67,6 @@ onSubmit(){
 }
 }
 
-
-
 initializeEditForm() {
   this.productForm = this.fb.group({
     productName: [this.product.name, Validators.required],

@@ -14,7 +14,6 @@ export class TransactionProductsModalComponent implements OnInit{
 
     products : Product []
     selectedProduct: Product
-    allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([])
     transactionProductForm: FormGroup;
     transactionId : number
     constructor(public activeModal: NgbActiveModal, 

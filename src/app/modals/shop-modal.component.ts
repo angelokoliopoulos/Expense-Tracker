@@ -45,8 +45,9 @@ onSubmit(){
       }
     })
   }else if(this.mode == 'edit'){
+    console.log(this.shop)
     const updatedShop :Partial<Shop> = {
-      name: formValue.name
+      name: formValue.shopName
     }
     this.shopService.updateShop(this.shop.id, updatedShop).subscribe({
       next: () => {

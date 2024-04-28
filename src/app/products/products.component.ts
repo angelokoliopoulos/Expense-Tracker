@@ -84,14 +84,7 @@ export class ProductsComponent implements OnInit {
       );
   }
   }
- 
-    // Modal Methods
-    addProduct(){
-      const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
-      modalRef.componentInstance.mode = 'add'
-    }
   
-    
   fetchProducts() {
     this.productService.getProducts(this.itemsPerPage, this.currentPage)
     .subscribe({
@@ -111,6 +104,15 @@ export class ProductsComponent implements OnInit {
       },
     });
   }
+
+ 
+    // Modal Methods
+    addProduct(){
+      const modalRef = this.modalService.open(ProductModalComponent,{size: 'xl'})
+      modalRef.componentInstance.mode = 'add'
+    }
+  
+    
 
 
   onEdit(prod:Product) {

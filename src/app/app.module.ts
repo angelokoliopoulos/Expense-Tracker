@@ -15,6 +15,8 @@ import { ProductModalComponent } from './modals/product-modal.component';
 import { NgbdSortableHeader } from './shared/sortable.directive';
 import { SettingsComponent } from './settings/settings.component';
 import { TransactionProductsModalComponent } from './modals/transactionProducts-modal.component';
+import { ShopsComponent } from './shops/shops.component';
+import { ShopModalComponent } from './modals/shop-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,10 +25,13 @@ import { TransactionProductsModalComponent } from './modals/transactionProducts-
     TransactionsComponent,
     TransactionsListComponent,
     TransactionModalComponent,
+    ShopModalComponent,
     TransactionProductsModalComponent,
     ProductModalComponent,
     TransactionEditComponent,
-    NgbdSortableHeader
+    ShopsComponent,
+    NgbdSortableHeader,
+
   ],
   imports: [
     BrowserModule,

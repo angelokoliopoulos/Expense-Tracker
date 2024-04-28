@@ -1,1 +1,51 @@
-<p>shops works!</p>
+<div class="container mt-3">
+  
+    <div class="row">
+      <div class="col">
+        <div class="input-group float-end my-3">
+            <!-- <form>
+                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                </form> -->
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Shop Id</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">Shop Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (shop of shops$ ; track shop.name ) {
+                    
+                    <tr>
+                        <td scope="row">{{ shop.id  }}</td>
+                        <td>{{shop.name}}</td>
+                        <td class="text-end"> 
+                          <div class="d-flex flex-row justify-content-end gap-2">
+                            <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(shop)">
+                                <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete(shop)">
+                                    <i class="bi bi-person-x"></i>
+                                </button> 
+                          </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button class="btn btn-primary"(click)="addShop()">Add Shop </button>
+    </div>
+    <ngb-pagination
+    [collectionSize]="collectionSize"
+    [(page)]="currentPage"
+    [pageSize]="itemsPerPage"
+    (pageChange)="onPageChange($event)">
+</ngb-pagination>
+  </div>
+</div>
+
+    
+    
+   
