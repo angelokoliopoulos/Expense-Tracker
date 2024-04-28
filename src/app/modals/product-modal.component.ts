@@ -33,8 +33,8 @@ if(this.mode == 'edit'){
 
 }
 onSubmit(){
+  console.log(`mode is ${this.mode}`)
   const formValue = this.productForm.value;
-  console.log(this.mode)
   if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.productService
