@@ -42,7 +42,7 @@ constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
 
 onSubmit(){
   const formValue = this.transactionForm.value;
-  const newTransaction = new Transaction(formValue.transactionDate, formValue.shop);
+  const newTransaction = new Transaction(formValue.transactionDate, formValue.shopId);
   this.transactionService.addTransaction(newTransaction).subscribe({
     next: ()=>{
     this.handleSuccess()
