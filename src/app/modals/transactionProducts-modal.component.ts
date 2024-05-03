@@ -55,8 +55,10 @@ export class TransactionProductsModalComponent implements OnInit{
        console.log(formValue)
         this.transactionService.addProductTotransaction(
              this.transactionId,
-             formValue.productId, 
-             formValue.price)
+             formValue.productId,
+             formValue.price,
+             formValue.quantity
+             )
              .subscribe({
             next:()=> this.handleSuccess(),
             error: (err)=> console.log(err)
@@ -88,6 +90,7 @@ initializeForm(){
     this.transactionProductForm = this.fb.group({
     product: ['', Validators.required],
     price: ['', Validators.required],
+    quantity: ['', Validators.required],
     productId: []   
     })
 }

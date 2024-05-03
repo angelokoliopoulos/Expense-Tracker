@@ -33,7 +33,6 @@ currentPage: number = 1;
 itemsPerPage: number = 10;
 collectionSize: number;
 totalSpent: number;
-
 product: Product;
 filter = new FormControl('', { nonNullable: true });
 constructor(private transactionService: TransactionService,
@@ -55,6 +54,7 @@ constructor(private transactionService: TransactionService,
           this.transaction = data
           this.date = this.transaction.date
           this.fetchProducts(this.transactionId)
+          console.log(this.products$)
         })
 
         this.products$ = this.filter.valueChanges.pipe(
@@ -122,6 +122,7 @@ modalRef.componentInstance.mode = 'edit'
 
 onDelete(prod: Product) {
 this.productService.setProduct(prod)
+console.log(prod)
   console.log('Deleting product with transactionId:', this.transactionId, 'and productId:', prod.id);
 if (window.confirm('Delete Item?')) {
   this.transactionService.deleteProduct(this.transactionId, prod.id).subscribe({

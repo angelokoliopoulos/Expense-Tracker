@@ -10,9 +10,9 @@
 		<div class="card-body  mt-5">
 			<form [formGroup]="transactionProductForm"  class="m-0" (ngSubmit)="onSubmit()" >
 				<div class="col-auto mb-3">
-                <label for="typeahead-focus">Search for a Product:</label>
+                <label for="product">Search for a Product:</label>
 				<input formControlName='product'  type="text"  class="form-control"
-				  id="product" placeholder="Choose a product"
+				  id="product" placeholder="Choose a Product"
 				[ngbTypeahead]="search"
 				(ngModelChange)="onProductSelected($event)"
                   >	
@@ -20,9 +20,13 @@
 				  <span class="help-block text-center" *ngIf="!selectedProduct?.id && transactionProductForm.get('product').touched" >No Such Product</span>
 				</div>
 				<div class="col-auto mb-3">
-				  <input formControlName='price'  type="text" class="form-control" id="price" placeholder="price">
+				  <input formControlName='price'  type="text" class="form-control" id="price" placeholder="Price">
 				  <span class="help-block text-center" *ngIf="!transactionProductForm.get('price').valid && transactionProductForm.get('price').touched" >Required field</span>
 				</div>
+				<div class="col-auto mb-3">
+					<input formControlName='quantity'  type="text" class="form-control" id="quantity" placeholder="Quantity">
+					<span class="help-block text-center" *ngIf="!transactionProductForm.get('quantity').valid && transactionProductForm.get('quantity').touched" >Required field</span>
+				  </div>
 				<div class="col-auto d-flex justify-content-center">
 				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionProductForm.valid">Add</button>
 				</div>
