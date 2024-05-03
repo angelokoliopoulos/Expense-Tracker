@@ -9,6 +9,8 @@ import { HttpClient } from '@angular/common/http';
 export class TransactionService {
   totalSpentSubject = new Subject<number>()
   transactionsUpdated = new Subject<void>()
+  transactionUpdated = new Subject<void>()
+
   apiRoot = "http://localhost:8080"
 
   constructor(private http: HttpClient) { }
@@ -54,8 +56,14 @@ export class TransactionService {
   });    
   }
 
-  deleteProduct(transactionId:number, productId:number){
-    return this.http.delete(`${this.apiRoot}/transactions/${transactionId}/product/${productId}`)
+  deleteProduct(transactionId:number, productName:string){
+    return this.http.delete(`${this.apiRoot}/transactions/${transactionId}/product/${productName}`).pipe(
+      tap( ()=> this.transactionUpdated.next()),
+      catchError(error => {
+        console.error("Error on removing product from transaction", error)
+        throw error
+      })
+    )
   }
   
 

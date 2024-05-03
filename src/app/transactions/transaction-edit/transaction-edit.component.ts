@@ -12,7 +12,6 @@ import { Product } from 'src/app/products/product.model';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
 import { FormControl } from '@angular/forms';
 import { ProductService } from 'src/app/products/products.service';
-import { ProductModalComponent } from 'src/app/modals/product-modal.component';
 import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal.component';
 @Component({
   selector: 'app-transaction-edit',
@@ -54,7 +53,14 @@ constructor(private transactionService: TransactionService,
           this.transaction = data
           this.date = this.transaction.date
           this.fetchProducts(this.transactionId)
-          console.log(this.products$)
+        })
+        this.transactionService.transactionUpdated.subscribe({
+          next: () =>{
+            this.fetchProducts(this.transactionId)
+          },
+          error: (err) =>{
+            console.log(err)
+          }
         })
 
         this.products$ = this.filter.valueChanges.pipe(
@@ -89,7 +95,6 @@ addProduct(){
   const modalRef = this.modalService.open(TransactionProductsModalComponent,{size: 'xl'})
   modalRef.componentInstance.mode = 'add'
   modalRef.componentInstance.transactionId = this.transactionId
-  console.log(`transactionId : ${this.transactionId}`)
 }
 
 
@@ -114,18 +119,13 @@ this.transactionService.getProducts(id)
 }
 
 
-onEdit(prod:Product) {
-this.productService.setProduct(prod)
-const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
-modalRef.componentInstance.mode = 'edit'
-}
 
 onDelete(prod: Product) {
 this.productService.setProduct(prod)
 console.log(prod)
-  console.log('Deleting product with transactionId:', this.transactionId, 'and productId:', prod.id);
+  console.log('Deleting product with transactionId:', this.transactionId, 'and product name:', prod.name);
 if (window.confirm('Delete Item?')) {
-  this.transactionService.deleteProduct(this.transactionId, prod.id).subscribe({
+  this.transactionService.deleteProduct(this.transactionId, prod.name).subscribe({
     next:( )=>{
       console.log('product deleted')
     },
