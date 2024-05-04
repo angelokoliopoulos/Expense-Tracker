@@ -42,7 +42,7 @@ constructor(public activeModal:NgbActiveModal,private fb:FormBuilder,
 
 onSubmit(){
   const formValue = this.transactionForm.value;
-  const newTransaction = new Transaction(formValue.transactionDate, formValue.shopId);
+  const newTransaction = new Transaction(formValue.transactionDate, formValue.shopName);
   console.log(newTransaction)
   this.transactionService.addTransaction(newTransaction).subscribe({
     next: ()=>{
@@ -74,7 +74,7 @@ initializeForm() {
 
   this.transactionForm = this.fb.group({
     transactionDate: [today, Validators.required],
-    shop: ['', Validators.required],
+    shopName: ['', Validators.required],
     shopId: ['',]
   });
 }

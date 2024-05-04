@@ -66,11 +66,14 @@ export class TransactionsListComponent  implements OnInit{
   }
   
   onDelete(id:number){
-    this.transactionService.deleteTransaction(id).subscribe({
-      next: () => {
-        console.log('item deleted')
-      }
-    })
+    if(window.confirm("Delete transaction?")){
+      this.transactionService.deleteTransaction(id).subscribe({
+        next: () => {
+          console.log('item deleted')
+        },
+        error:(err)=> console.log(err)
+      })
+    }
   }
 
  

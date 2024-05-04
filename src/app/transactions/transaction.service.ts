@@ -49,11 +49,13 @@ export class TransactionService {
 
 
   addProductTotransaction(transactionId: number, productId: number, price: number, quantity: number){
-    return this.http.post(`${this.apiRoot}/transactions/${transactionId}/product`, { 
-      productId, 
-      price,
-      quantity
-  });    
+    return this.http.post(`${this.apiRoot}/transactions/${transactionId}/product`, { productId, price,quantity}).pipe(
+      tap(() => this.transactionUpdated.next()),
+      catchError(err => {
+        console.error("Error adding product to transaction")
+        throw err
+      })
+    )    
   }
 
   deleteProduct(transactionId:number, productName:string){

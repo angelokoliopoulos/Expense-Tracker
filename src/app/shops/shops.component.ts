@@ -39,6 +39,7 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
       next: (data:any) => {
         this.shops$ = data.content
         this.collectionSize = data.totalElements;
+        console.log(data.content)
       },
       error: (err)=>{
         console.error(err.message);

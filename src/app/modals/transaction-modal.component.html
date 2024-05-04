@@ -15,13 +15,13 @@
 				</div>
 				<div class="col-auto mb-3">
 					<label for="typeahead-focus">Search for a Shop:</label>
-					<input formControlName='shop'  type="text"  class="form-control"
+					<input formControlName='shopName'  type="text"  class="form-control"
 					  id="shop" placeholder="Choose a shop"
 					[ngbTypeahead]="search"
 					(ngModelChange)="onShopSelected($event)"
 					  >	
 					  <input type="hidden" formControlName="shopId" [value]="selectedShop?.id">
-					  <span class="help-block text-center" *ngIf="!selectedShop?.id && transactionForm.get('shopId').touched" >No Such Product</span>
+					  <span class="help-block text-center" *ngIf="!selectedShop?.id && transactionForm.get('shopId').touched" >No Such Shop</span>
 					</div>
 				<div class="col-auto d-flex justify-content-center">
 				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionForm.valid">Add Transaction</button>

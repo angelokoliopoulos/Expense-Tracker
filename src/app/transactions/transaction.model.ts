@@ -2,11 +2,10 @@
 export class Transaction {
     public id: number;
     public date: string;
-    public shopId: number;
     public shopName: string
-    constructor(date: string, shopId: number) {
+    constructor(date: string, shopName: string  ) {
       this.date = date;
-      this.shopId = shopId
+      this.shopName = shopName
     }
 
     
