@@ -74,7 +74,16 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
 
 
   onDelete(shop: Shop){
-
+    if(window.confirm("Delete shop?")){
+      this.shopService.deleteShop(shop.id).subscribe({
+        next: () => {
+          console.log("Shop deleted")
+        },
+        error: (err) =>{
+          console.log(err)
+        }
+      })
+    }
   }
 
 

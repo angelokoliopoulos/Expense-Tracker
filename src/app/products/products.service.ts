@@ -33,7 +33,7 @@ export class ProductService {
   }  
   
   getProducts( size:number, page:number):Observable<any> {
-    return this.http.get(`${this.apiRoot}/products?size=${size}&page=${page}`)
+    return this.http.get(`${this.apiRoot}/products?size=${size}&page=${page -1}`)
   }  
 
   deleteProduct(productId: number):Observable<any> {

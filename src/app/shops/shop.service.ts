@@ -47,4 +47,14 @@ constructor(private http: HttpClient){}
             })
         )
     }
+
+    deleteShop(shopId: number): Observable<any>{
+        return this.http.delete(`${this.apiRoot}/shops/${shopId}`).pipe(
+            tap(() => this.shopsUpdated.next()),
+            catchError( err =>{
+                console.log("Error deletering Shop", err)
+                throw err
+            })
+        )
+    }
 }
