@@ -11,12 +11,11 @@ import { ProductService } from 'src/app/products/products.service';
 @Component({
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
-  styles: `
-  tr{
+  styles: 
+  `tr{
     transition: transform 0.1 ease; 
   }
   tr:hover{
-    margin-top:0.3rem;
     transform: scaleY(1.1);
   }`
 })

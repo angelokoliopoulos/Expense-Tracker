@@ -7,7 +7,10 @@
                 <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
                 </form>
         </div>
-        <table class="table table-striped">
+        <div *ngIf="isLoading" style="text-align: center!important;">
+            <app-loading-spinner  ></app-loading-spinner>
+        </div>
+        <table class="table table-striped" *ngIf="!isLoading">
             <thead>
                 <tr>
                     <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>

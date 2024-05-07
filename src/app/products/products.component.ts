@@ -30,20 +30,18 @@ export class ProductsComponent implements OnInit {
   currentPage: number = 0;
   itemsPerPage: number = 8;
   collectionSize: number;
-  transactionId: number;
   filter = new FormControl('', { nonNullable: true });
 
   constructor(
-    private route:ActivatedRoute,private modalService:NgbModal,
-    private productService:ProductService,private currencyService:CurrencyService ) {}
+   private modalService:NgbModal,
+    private productService:ProductService,
+    private currencyService:CurrencyService) {}
 
   ngOnInit() {
     this.currencyService.currencies$.subscribe((data)=>{
       this.currency = data
     })
-    this.route.params.subscribe((params: Params) => {
-      this.transactionId = params['id'];
-    });
+   
     this.fetchProducts();
     this.productService.productsUpdated.subscribe({
       next: ()=>{
@@ -86,12 +84,14 @@ export class ProductsComponent implements OnInit {
   }
   
   fetchProducts() {
+    this.isLoading = true
     this.productService.getProducts(this.itemsPerPage, this.currentPage)
     .subscribe({
       next: (data: any) => {
         // Get all products from the service and pass it to allProducts$ Behavioral subject
         this.allProducts$.next(data.content);
         this.collectionSize = data.totalElements;
+        this.isLoading = false
       
       },
       error: (error) => {
@@ -112,8 +112,7 @@ export class ProductsComponent implements OnInit {
       modalRef.componentInstance.mode = 'add'
     }
   
-    
-
+  
 
   onEdit(prod:Product) {
     this.productService.setProduct(prod)

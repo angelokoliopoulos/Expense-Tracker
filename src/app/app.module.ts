@@ -17,6 +17,7 @@ import { SettingsComponent } from './settings/settings.component';
 import { TransactionProductsModalComponent } from './modals/transactionProducts-modal.component';
 import { ShopsComponent } from './shops/shops.component';
 import { ShopModalComponent } from './modals/shop-modal.component';
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,7 @@ import { ShopModalComponent } from './modals/shop-modal.component';
     TransactionEditComponent,
     ShopsComponent,
     NgbdSortableHeader,
+    LoadingSpinnerComponent
 
   ],
   imports: [
