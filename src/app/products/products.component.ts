@@ -2,7 +2,6 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
-import { ActivatedRoute, Params } from '@angular/router';
 import { ProductModalComponent } from '../modals/product-modal.component';
 import { ProductService } from './products.service';
 import { FormControl} from '@angular/forms';
