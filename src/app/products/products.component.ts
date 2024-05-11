@@ -134,7 +134,6 @@ export class ProductsComponent implements OnInit {
   }
 
   onPageChange(page: number){
-    console.log(page)
     this.currentPage = page 
     this.fetchProducts();
   }

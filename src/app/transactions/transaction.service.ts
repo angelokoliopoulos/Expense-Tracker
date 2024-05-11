@@ -43,8 +43,14 @@ export class TransactionService {
     }))
   }
 
-  getProducts(transactionId: number){
-    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details`)
+
+
+  getAllProducts(transactionId: number){
+    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details/all`)
+  }
+
+  getProducts(transactionId: number, size:number, page:number){
+    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details?size=${size}&page=${page -1}`)
   }
 
 

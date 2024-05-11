@@ -28,8 +28,8 @@ private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
 isLoading: boolean = false;
 error = null;
 currency : Currency
-currentPage: number = 1;
-itemsPerPage: number = 10;
+currentPage: number = 0;
+itemsPerPage: number = 8;
 collectionSize: number;
 totalSpent: number;
 product: Product;
@@ -100,12 +100,13 @@ addProduct(){
 
 fetchProducts(id: number) {
 this.totalSpent = 0
-this.transactionService.getProducts(id)
+this.transactionService.getProducts(id,this.itemsPerPage, this.currentPage)
 .subscribe({
   next: (data: any) => {
     // Get all products from the service and pass it to allProducts$ Behavioral subject
-    console.log(data)
-    this.allProducts$.next(data);
+    this.allProducts$.next(data.content);
+    this.collectionSize = data.totalElements;
+
   },
   error: (error) => {
     this.isLoading = false;
@@ -131,8 +132,12 @@ if (window.confirm('Delete Item?')) {
     },
     error:(err)=> console.log(err)
   })
-    
 }
+}
+
+onPageChange(page: number){
+  this.currentPage = page;
+  this.fetchProducts(this.transactionId)
 }
 
 
