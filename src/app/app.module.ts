@@ -18,6 +18,11 @@ import { TransactionProductsModalComponent } from './modals/transactionProducts-
 import { ShopsComponent } from './shops/shops.component';
 import { ShopModalComponent } from './modals/shop-modal.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { BaseChartDirective } from 'ng2-charts';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { TransactionChartComponent } from './transaction-chart/transaction-chart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,8 +36,10 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     ProductModalComponent,
     TransactionEditComponent,
     ShopsComponent,
+    AnalyticsComponent,
     NgbdSortableHeader,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    TransactionChartComponent,
 
   ],
   imports: [
@@ -42,9 +49,10 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
     ReactiveFormsModule,
     NgbModule,
     NgxPaginationModule,
-    NgbTypeaheadModule
+    NgbTypeaheadModule,
+    BaseChartDirective
   ],
-  providers: [],
+  providers: [provideCharts(withDefaultRegisterables())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

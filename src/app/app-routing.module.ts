@@ -7,6 +7,7 @@ import { TransactionsListComponent } from './transactions/transactions-list/tran
 import { TransactionEditComponent } from './transactions/transaction-edit/transaction-edit.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ShopsComponent } from './shops/shops.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   ]},
   {path:'products',component:ProductsComponent},
   {path: "shops", component: ShopsComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'settings', component: SettingsComponent},
+  {path: 'analytics', component: AnalyticsComponent}
 ];
 
 @NgModule({
