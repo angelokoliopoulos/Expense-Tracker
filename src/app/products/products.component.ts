@@ -117,10 +117,10 @@ export class ProductsComponent implements OnInit {
     this.productService.setProduct(prod)
     const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
     modalRef.componentInstance.mode = 'edit'
+    // modalRef.componentInstance.product = prod
   }
 
   onDelete(prod: Product) {
-    this.productService.setProduct(prod)
       console.log('Deleting product with  productId:', prod.id);
     if (window.confirm('Delete Item?')) {
       this.productService.deleteProduct(prod.id).subscribe({

@@ -122,7 +122,6 @@ this.transactionService.getProducts(id,this.itemsPerPage, this.currentPage)
 
 
 onDelete(prod: Product) {
-this.productService.setProduct(prod)
 console.log(prod)
   console.log('Deleting product with transactionId:', this.transactionId, 'and product name:', prod.name);
 if (window.confirm('Delete Item?')) {
