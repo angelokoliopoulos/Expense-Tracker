@@ -8,7 +8,7 @@
                         <label  class="labels">Select Currency:</label>
                         <select class="form-select" name="currency" formControlName="selectedCurrency" >
                             @for(cur of currencies; track cur.name){
-                                <option  [ngValue]="cur" [selected]="currencies">{{cur.name}}</option>
+                                <option  [ngValue]="cur" [selected]="currencies[0].name">{{cur.name}}</option>
                             }
                         </select>
                     </div>

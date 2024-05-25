@@ -25,26 +25,6 @@ export class TransactionChartComponent {
 
   constructor(private analyticsService: AnalyticsService) {}
 
-  // ngOnInit(): void {
-  //   this.transactionService.getTransactions().subscribe({
-  //     next: (data) => {
-  //       this.transactions = data;
-  //       const monthlySpending = this.calculateMonthlySpending(this.transactions);
-  //       this.barChartLabels = Object.keys(monthlySpending);
-  //       this.barChartData = {
-  //         labels: this.barChartLabels,
-  //         datasets: [
-  //           { 
-  //             data: Object.values(monthlySpending),
-  //             label: 'Money Spent',
-  //             backgroundColor: 'rgba(75, 192, 192, 0.2)',
-  //             borderColor: 'rgba(75, 192, 192, 1)',
-  //             borderWidth: 1
-  //           }
-  //         ]
-  //       };
-  //     }
-  //   });
 
   ngOnInit(){
     this.analyticsService.getTotalSpent('2024-05-01','2024-05-03').subscribe({

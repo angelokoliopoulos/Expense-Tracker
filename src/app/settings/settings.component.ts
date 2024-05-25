@@ -20,7 +20,7 @@ constructor(private fb: FormBuilder,private currencyService:CurrencyService){}
 
   initializeForm(){
     this.settingsForm = this.fb.group({
-      selectedCurrency:['']
+      selectedCurrency:[]
     })
   }
 

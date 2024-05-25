@@ -1,1 +1,20 @@
-<app-transaction-chart></app-transaction-chart>
+<div class="container container-fluid">
+    <div class="row">
+        <div class="col">
+            <app-transaction-chart ></app-transaction-chart>
+            <div class="row mb-3">
+                <form [formGroup]="chartForm">
+                <div class="col">
+                    <select class="form-select" formControlName="chartMode">
+                        @for(option of chartOptions; track option){
+                            <option  [ngValue]="option" >{{option}}</option>
+                        }
+                    </select>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
