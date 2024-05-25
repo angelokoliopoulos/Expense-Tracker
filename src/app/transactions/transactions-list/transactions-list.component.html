@@ -7,12 +7,7 @@
                 <tr>
                     <th scope="col"  >Transaction Date</th>
                     <th scope="col"  >Shop</th>
-                    <!-- <th scope="col"  >Total Spent</th> -->
-                    <!-- <th scope="col">
-                        <form>
-                        <input id="table-filtering-search" class="form-control" type="text" [formControl]="filter" />
-                        </form>
-                    </th> -->
+                
                 </tr>
             </thead>
             <tbody>
@@ -21,7 +16,6 @@
                     <tr>
                         <td scope="row">{{ trans.date  }}</td>
                         <td>{{trans.shopName}}</td>
-                        <!-- <td>{{ totalSpent[trans.id]}} {{currency.symbol}}</td> -->
                         <td class="text-end"> 
                           <div class="d-flex flex-row justify-content-end gap-2">
                             <button type="submit" class="btn btn-warning btn-sm" (click)="navigateToTransactionItem(trans.id)">

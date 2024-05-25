@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
-import { TransactionService } from '../transactions/transaction.service';
 import { Transaction } from '../transactions/transaction.model';
 import { AnalyticsService } from '../analytics/analytics.service';
 
@@ -9,7 +8,7 @@ import { AnalyticsService } from '../analytics/analytics.service';
   templateUrl: './transaction-chart.component.html',
 })
 export class TransactionChartComponent {
-
+  chartMode : String
   transactions : Transaction[];
   public barChartData: ChartData<'bar'>;
   public barChartOptions: ChartOptions = {
@@ -27,6 +26,8 @@ export class TransactionChartComponent {
 
 
   ngOnInit(){
+    this.analyticsService.currentChartMode$.subscribe((data)=> this.chartMode = data)
+    
     this.analyticsService.getTotalSpent('2024-05-01','2024-05-03').subscribe({
       next: (data) =>{
         console.log(data)

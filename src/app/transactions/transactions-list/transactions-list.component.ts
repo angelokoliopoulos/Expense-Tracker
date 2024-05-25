@@ -26,7 +26,8 @@ export class TransactionsListComponent  implements OnInit{
   totalSpent : {[key:string] : number} = {}
   id:string 
 
-  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,private currencyService:CurrencyService,private productService: ProductService){}
+  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,
+    private currencyService:CurrencyService){}
 
 
 

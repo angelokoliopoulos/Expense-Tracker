@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AnalyticsService } from './analytics.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChartDateModalComponent } from '../modals/chart-date-modal/chart-date-modal.component';
 
 @Component({
   selector: 'app-analytics',
@@ -8,17 +10,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   })
 export class AnalyticsComponent implements OnInit {
 chartOptions :String [];
-chartForm : FormGroup;
-  constructor(private fb: FormBuilder,private analyticsService: AnalyticsService){}
+  constructor(private modalService: NgbModal,private analyticsService: AnalyticsService){}
   ngOnInit(): void {
     this.chartOptions = this.analyticsService.getChartOptions();
-    this.initializeForm()
 
 
-    this.chartForm.get('chartMode').valueChanges.subscribe(value => {
-      console.log('Selected option:', value);
-      // Perform any additional logic based on the selected option
-    });
+    
+  }
+
+
+  open(){
+    this.modalService.open(ChartDateModalComponent,{size: 'xl', animation:true})
   }
   
 
@@ -26,10 +28,5 @@ chartForm : FormGroup;
 
 
 
-  initializeForm(){
-    this.chartForm = this.fb.group({
-    chartMode: [this.chartOptions[0]]
-    })
-  }
 
 }

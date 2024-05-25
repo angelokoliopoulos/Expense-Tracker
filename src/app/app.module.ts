@@ -22,6 +22,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { TransactionChartComponent } from './transaction-chart/transaction-chart.component';
+import { ChartDateModalComponent } from './modals/chart-date-modal/chart-date-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { TransactionChartComponent } from './transaction-chart/transaction-chart
     TransactionsComponent,
     TransactionsListComponent,
     TransactionModalComponent,
+    ChartDateModalComponent,
     ShopModalComponent,
     TransactionProductsModalComponent,
     ProductModalComponent,
