@@ -1,10 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { Shop } from './shop.model';
 import { ShopService } from './shop.service';
-import { ShopModalComponent } from '../modals/shop-modal.component';
+import { ShopModalComponent } from '../modals/shop-modal/shop-modal.component';
 
 @Component({
   selector: 'app-shops',

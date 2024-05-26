@@ -2,7 +2,7 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
-import { ProductModalComponent } from '../modals/product-modal.component';
+import { ProductModalComponent } from '../modals/product-modal/product-modal.component';
 import { ProductService } from './products.service';
 import { FormControl} from '@angular/forms';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';

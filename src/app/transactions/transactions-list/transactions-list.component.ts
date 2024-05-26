@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TransactionModalComponent } from '../../modals/transaction-modal.component';
+import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
 import { Router } from '@angular/router';

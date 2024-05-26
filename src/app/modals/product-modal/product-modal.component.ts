@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { Product } from '../products/product.model';
-import { ProductService } from '../products/products.service';
+import { Product } from '../../products/product.model';
+import { ProductService } from '../../products/products.service';
 
 
 @Component({

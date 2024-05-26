@@ -1,10 +1,10 @@
 import { Component, OnInit, } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { NgbActiveModal, NgbTypeaheadSelectItemEvent, } from "@ng-bootstrap/ng-bootstrap";
-import { ProductService } from "../products/products.service";
-import { BehaviorSubject, Observable, OperatorFunction, Subject, debounceTime, distinctUntilChanged, filter, map, merge } from "rxjs";
-import { Product } from "../products/product.model";
-import { TransactionService } from "../transactions/transaction.service";
+import { NgbActiveModal, } from "@ng-bootstrap/ng-bootstrap";
+import { ProductService } from "../../products/products.service";
+import {  Observable, OperatorFunction, Subject, debounceTime, distinctUntilChanged, map } from "rxjs";
+import { Product } from "../../products/product.model";
+import { TransactionService } from "../../transactions/transaction.service";
 
 @Component({
     selector: 'app-transactionProducts-modal',

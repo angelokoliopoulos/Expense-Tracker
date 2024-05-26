@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Transaction } from '../transactions/transaction.model';
+import { Transaction } from '../../transactions/transaction.model';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import { TransactionService } from '../transactions/transaction.service';
+import { TransactionService } from '../../transactions/transaction.service';
 import { OperatorFunction, Observable, debounceTime, distinctUntilChanged, map } from 'rxjs';
-import { Shop } from '../shops/shop.model';
-import { ShopService } from '../shops/shop.service';
+import { Shop } from '../../shops/shop.model';
+import { ShopService } from '../../shops/shop.service';
 
 
 @Component({

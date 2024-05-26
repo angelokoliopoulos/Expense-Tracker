@@ -3,16 +3,16 @@ import { TransactionService } from '../transaction.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Transaction } from '../transaction.model';
 import {  DecimalPipe  } from '@angular/common';
-import { NgbModal , NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { debounceTime,  map,  startWith, switchMap, take } from 'rxjs/operators';
+import { debounceTime,  map,  startWith, switchMap } from 'rxjs/operators';
 import {compare, search} from '../../shared/utils'
 import { Currency, CurrencyService } from '../../shared/currency.service';
 import { Product } from 'src/app/products/product.model';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
 import { FormControl } from '@angular/forms';
 import { ProductService } from 'src/app/products/products.service';
-import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal.component';
+import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal/transactionProducts-modal.component';
 @Component({
   selector: 'app-transaction-edit',
   templateUrl: './transaction-edit.component.html',
