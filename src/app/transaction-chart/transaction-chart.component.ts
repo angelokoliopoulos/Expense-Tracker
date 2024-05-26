@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Transaction } from '../transactions/transaction.model';
 import { AnalyticsService } from '../analytics/analytics.service';
+import { TransactionChartService } from './transaction-chart.service';
 
 @Component({
   selector: 'app-transaction-chart',
@@ -22,11 +23,10 @@ export class TransactionChartComponent {
   };
   public barChartLabels: string[] = [];
 
-  constructor(private analyticsService: AnalyticsService) {}
+  constructor(private analyticsService: AnalyticsService, private chartService : TransactionChartService) {}
 
 
   ngOnInit(){
-    this.analyticsService.currentChartMode$.subscribe((data)=> this.chartMode = data)
     
     this.analyticsService.getTotalSpent('2024-05-01','2024-05-03').subscribe({
       next: (data) =>{
@@ -52,6 +52,9 @@ export class TransactionChartComponent {
               };
       }
     })
+
+
+    
   }
 
     

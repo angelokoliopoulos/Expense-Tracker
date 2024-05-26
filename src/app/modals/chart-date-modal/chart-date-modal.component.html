@@ -7,7 +7,7 @@
   <div class="modal-body">
     <div class="card">
       <div class="card-body mt-5">
-        <form [formGroup]="dateForm" class="m-0">
+        <form [formGroup]="dateForm" class="m-0" (ngSubmit)="onSubmit()">
           <div class="mb-3">
             <label for="monthOrYearSelect" class="form-label">Select Month or Year</label>
             <select class="form-select" formControlName="month_or_year" id="monthOrYearSelect">

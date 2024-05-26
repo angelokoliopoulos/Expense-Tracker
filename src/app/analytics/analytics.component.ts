@@ -9,10 +9,8 @@ import { ChartDateModalComponent } from '../modals/chart-date-modal/chart-date-m
   templateUrl: './analytics.component.html',
   })
 export class AnalyticsComponent implements OnInit {
-chartOptions :String [];
   constructor(private modalService: NgbModal,private analyticsService: AnalyticsService){}
   ngOnInit(): void {
-    this.chartOptions = this.analyticsService.getChartOptions();
 
 
     

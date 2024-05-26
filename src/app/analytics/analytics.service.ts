@@ -6,24 +6,19 @@ import { BehaviorSubject, Observable } from "rxjs";
     providedIn:'root'
 })
 export class AnalyticsService {
-   private chartOptions : String[] = ["Weekly","Monthly","Year"];
-
-    private chartModeSubject = new BehaviorSubject<String>(this.chartOptions[0]);
-     currentChartMode$ = this.chartModeSubject.asObservable();
+  
     apiRoot = "http://localhost:8080"
 
     constructor(private http: HttpClient){}
 
-    setChartMode(mode: String){
-        this.chartModeSubject.next(mode);
-    }
-
-    getChartOptions(){
-        return this.chartOptions
-    }
-
+ 
     getTotalSpent(fromDate: String, toDate: String): Observable<any>{
-    return  this.http.get(`${this.apiRoot}/analytics/${fromDate}/${toDate}`)
+    return  this.http.get(`${this.apiRoot}/analytics/${fromDate}/to/${toDate}`)
+    }
+
+
+    getMonthlyTotalSpent(year: String){
+        return this.http.get(`${this.apiRoot}/analytics/totalSpent/${year}`)
     }
 
 
