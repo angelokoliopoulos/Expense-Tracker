@@ -36,6 +36,16 @@ export class ChartDateModalComponent implements OnInit {
 
   onSubmit(){
     console.log(this.dateForm.value)
+    if(this.dateForm.get('month_or_year').value === 'year'){
+      console.log(`Year is chosen`)
+      this.analyticsService.getMonthlyTotalSpent(this.dateForm.value.year).subscribe({
+        next: (data) =>{
+          this.chartService.setChartData(data)
+        }
+      })
+    }else if(this.dateForm.get('month_or_year').value === 'month'){
+      console.log(`month is chosen`)
+    }
   }
   
 

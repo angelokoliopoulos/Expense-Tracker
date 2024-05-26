@@ -54,6 +54,12 @@ export class TransactionChartComponent {
     })
 
 
+    this.chartService.chartOptions$.subscribe({
+      next: (data)=>{
+        console.log(data)
+        data.forEach(i => console.log(i))
+      }
+    })
     
   }
 
