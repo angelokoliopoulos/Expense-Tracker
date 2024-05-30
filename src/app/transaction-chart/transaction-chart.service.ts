@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,17 +7,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class TransactionChartService {
   private chartOptionsSubject: BehaviorSubject<any> = new BehaviorSubject<any>({});
   public chartOptions$: Observable<any> = this.chartOptionsSubject.asObservable();
+   chartOptionsUpdated : Subject<void> = new Subject<void>
 
-  private formDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  public formData$ : Observable<any> = this.formDataSubject.asObservable();
-
+ 
 
   setChartData(options: any) {
     this.chartOptionsSubject.next(options);
+    this.chartOptionsUpdated.next();
+
   }
 
 
-  setFormData(data: any){
-    this.formDataSubject.next(data)
-  }
 }
