@@ -5,15 +5,13 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class TransactionChartService {
-  private chartOptionsSubject: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  public chartOptions$: Observable<any> = this.chartOptionsSubject.asObservable();
-   chartOptionsUpdated : Subject<void> = new Subject<void>
+  private chartDataSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public chartDatas$: Observable<any> = this.chartDataSubject.asObservable();
 
  
 
   setChartData(options: any) {
-    this.chartOptionsSubject.next(options);
-    this.chartOptionsUpdated.next();
+    this.chartDataSubject.next(options);
 
   }
 

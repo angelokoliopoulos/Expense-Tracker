@@ -44,7 +44,6 @@ export class ChartDateModalComponent implements OnInit {
         }
       })
     }else if(this.dateForm.get('month_or_year').value === 'month'){
-      console.log(`month is chosen`)
     }
   }
   

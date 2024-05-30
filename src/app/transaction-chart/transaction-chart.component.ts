@@ -5,6 +5,11 @@ import { AnalyticsService } from '../analytics/analytics.service';
 import { TransactionChartService } from './transaction-chart.service';
 import { Subscription } from 'rxjs';
 
+
+type AnalyticsData = {
+  [key: number]: any[];
+};
+
 @Component({
   selector: 'app-transaction-chart',
   templateUrl: './transaction-chart.component.html',
@@ -31,7 +36,6 @@ export class TransactionChartComponent  implements OnInit{
   ngOnInit(){
     this.analyticsService.getTotalSpent('2024-05-01','2024-05-03').subscribe({
       next: (data) =>{
-        console.log(data)
         const accumulatedValues = data.reduce((acc, item) =>{
           acc.labels.push(`${item.shopName} ${item.transactionDate}`)
           acc.totals.push(item.totalSpent)
@@ -50,38 +54,49 @@ export class TransactionChartComponent  implements OnInit{
                     borderWidth: 1
                   }
                 ]
-              };
-      }
+              };      }
     })
     
 
-    this.subscriptions.add(
-      this.chartService.chartOptions$.subscribe({
-        next: (data) => {
-          console.log(data)
-        }
-      })
-    );
+    this.chartService.chartDatas$.subscribe((data)=>{
+      this.updateChartData(data)      
+    })
 
 
   }
 
-    
-  getChartOptions(){
-    this.chartService.chartOptions$.subscribe({
-      next: (data)=>{
-        console.log(data)
-      }
-    })
+  private updateChartData(data: any[]) {
+    if (data) {
+      const labels = data.map(item => item[0].trim()); 
+      const totals = data.map(item => item[1]);
+
+      this.barChartLabels = labels;
+      this.barChartData = {
+        labels: this.barChartLabels,
+        datasets: [
+          { 
+            data: totals,
+            label: 'Money Spent',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
+    }
   }
 
 
-  // ngOnDestroy() {
-  //   this.subscriptions.unsubscribe();
-  // }
+    
+  
+
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 
     
+
+
 
 }
-
-
