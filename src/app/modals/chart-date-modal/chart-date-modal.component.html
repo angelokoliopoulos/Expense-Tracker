@@ -9,7 +9,7 @@
       <div class="card-body mt-5">
         <form [formGroup]="dateForm" class="m-0" (ngSubmit)="onSubmit()">
           <div class="mb-3">
-            <label for="monthOrYearSelect" class="form-label">Select Month or Year</label>
+            <label for="monthOrYearSelect" class="form-label">Filter Mode</label>
             <select class="form-select" formControlName="month_or_year" id="monthOrYearSelect">
               <option value="month" selected>Month</option>
               <option value="year">Year</option>
@@ -23,8 +23,8 @@
                 }
             </select>
           </div>
-          <div class="mb-3" *ngIf="dateForm.get('month_or_year').value === 'year'">
-            <label for="yearInput" class="form-label">Enter Year</label>
+          <div class="mb-3" >
+            <label for="yearInput" class="form-label">Select Year</label>
             <input type="number" class="form-control" formControlName="year" id="yearInput" min="1900" max="2100">
           </div>
           <div class="mb-3 d-flex justify-content-center">

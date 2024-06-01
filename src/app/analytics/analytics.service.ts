@@ -17,8 +17,12 @@ export class AnalyticsService {
     }
 
 
-    getMonthlyTotalSpent(year: String){
-        return this.http.get(`${this.apiRoot}/analytics/totalSpent/${year}`)
+    getYearTotalSpent(year: String){
+        return this.http.get(`${this.apiRoot}/analytics/totalSpent/year/${year}`)
+    }
+
+    getMonthTotalSpent(year:string , month: string){
+        return this.http.get(`${this.apiRoot}/analytics/totalSpent/year/${year}/month/${month}`)
     }
 
 

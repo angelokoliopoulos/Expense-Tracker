@@ -67,9 +67,8 @@ export class TransactionChartComponent  implements OnInit{
 
   private updateChartData(data: any[]) {
     if (data) {
-      const labels = data.map(item => item[0].trim()); 
+      const labels = data.map(item => item[0]); 
       const totals = data.map(item => item[1]);
-
       this.barChartLabels = labels;
       this.barChartData = {
         labels: this.barChartLabels,
