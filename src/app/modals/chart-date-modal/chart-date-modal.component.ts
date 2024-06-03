@@ -16,10 +16,7 @@ export class ChartDateModalComponent implements OnInit {
     private chartService: TransactionChartService){}
 
    ngOnInit() {
-       
     this.initializeForm()
-
-
    }
 
 
@@ -29,7 +26,7 @@ export class ChartDateModalComponent implements OnInit {
     this.dateForm = this.fb.group({
       month_or_year: ['month'],
       month: [this.months[0]],
-      year: [new Date().getFullYear()]
+      yearInput: [new Date().getFullYear()]
     });
   }
 
@@ -38,13 +35,13 @@ export class ChartDateModalComponent implements OnInit {
     console.log(this.dateForm.value)
     if(this.dateForm.get('month_or_year').value === 'year'){
       console.log(`Year is chosen`)
-      this.analyticsService.getYearTotalSpent(this.dateForm.value.year).subscribe({
+      this.analyticsService.getYearTotalSpent(this.dateForm.value.yearInput).subscribe({
         next: (data) =>{
           this.chartService.setChartData(data)
         }
       })
     }else if(this.dateForm.get('month_or_year').value === 'month'){
-      this.analyticsService.getMonthTotalSpent(this.dateForm.value.year, this.dateForm.value.month).subscribe({
+      this.analyticsService.getMonthTotalSpentWithShop(this.dateForm.value.yearInput, this.dateForm.value.month).subscribe({
         next:(data) => {
           this.chartService.setChartData(data)
         }

@@ -66,28 +66,42 @@ export class TransactionChartComponent  implements OnInit{
   }
 
   private updateChartData(data: any[]) {
-    if (data) {
-      const labels = data.map(item => item[0]); 
-      const totals = data.map(item => item[1]);
-      this.barChartLabels = labels;
-      this.barChartData = {
-        labels: this.barChartLabels,
-        datasets: [
-          { 
-            data: totals,
-            label: 'Money Spent',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-          }
-        ]
-      };
+    if (!data) {
+      return;
     }
-  }
-
-
-    
   
+    const accumulatedValues = data.reduce((acc, curr) => {
+      if (curr[1] !== null) { // Check if curr[1] is not null
+        if (data[0].length > 2) {
+          acc.labels.push(`${curr[0]} ${curr[1]}`);
+          acc.totals.push(curr[2]);
+        } else {
+          acc.labels.push(curr[0]);
+          acc.totals.push(curr[1]);
+        }
+      }
+      return acc;
+    }, { labels: [], totals: [] });
+  
+    console.log(accumulatedValues);
+  
+    this.barChartLabels = accumulatedValues.labels;
+    this.barChartData = {
+      labels: this.barChartLabels,
+      datasets: [
+        {
+          data: accumulatedValues.totals,
+          label: 'Money Spent',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }
+      ]
+    };
+  }
+  
+
+
 
 
   ngOnDestroy() {
