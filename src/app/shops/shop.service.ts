@@ -20,7 +20,7 @@ constructor(private http: HttpClient){}
     }
 
     getShops(itemsPerPage: number, page: number): Observable<any>{
-        return this.http.get(`${this.apiRoot}/shops?size=${itemsPerPage},page=${page}`)
+        return this.http.get(`${this.apiRoot}/shops?size=${itemsPerPage},page=${page -1}`)
     }
 
 

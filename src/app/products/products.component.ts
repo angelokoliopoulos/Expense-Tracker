@@ -20,16 +20,17 @@ import { Currency, CurrencyService } from '../shared/currency.service';
   
 })
 export class ProductsComponent implements OnInit {
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   products$:Observable<Product[]>
   private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   isLoading: boolean = false;
   error = null;
-  currency : Currency
   currentPage: number = 0;
   itemsPerPage: number = 8;
   collectionSize: number;
   filter = new FormControl('', { nonNullable: true });
+  currency : Currency
+
 
   constructor(
    private modalService:NgbModal,
@@ -91,7 +92,7 @@ export class ProductsComponent implements OnInit {
         this.allProducts$.next(data.content);
         this.collectionSize = data.totalElements;
         this.isLoading = false
-      
+
       },
       error: (error) => {
         this.isLoading = false;

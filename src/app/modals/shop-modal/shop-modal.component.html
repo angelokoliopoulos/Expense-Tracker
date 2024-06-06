@@ -1,6 +1,6 @@
 <div class="modal-header py-1 border-0">
-	<h4 class="modal-title" *ngIf="mode=='add'">Add Product</h4>
-	<h4 class="modal-title" *ngIf="mode=='edit'">Edit Product</h4>
+	<h4 class="modal-title" *ngIf="mode=='add'">Add Shop</h4>
+	<h4 class="modal-title" *ngIf="mode=='edit'">Edit Shop</h4>
 
 	<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -20,7 +20,7 @@
 					<button *ngIf="mode==='add'"  type="submit" class="btn btn-primary mb-3" [disabled]="!shopForm.valid">Submit</button>
 				  </div>
 				  <div *ngIf="!shopForm.valid && shopForm.touched" class="col-auto d-flex justify-content-center" >
-					<span  class="help-block text-center">Please fill the required fields</span>
+					<span  class="help-block text-center invalid-feedback">Please fill the required fields</span>
 				  </div>
 
 			  </form>

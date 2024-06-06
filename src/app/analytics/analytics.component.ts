@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AnalyticsService } from './analytics.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChartDateModalComponent } from '../modals/chart-date-modal/chart-date-modal.component';
 
@@ -9,7 +7,7 @@ import { ChartDateModalComponent } from '../modals/chart-date-modal/chart-date-m
   templateUrl: './analytics.component.html',
   })
 export class AnalyticsComponent implements OnInit {
-  constructor(private modalService: NgbModal,private analyticsService: AnalyticsService){}
+  constructor(private modalService: NgbModal){}
   ngOnInit(): void {
 
 

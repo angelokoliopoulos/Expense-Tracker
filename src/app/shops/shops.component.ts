@@ -4,17 +4,25 @@ import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Shop } from './shop.model';
 import { ShopService } from './shop.service';
 import { ShopModalComponent } from '../modals/shop-modal/shop-modal.component';
+import { BehaviorSubject, Observable, debounceTime, map, startWith, switchMap } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { search, compare } from '../shared/utils';
 
 @Component({
   selector: 'app-shops',
   templateUrl: './shops.component.html',
 })
 export class ShopsComponent  implements OnInit{
-shops$ : Shop[]
+@ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+shops$ : Observable<Shop[]>
+private allShops$ : BehaviorSubject<Shop[]> = new BehaviorSubject([]);
+isLoading: boolean = false;
+error = null;
 currentPage: number = 0;
 itemsPerPage: number = 8;
 collectionSize: number;
-@ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+filter = new FormControl('', { nonNullable: true });
+
 
 
 constructor(private shopService: ShopService,private modalService:NgbModal){}
@@ -30,27 +38,52 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
         console.log(err);
       }
     })
+
+    this.shops$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      debounceTime(100),
+      switchMap((text) => search(text,this.allShops$))
+    );
+
+
+    
   }
 
 
   getShops(){
     this.shopService.getShops(this.itemsPerPage, this.currentPage).subscribe({
       next: (data:any) => {
-        this.shops$ = data.content
+        this.allShops$.next(data.content); 
         this.collectionSize = data.totalElements;
+        this.isLoading = false
         console.log(data.content)
       },
-      error: (err)=>{
-        console.error(err.message);
-      },
+      error: (error)=>{
+        this.isLoading = false;
+        this.error = error.message;
+            },
 
     })
   }
 
-
-  onSort(e: SortEvent){
-
+  onSort({ column, direction }: SortEvent) {
+    for (const header of this.headers) {
+  if (header.sortable !== column) {
+    header.direction = '';
   }
+}
+// Sorting products
+if (direction !== '' || column !== '') {
+  this.shops$ = this.shops$.pipe(
+    map((shops) =>
+      [...shops].sort((a, b) => {
+        const res = compare(a[column] as string | number, b[column] as string | number);
+        return direction === 'asc' ? res : -res;
+      })
+    )
+  );
+}
+}
 
 
   onPageChange(page: number){
