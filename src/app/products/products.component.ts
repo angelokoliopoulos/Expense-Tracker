@@ -11,7 +11,7 @@ import { debounceTime,  map,  startWith, switchMap } from 'rxjs/operators';
 import {  DecimalPipe  } from '@angular/common';
 import {compare, search} from '../shared/utils'
 import { Currency, CurrencyService } from '../shared/currency.service';
-
+import { onSort } from '../shared/utils';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -64,23 +64,27 @@ export class ProductsComponent implements OnInit {
     
   }
 
-  onSort({ column, direction }: SortEvent) {
-        for (const header of this.headers) {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    }
-    // Sorting products
-    if (direction !== '' || column !== '') {
-      this.products$ = this.products$.pipe(
-        map((products) =>
-          [...products].sort((a, b) => {
-            const res = compare(a[column] as string | number, b[column] as string | number);
-            return direction === 'asc' ? res : -res;
-          })
-        )
-      );
-  }
+  // onSort({ column, direction }: SortEvent) {
+  //       for (const header of this.headers) {
+  //     if (header.sortable !== column) {
+  //       header.direction = '';
+  //     }
+  //   }
+  //   // Sorting products
+  //   if (direction !== '' || column !== '') {
+  //     this.products$ = this.products$.pipe(
+  //       map((products) =>
+  //         [...products].sort((a, b) => {
+  //           const res = compare(a[column] as string | number, b[column] as string | number);
+  //           return direction === 'asc' ? res : -res;
+  //         })
+  //       )
+  //     );
+  // }
+  // }
+
+  onSort(event:SortEvent){
+    this.products$ = onSort(event, this.headers, this.products$)
   }
   
   fetchProducts() {
