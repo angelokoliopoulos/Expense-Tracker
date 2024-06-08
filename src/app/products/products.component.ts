@@ -1,5 +1,4 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-
 import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import { Product } from './product.model';
 import { ProductModalComponent } from '../modals/product-modal/product-modal.component';
@@ -7,16 +6,12 @@ import { ProductService } from './products.service';
 import { FormControl} from '@angular/forms';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { debounceTime,  map,  startWith, switchMap } from 'rxjs/operators';
-import {  DecimalPipe  } from '@angular/common';
-import {compare, search} from '../shared/utils'
-import { Currency, CurrencyService } from '../shared/currency.service';
+import { debounceTime,   startWith, switchMap } from 'rxjs/operators';
+import { search} from '../shared/utils'
 import { onSort } from '../shared/utils';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  providers: [DecimalPipe],
-  
   
 })
 export class ProductsComponent implements OnInit {
@@ -29,25 +24,21 @@ export class ProductsComponent implements OnInit {
   itemsPerPage: number = 8;
   collectionSize: number;
   filter = new FormControl('', { nonNullable: true });
-  currency : Currency
 
 
   constructor(
    private modalService:NgbModal,
-    private productService:ProductService,
-    private currencyService:CurrencyService) {}
+    private productService:ProductService) {}
 
   ngOnInit() {
-    this.currencyService.currencies$.subscribe((data)=>{
-      this.currency = data
-    })
+    
    
     this.fetchProducts();
     this.productService.productsUpdated.subscribe({
-      next: ()=>{
+      next: () => {
         this.fetchProducts()
       },
-      error: (err)=>{
+      error: (err) => {
         console.log(err)
       }
     })
@@ -64,24 +55,6 @@ export class ProductsComponent implements OnInit {
     
   }
 
-  // onSort({ column, direction }: SortEvent) {
-  //       for (const header of this.headers) {
-  //     if (header.sortable !== column) {
-  //       header.direction = '';
-  //     }
-  //   }
-  //   // Sorting products
-  //   if (direction !== '' || column !== '') {
-  //     this.products$ = this.products$.pipe(
-  //       map((products) =>
-  //         [...products].sort((a, b) => {
-  //           const res = compare(a[column] as string | number, b[column] as string | number);
-  //           return direction === 'asc' ? res : -res;
-  //         })
-  //       )
-  //     );
-  // }
-  // }
 
   onSort(event:SortEvent){
     this.products$ = onSort(event, this.headers, this.products$)
@@ -129,10 +102,10 @@ export class ProductsComponent implements OnInit {
       console.log('Deleting product with  productId:', prod.id);
     if (window.confirm('Delete Item?')) {
       this.productService.deleteProduct(prod.id).subscribe({
-        next:( )=>{
+        next:( ) => {
           console.log('product deleted') 
         },
-        error:(err)=> console.log(err)
+        error:(err) => console.log(err)
       })
         
     }

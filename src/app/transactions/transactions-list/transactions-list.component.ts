@@ -1,12 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
 import { Router } from '@angular/router';
-import { Product } from 'src/app/products/product.model';
 import { Currency, CurrencyService } from 'src/app/shared/currency.service';
-import { ProductService } from 'src/app/products/products.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-transactions-list',
@@ -21,10 +20,14 @@ import { ProductService } from 'src/app/products/products.service';
 })
 export class TransactionsListComponent  implements OnInit{
   transactions: Transaction[]
-  products : Product[]
-  currency : Currency
-  totalSpent : {[key:string] : number} = {}
   id:string 
+  isLoading: boolean = false;
+  error = null;
+  currentPage: number = 0;
+  itemsPerPage: number = 8;
+  collectionSize: number;
+  filter = new FormControl('', { nonNullable: true });
+
 
   constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,
     private currencyService:CurrencyService){}
@@ -32,26 +35,28 @@ export class TransactionsListComponent  implements OnInit{
 
 
   ngOnInit() {
-    this.currencyService.currencies$.subscribe((data)=>{
-      this.currency = data
-    })
+
 
     this.fetchTransactions();
-    this.transactionService.transactionsUpdated
-    .subscribe(()=>{
+    this.transactionService.transactionsUpdated.subscribe( () => {
       this.fetchTransactions()
     })
   }
 
 
   fetchTransactions(){
+    this.isLoading = true
+
     this.transactionService.getTransactions().subscribe({
-      next: (data:Transaction[])=>{
+      next: (data:Transaction[]) => {
         this.transactions = data
         console.log(data)
+        this.isLoading = false
+
       },
-      error:(err)=>{
-        console.log(err)
+      error:(err) => {
+        this.isLoading = false;
+        this.error = err.message;      
       }
     })
   }
@@ -78,6 +83,10 @@ export class TransactionsListComponent  implements OnInit{
 
  
 
+  onPageChange(page: number){
+    this.currentPage = page 
+    this.fetchTransactions();
+  }
 
   
 }

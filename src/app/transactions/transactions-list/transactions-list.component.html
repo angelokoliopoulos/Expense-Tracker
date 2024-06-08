@@ -2,12 +2,32 @@
   
     <div class="row">
       <div class="col">
+        <div class="d-flex justify-content-betweeen">
+            <!-- <div class="input-group">
+                <form>
+                    <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                </form>
+            </div> -->
+            <div>
+                <ngb-pagination
+                [collectionSize]="collectionSize"
+                [(page)]="currentPage"
+                [pageSize]="itemsPerPage"
+                (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+            <button  class="btn btn-primary text-center" (click)="open()">Create New</button>
+            </div>
+        </div>
+    
+            <div *ngIf="isLoading" style="text-align: center!important;">
+                <app-loading-spinner  ></app-loading-spinner>
+            </div>
+
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col"  >Transaction Date</th>
                     <th scope="col"  >Shop</th>
-                
                 </tr>
             </thead>
             <tbody>
@@ -30,13 +50,7 @@
                     </tr>
                 }
             </tbody>
-        </table>
-        <div class="col pt-2 d-flex justify-content-center">
-            <button  class="btn btn-primary text-center" 
-            (click)="open()"
-            >Create New
-          </button>
-          </div>    
+        </table> 
         </div>
   </div>
 </div>

@@ -16,20 +16,20 @@
             (pageChange)="onPageChange($event)">
         </ngb-pagination>
             <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
-
         </div>
-      
     </div>
+
         <div *ngIf="isLoading" style="text-align: center!important;">
             <app-loading-spinner  ></app-loading-spinner>
         </div>
+        
         <table class="table table-striped" *ngIf="!isLoading">
             <thead>
                 <tr>
                     <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
-                    <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th>
-
+                    <th scope="col" >Product Description</th>
+                    <!-- <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th> -->
                 </tr>
             </thead>
             <tbody>

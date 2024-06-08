@@ -34,7 +34,7 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
       next: () => {
         this.getShops()
       },
-      error: (err) =>{
+      error: (err) => {
         console.log(err);
       }
     })
@@ -51,14 +51,15 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
 
 
   getShops(){
+    this.isLoading = true
     this.shopService.getShops(this.itemsPerPage, this.currentPage).subscribe({
       next: (data:any) => {
         this.allShops$.next(data.content); 
         this.collectionSize = data.totalElements;
         this.isLoading = false
-        console.log(data.content)
+
       },
-      error: (error)=>{
+      error: (error) => {
         this.isLoading = false;
         this.error = error.message;
             },
@@ -111,7 +112,7 @@ if (direction !== '' || column !== '') {
         next: () => {
           console.log("Shop deleted")
         },
-        error: (err) =>{
+        error: (err) => {
           console.log(err)
         }
       })
