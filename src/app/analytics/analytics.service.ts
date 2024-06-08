@@ -21,12 +21,10 @@ export class AnalyticsService {
         return this.http.get(`${this.apiRoot}/analytics/totalSpent/year/${year}`)
     }
 
+   
+
     getMonthTotalSpent(year:string , month: string){
         return this.http.get(`${this.apiRoot}/analytics/totalSpent/year/${year}/month/${month}`)
-    }
-
-    getMonthTotalSpentWithShop(year:string , month: string){
-        return this.http.get(`${this.apiRoot}/analytics/totalSpentWithShop/year/${year}/month/${month}`)
     }
 
 

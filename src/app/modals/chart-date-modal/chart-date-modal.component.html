@@ -18,7 +18,11 @@
           <div class="mb-3" *ngIf="dateForm.get('month_or_year').value === 'month'">
             <label for="monthSelect" class="form-label">Select Month</label>
             <select class="form-select" formControlName="month" id="monthSelect">
-                @for (month of months; track month){
+                <!-- @for (month of months; track month){
+                    <option [ngValue]="month.split(' ')[1]">{{month.split(' ')[0]}}</option>
+                    <option [ngValue]="month">{{month}}</option>
+                } -->
+           @for (month of months; track month){
                     <option [ngValue]="month">{{month}}</option>
                 }
             </select>

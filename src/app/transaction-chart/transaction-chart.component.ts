@@ -22,11 +22,40 @@ export class TransactionChartComponent  implements OnInit{
   public barChartOptions: ChartOptions = {
     responsive: true,
     scales: {
-      x: {},
-      y: {
-        beginAtZero: true
-      }
-    }
+      x: {
+
+        title: {
+          display: true,
+          text: 'Date',
+          font: {
+            size: 16,
+            weight: 'bold',
+          },
+        },
+      },
+    //   y: {
+    //     beginAtZero: true,
+    //     title: {
+    //       display: true,
+    //       text: 'Total Spent',
+    //       font: {
+    //         size: 16,
+    //         weight: 'bold',
+    //       },
+    //     },
+    //   },
+    // },
+    // plugins: {
+    //   legend: {
+    //     display: true,
+    //     labels: {
+    //       font: {
+    //         size: 14,
+    //       },
+    //     },
+    //   },
+    },
+
   };
   public barChartLabels: string[] = [];
 
@@ -34,33 +63,23 @@ export class TransactionChartComponent  implements OnInit{
 
 
   ngOnInit(){
-    this.analyticsService.getTotalSpent('2024-05-01','2024-05-03').subscribe({
-      next: (data) =>{
-        const accumulatedValues = data.reduce((acc, item) =>{
-          acc.labels.push(`${item.shopName} ${item.transactionDate}`)
-          acc.totals.push(item.totalSpent)
-          return acc
-    
-        },{labels:[], totals: []})
-        this.barChartLabels = accumulatedValues.labels
-              this.barChartData = {
-                labels: this.barChartLabels,
-                datasets: [
-                  { 
-                    data: accumulatedValues.totals,
-                    label: 'Money Spent',
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                  }
-                ]
-              };      }
-    })
-    
-
+    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+    const currentYear = new Date().getFullYear().toString()
     this.chartService.chartDatas$.subscribe((data)=>{
       this.updateChartData(data)      
     })
+
+
+
+
+    this.analyticsService.getMonthTotalSpent(currentYear, currentMonth).subscribe({
+      next: (data) =>{
+        this.chartService.setChartData(data)
+      }
+    })
+    
+
+  
 
 
   }
@@ -71,9 +90,9 @@ export class TransactionChartComponent  implements OnInit{
     }
   
     const accumulatedValues = data.reduce((acc, curr) => {
-      if (curr[1] !== null) { // Check if curr[1] is not null
+      if (curr[1] !== null) { 
         if (data[0].length > 2) {
-          acc.labels.push(`${curr[0]} ${curr[1]}`);
+          acc.labels.push(`${curr[0].replace(' ', '-')}  ${curr[1]}`);
           acc.totals.push(curr[2]);
         } else {
           acc.labels.push(curr[0]);
@@ -83,7 +102,6 @@ export class TransactionChartComponent  implements OnInit{
       return acc;
     }, { labels: [], totals: [] });
   
-    console.log(accumulatedValues);
   
     this.barChartLabels = accumulatedValues.labels;
     this.barChartData = {

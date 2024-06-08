@@ -10,7 +10,12 @@ import { TransactionChartService } from 'src/app/transaction-chart/transaction-c
 })
 export class ChartDateModalComponent implements OnInit {
   dateForm: FormGroup
+  //  months : String[] = ["January 1","February 2","March 3","April 4","May 5","June 6","July 7","August 8 ","September 9","Octomber 10","November 11","December 12"]
    months : String[] = ["January","February","March","April","May","June","July","August","September","Octomber","November","December"]
+  // months : any[] = [['January' ,1],['February' ,2],['March', 3],["April", 4],
+  // ["May",5],["June",6],["July",7],["August", 8] ,["September" ,9],["Octomber", 10],["November", 11],["December", 12]]
+
+
 
    constructor(public activeModal: NgbActiveModal, private fb:FormBuilder, private analyticsService: AnalyticsService,
     private chartService: TransactionChartService){}
@@ -41,9 +46,10 @@ export class ChartDateModalComponent implements OnInit {
         }
       })
     }else if(this.dateForm.get('month_or_year').value === 'month'){
-      this.analyticsService.getMonthTotalSpentWithShop(this.dateForm.value.yearInput, this.dateForm.value.month).subscribe({
+      this.analyticsService.getMonthTotalSpent(this.dateForm.value.yearInput, this.dateForm.value.month).subscribe({
         next:(data) => {
           this.chartService.setChartData(data)
+          console.log(data)
         }
       })
 
