@@ -4,7 +4,7 @@ import { TransactionModalComponent } from '../../modals/transaction-modal/transa
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
 import { Router } from '@angular/router';
-import { Currency, CurrencyService } from 'src/app/shared/currency.service';
+import {  CurrencyService } from 'src/app/shared/currency.service';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -47,12 +47,12 @@ export class TransactionsListComponent  implements OnInit{
   fetchTransactions(){
     this.isLoading = true
 
-    this.transactionService.getTransactions().subscribe({
-      next: (data:Transaction[]) => {
-        this.transactions = data
-        console.log(data)
+    this.transactionService.getTransactions(this.itemsPerPage, this.currentPage).subscribe({
+      next: (data:any) => {
+        this.transactions = data.content
+        this.collectionSize = data.totalElements;
         this.isLoading = false
-
+        console.log(data)
       },
       error:(err) => {
         this.isLoading = false;

@@ -11,7 +11,6 @@ import { Currency, CurrencyService } from '../../shared/currency.service';
 import { Product } from 'src/app/products/product.model';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
 import { FormControl } from '@angular/forms';
-import { ProductService } from 'src/app/products/products.service';
 import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal/transactionProducts-modal.component';
 @Component({
   selector: 'app-transaction-edit',
@@ -36,7 +35,7 @@ product: Product;
 filter = new FormControl('', { nonNullable: true });
 constructor(private transactionService: TransactionService,
   private route:ActivatedRoute,private modalService:NgbModal,
-  private productService:ProductService,private currencyService:CurrencyService ) {}
+  private currencyService:CurrencyService ) {}
 
   ngOnInit() {
     this.route.params.subscribe(
@@ -55,10 +54,10 @@ constructor(private transactionService: TransactionService,
           this.fetchProducts(this.transactionId)
         })
         this.transactionService.transactionUpdated.subscribe({
-          next: () =>{
+          next: () => {
             this.fetchProducts(this.transactionId)
           },
-          error: (err) =>{
+          error: (err) => {
             console.log(err)
           }
         })

@@ -1,15 +1,30 @@
+<!-- <div class="d-flex justify-content-between">
+    <h2>Date: {{date}}</h2>
+    <h2>Total: {{totalSpent | number}}</h2>
+</div> -->
 <div class="container mt-3">
-    <div class="d-flex justify-content-between">
-        <h2>Date: {{date}}</h2>
-        <h2>Total: {{totalSpent | number}}</h2>
-    </div>
     <div class="row">
       <div class="col">
-        <div class="input-group float-end my-3">
-            <form>
-                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+        <div class="d-flex justify-content-betweeen">
+            <div class="input-group">
+                <form>
+                    <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
                 </form>
+            </div>
+            <div>
+                <ngb-pagination
+                [collectionSize]="collectionSize"
+                [(page)]="currentPage"
+                [pageSize]="itemsPerPage"
+                (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+                <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
+            </div>
         </div>
+        <div *ngIf="isLoading" style="text-align: center!important;">
+            <app-loading-spinner  ></app-loading-spinner>
+        </div>
+       
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -37,14 +52,8 @@
                 }
             </tbody>
         </table>
-        <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
     </div>
-    <ngb-pagination
-    [collectionSize]="collectionSize"
-    [(page)]="currentPage"
-    [pageSize]="itemsPerPage"
-    (pageChange)="onPageChange($event)">
-</ngb-pagination>
+
   </div>
 </div>
 

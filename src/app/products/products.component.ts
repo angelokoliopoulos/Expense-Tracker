@@ -74,7 +74,6 @@ export class ProductsComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         this.error = error.message;
-        console.error(error.message);
       },
       complete: () => {
         this.isLoading = false;

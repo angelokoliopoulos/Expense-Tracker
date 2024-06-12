@@ -16,8 +16,13 @@ export class TransactionService {
   constructor(private http: HttpClient) { }
 
   
-  getTransactions(): Observable<any> {
-    return this.http.get(`${this.apiRoot}/transactions`)
+  getAllTransactions(): Observable<any> {
+    return this.http.get(`${this.apiRoot}/transactions/all`)
+  }
+
+
+  getTransactions(size: number, page: number): Observable<any> {
+    return this.http.get(`${this.apiRoot}/transactions?size=${size}&page=${page - 1}`)
   }
   getTransaction(id:number){
     return this.http.get(`${this.apiRoot}/transactions/${id}`)
