@@ -4,7 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Transaction } from '../transaction.model';
 import {  DecimalPipe  } from '@angular/common';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { debounceTime,  map,  startWith, switchMap } from 'rxjs/operators';
 import {compare, search} from '../../shared/utils'
 import { Currency, CurrencyService } from '../../shared/currency.service';
