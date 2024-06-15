@@ -15,20 +15,21 @@
 				  id="product" placeholder="Choose a Product"
 				[ngbTypeahead]="search"
 				(ngModelChange)="onProductSelected($event)"
+				[ngClass]="{'is-invalid': !selectedProduct?.id && transactionProductForm.get('product').touched}"
                   >	
 				  <input type="hidden" formControlName="productId" [value]="selectedProduct?.id">
-				  <span class="help-block text-center" *ngIf="!selectedProduct?.id && transactionProductForm.get('product').touched" >No Such Product</span>
+				  <span class="help-block text-center"  *ngIf="!selectedProduct?.id && transactionProductForm.get('product').touched" >No Such Product</span>
 				</div>
 				<div class="col-auto mb-3">
-				  <input formControlName='price'  type="text" class="form-control" id="price" placeholder="Price">
+				  <input formControlName='price'  type="number" class="form-control" id="price" placeholder="Price">
 				  <span class="help-block text-center" *ngIf="!transactionProductForm.get('price').valid && transactionProductForm.get('price').touched" >Required field</span>
 				</div>
 				<div class="col-auto mb-3">
-					<input formControlName='quantity'  type="text" class="form-control" id="quantity" placeholder="Quantity">
+					<input formControlName='quantity'  type="number" class="form-control" id="quantity" placeholder="Quantity">
 					<span class="help-block text-center" *ngIf="!transactionProductForm.get('quantity').valid && transactionProductForm.get('quantity').touched" >Required field</span>
 				  </div>
 				<div class="col-auto d-flex justify-content-center">
-				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionProductForm.valid">Add</button>
+				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionProductForm.valid ||  !selectedProduct?.id">Add</button>
 				</div>
 				<div class="col-auto d-flex justify-content-center" *ngIf="!transactionProductForm.valid && transactionProductForm.touched">
 					<span class="help-block text-center">Please fill the required fields</span>

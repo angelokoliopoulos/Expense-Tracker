@@ -19,12 +19,13 @@
 					  id="shop" placeholder="Choose a shop"
 					[ngbTypeahead]="search"
 					(ngModelChange)="onShopSelected($event)"
+					[ngClass]="{'is-invalid': !selectedShop?.id && transactionForm.get('shopName').touched}"
 					  >	
 					  <input type="hidden" formControlName="shopId" [value]="selectedShop?.id">
-					  <span class="help-block text-center" *ngIf="!selectedShop?.id && transactionForm.get('shopId').touched" >No Such Shop</span>
+					  <span class="help-block text-center" *ngIf="!selectedShop?.id && transactionForm.get('shopName').touched" >No Such Shop</span>
 					</div>
 				<div class="col-auto d-flex justify-content-center">
-				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionForm.valid">Add Transaction</button>
+				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionForm.valid || !selectedShop?.id">Add Transaction</button>
 				</div>
 				<div class="col-auto d-flex justify-content-center" *ngIf="!transactionForm.valid && transactionForm.touched">
 					<span class="help-block text-center">Please fill the required fields</span>

@@ -82,7 +82,6 @@ export class TransactionProductsModalComponent implements OnInit{
 handleSuccess(){
     this.activeModal.close();
     this.initializeForm()
-    console.log('Added product to transaction')
 }
 
 
