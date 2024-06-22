@@ -25,7 +25,7 @@ export class TransactionService {
     return this.http.get(`${this.apiRoot}/transactions?size=${size}&page=${page - 1}`)
   }
   getTransaction(id:number){
-    return this.http.get(`${this.apiRoot}/transactions/${id}`)
+    return this.http.get(`${this.apiRoot}/transactions/id/${id}`)
   }
 
   addTransaction(transaction: Transaction):Observable<any>{
@@ -40,7 +40,7 @@ export class TransactionService {
 
   
   deleteTransaction(id: number){
-  return this.http.delete(`${this.apiRoot}/transactions/${id}`).pipe(
+  return this.http.delete(`${this.apiRoot}/transactions/id/${id}`).pipe(
     tap(() => this.transactionsUpdated.next()),
     catchError(error => {
       console.error("Error deleting transaction", error);
@@ -51,16 +51,16 @@ export class TransactionService {
 
 
   getAllProducts(transactionId: number){
-    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details/all`)
+    return this.http.get(`${this.apiRoot}/transactions/id/${transactionId}/details/all`)
   }
 
   getProducts(transactionId: number, size:number, page:number){
-    return this.http.get(`${this.apiRoot}/transactions/${transactionId}/details?size=${size}&page=${page -1}`)
+    return this.http.get(`${this.apiRoot}/transactions/id/${transactionId}/details?size=${size}&page=${page -1}`)
   }
 
 
   addProductTotransaction(transactionId: number, productId: number, price: number, quantity: number){
-    return this.http.post(`${this.apiRoot}/transactions/${transactionId}/product`, { productId, price,quantity}).pipe(
+    return this.http.post(`${this.apiRoot}/transactions/id/${transactionId}/product`, { productId, price,quantity}).pipe(
       tap(() => this.transactionUpdated.next()),
       catchError(err => {
         console.error("Error adding product to transaction")
@@ -70,7 +70,7 @@ export class TransactionService {
   }
 
   deleteProduct(transactionId:number, productName:string){
-    return this.http.delete(`${this.apiRoot}/transactions/${transactionId}/product/${productName}`).pipe(
+    return this.http.delete(`${this.apiRoot}/transactions/id/${transactionId}/product/${productName}`).pipe(
       tap( ()=> this.transactionUpdated.next()),
       catchError(error => {
         console.error("Error on removing product from transaction", error)

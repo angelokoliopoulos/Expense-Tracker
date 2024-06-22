@@ -37,7 +37,7 @@ export class ProductService {
   }  
 
   deleteProduct(productId: number):Observable<any> {
-    return this.http.delete(`${this.apiRoot}/products/${productId}`).pipe(
+    return this.http.delete(`${this.apiRoot}/products/id/${productId}`).pipe(
       tap(()=> this.productsUpdated.next()),
       catchError(err => {
         console.log('Error deleting product',err)
@@ -47,7 +47,7 @@ export class ProductService {
   }
 
   updateProduct(productId: number, updatedProduct: Partial<Product>):Observable<any> {
-    return this.http.put(`${this.apiRoot}/products/${productId}`,updatedProduct).pipe(
+    return this.http.put(`${this.apiRoot}/products/id/${productId}`,updatedProduct).pipe(
       tap(()=> this.productsUpdated.next()),
       catchError(err => {
         console.log('Error updating product',err)

@@ -39,7 +39,7 @@ constructor(private http: HttpClient){}
     }
 
     updateShop(shopId:number, updatedShop: Partial<Shop>):Observable<any>{
-        return this.http.put(`${this.apiRoot}/shops/${shopId}`, updatedShop).pipe(
+        return this.http.put(`${this.apiRoot}/shops/id/${shopId}`, updatedShop).pipe(
             tap(()=> this.shopsUpdated.next()),
             catchError(err => {
                 console.log('Error updating shop', err)
@@ -49,7 +49,7 @@ constructor(private http: HttpClient){}
     }
 
     deleteShop(shopId: number): Observable<any>{
-        return this.http.delete(`${this.apiRoot}/shops/${shopId}`).pipe(
+        return this.http.delete(`${this.apiRoot}/shops/id/${shopId}`).pipe(
             tap(() => this.shopsUpdated.next()),
             catchError( err =>{
                 console.log("Error deletering Shop", err)

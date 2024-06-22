@@ -52,7 +52,6 @@ export class TransactionsListComponent  implements OnInit{
         this.transactions = data.content
         this.collectionSize = data.totalElements;
         this.isLoading = false
-        console.log(data)
       },
       error:(err) => {
         this.isLoading = false;

@@ -52,7 +52,6 @@ export class TransactionProductsModalComponent implements OnInit{
 
     onSubmit(){
         const formValue = this.transactionProductForm.value;
-       console.log(formValue)
         this.transactionService.addProductTotransaction(
              this.transactionId,
              formValue.productId,
