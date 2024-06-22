@@ -28,7 +28,6 @@
                 <tr>
                     <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
-                    <th scope="col" >Product Description</th>
                     <!-- <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th> -->
                 </tr>
             </thead>
@@ -45,7 +44,7 @@
                                 <i class="bi bi-pencil"></i>
                                 </button>
                                 <button type="submit" class="btn btn-danger btn-sm" (click)="onDelete(prod)">
-                                    <i class="bi bi-person-x"></i>
+                                    <i class="bi bi-x"></i>
                                 </button>
                           </div>
                         </td>

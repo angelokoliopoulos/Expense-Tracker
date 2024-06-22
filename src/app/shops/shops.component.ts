@@ -6,7 +6,7 @@ import { ShopService } from './shop.service';
 import { ShopModalComponent } from '../modals/shop-modal/shop-modal.component';
 import { BehaviorSubject, Observable, debounceTime, map, startWith, switchMap } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { search, compare } from '../shared/utils';
+import { search, compare, onSort } from '../shared/utils';
 
 @Component({
   selector: 'app-shops',
@@ -42,7 +42,7 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
     this.shops$ = this.filter.valueChanges.pipe(
       startWith(''),
       debounceTime(100),
-      switchMap((text) => search(text,this.allShops$))
+      switchMap((text) => search(text, this.allShops$))
     );
 
 
@@ -54,6 +54,7 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
     this.isLoading = true
     this.shopService.getShops(this.itemsPerPage, this.currentPage).subscribe({
       next: (data:any) => {
+        //Get all shops from the service and pass it to the allShops$ Behavioral Subject
         this.allShops$.next(data.content); 
         this.collectionSize = data.totalElements;
         this.isLoading = false
@@ -62,28 +63,13 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
       error: (error) => {
         this.isLoading = false;
         this.error = error.message;
-            },
+      },
 
     })
   }
 
-  onSort({ column, direction }: SortEvent) {
-    for (const header of this.headers) {
-  if (header.sortable !== column) {
-    header.direction = '';
-  }
-}
-// Sorting products
-if (direction !== '' || column !== '') {
-  this.shops$ = this.shops$.pipe(
-    map((shops) =>
-      [...shops].sort((a, b) => {
-        const res = compare(a[column] as string | number, b[column] as string | number);
-        return direction === 'asc' ? res : -res;
-      })
-    )
-  );
-}
+  onSort(event: SortEvent) {
+  this.shops$ = onSort(event, this.headers, this.shops$);
 }
 
 
@@ -92,7 +78,7 @@ if (direction !== '' || column !== '') {
     this.getShops();
   }
 
-
+  //Modal Methods
   addShop(){
     const modalRef = this.modalService.open(ShopModalComponent, {size: 'xl'})
     modalRef.componentInstance.mode = 'add'

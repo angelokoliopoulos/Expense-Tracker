@@ -6,7 +6,7 @@ import { QueryList } from "@angular/core";
 
 export const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
 
-export function search(text: string,items:BehaviorSubject<any>): Observable<Product[]> {
+export function search(text: string,items:BehaviorSubject<any>): Observable<any> {
 	return items.pipe(
 		    map((items) =>
 		      items.filter(
@@ -16,6 +16,17 @@ export function search(text: string,items:BehaviorSubject<any>): Observable<Prod
 		    )
 		  );
 			  }
+
+        export function searchTransactions(text: string,items:BehaviorSubject<any>): Observable<any> {
+          return items.pipe(
+                map((items) =>
+                  items.filter(
+                    (item:any) =>
+                      item.shopName.toLowerCase().includes(text.toLowerCase()) 
+                  )
+                )
+              );
+                }
 
 
 

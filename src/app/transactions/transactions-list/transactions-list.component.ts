@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
@@ -6,6 +6,9 @@ import { Transaction } from '../transaction.model';
 import { Router } from '@angular/router';
 import {  CurrencyService } from 'src/app/shared/currency.service';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject, Observable, debounceTime, startWith, switchMap } from 'rxjs';
+import {  onSort, searchTransactions } from 'src/app/shared/utils';
+import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
 
 @Component({
   selector: 'app-transactions-list',
@@ -19,7 +22,9 @@ import { FormControl } from '@angular/forms';
   }`
 })
 export class TransactionsListComponent  implements OnInit{
-  transactions: Transaction[]
+  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  transactions$: Observable<Transaction[]>
+  private allTransactions$ : BehaviorSubject<Transaction[]> = new BehaviorSubject([]);
   id:string 
   isLoading: boolean = false;
   error = null;
@@ -29,8 +34,7 @@ export class TransactionsListComponent  implements OnInit{
   filter = new FormControl('', { nonNullable: true });
 
 
-  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,
-    private currencyService:CurrencyService){}
+  constructor(private modalService: NgbModal,private transactionService:TransactionService,private router:Router,){}
 
 
 
@@ -38,9 +42,20 @@ export class TransactionsListComponent  implements OnInit{
 
 
     this.fetchTransactions();
-    this.transactionService.transactionsUpdated.subscribe( () => {
-      this.fetchTransactions()
+    this.transactionService.transactionsUpdated.subscribe( {
+      next: () => {
+        this.fetchTransactions();
+      },
+      error: (err) => {
+        console.log(err)
+      }
     })
+
+    this.transactions$ = this.filter.valueChanges.pipe(
+      startWith(''),
+      debounceTime(100),
+      switchMap((text) => searchTransactions(text,this.allTransactions$))
+    )
   }
 
 
@@ -49,7 +64,8 @@ export class TransactionsListComponent  implements OnInit{
 
     this.transactionService.getTransactions(this.itemsPerPage, this.currentPage).subscribe({
       next: (data:any) => {
-        this.transactions = data.content
+        //Get all transactions from the service and pass it to allTransactions$ Behavioral Subject.
+        this.allTransactions$.next(data.content)
         this.collectionSize = data.totalElements;
         this.isLoading = false
       },
@@ -60,13 +76,29 @@ export class TransactionsListComponent  implements OnInit{
     })
   }
 
-  open(){
-    this.modalService.open(TransactionModalComponent,{ size: 'xl' ,animation:true})
-  
+
+  onSort(event: SortEvent){
+    this.transactions$ = onSort(event , this.headers, this.transactions$);
   }
+
+  
 
   navigateToTransactionItem(id:number) {
     this.router.navigate(['/transactions', id, 'edit']);
+  }
+
+  
+  onPageChange(page: number){
+    this.currentPage = page 
+    this.fetchTransactions();
+  }
+
+
+//Modal Methods
+
+  open(){
+    this.modalService.open(TransactionModalComponent,{ size: 'xl' ,animation:true})
+  
   }
   
   onDelete(id:number){
@@ -82,10 +114,6 @@ export class TransactionsListComponent  implements OnInit{
 
  
 
-  onPageChange(page: number){
-    this.currentPage = page 
-    this.fetchTransactions();
-  }
 
   
 }

@@ -50,7 +50,7 @@ export class ProductsComponent implements OnInit {
     this.products$ = this.filter.valueChanges.pipe(
       startWith(''),
       debounceTime(100),
-      switchMap((text) => search(text,this.allProducts$))
+      switchMap((text) => search(text, this.allProducts$))
     );
     
   }
@@ -65,7 +65,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts(this.itemsPerPage, this.currentPage)
     .subscribe({
       next: (data: any) => {
-        // Get all products from the service and pass it to allProducts$ Behavioral subject
+        // Get all products from the service and pass it to allProducts$ Behavioral Subject.
         this.allProducts$.next(data.content);
         this.collectionSize = data.totalElements;
         this.isLoading = false
@@ -74,11 +74,13 @@ export class ProductsComponent implements OnInit {
       error: (error) => {
         this.isLoading = false;
         this.error = error.message;
-      },
-      complete: () => {
-        this.isLoading = false;
-      },
+      }
     });
+  }
+
+  onPageChange(page: number){
+    this.currentPage = page 
+    this.fetchProducts();
   }
 
  
@@ -94,7 +96,6 @@ export class ProductsComponent implements OnInit {
     this.productService.setProduct(prod)
     const modalRef = this.modalService.open(ProductModalComponent, { size: 'xl' });
     modalRef.componentInstance.mode = 'edit'
-    // modalRef.componentInstance.product = prod
   }
 
   onDelete(prod: Product) {
@@ -110,10 +111,7 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  onPageChange(page: number){
-    this.currentPage = page 
-    this.fetchProducts();
-  }
+  
 
  
 

@@ -52,7 +52,7 @@ constructor(private http: HttpClient){}
         return this.http.delete(`${this.apiRoot}/shops/id/${shopId}`).pipe(
             tap(() => this.shopsUpdated.next()),
             catchError( err =>{
-                console.log("Error deletering Shop", err)
+                console.log("Error deleting Shop", err)
                 throw err
             })
         )
