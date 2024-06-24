@@ -29,7 +29,7 @@
 					<span class="help-block text-center" *ngIf="!transactionProductForm.get('quantity').valid && transactionProductForm.get('quantity').touched" >Required field</span>
 				  </div>
 				<div class="col-auto d-flex justify-content-center">
-				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionProductForm.valid ||  !selectedProduct?.id">Add</button>
+				  <button  type="submit" class="btn btn-primary mb-3" [disabled]="!transactionProductForm.valid ||  !selectedProduct?.id">Submit</button>
 				</div>
 				<div class="col-auto d-flex justify-content-center" *ngIf="!transactionProductForm.valid && transactionProductForm.touched">
 					<span class="help-block text-center">Please fill the required fields</span>

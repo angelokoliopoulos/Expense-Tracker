@@ -14,10 +14,10 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
   styles: 
-  `tr{
+  `tbody > tr{
     transition: transform 0.1 ease; 
   }
-  tr:hover{
+  tbody > tr:hover{
     transform: scaleY(1.1);
   }`
 })
