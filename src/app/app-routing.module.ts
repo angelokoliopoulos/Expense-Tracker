@@ -10,7 +10,7 @@ import { ShopsComponent } from './shops/shops.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 
 const routes: Routes = [
-  {path:'',component:HomeComponent},
+  {path:'', component:HomeComponent},
   {path:'transactions',component:TransactionsComponent,children:[
     {path:'', component:TransactionsListComponent},
     {path:':id/edit', component:TransactionEditComponent}

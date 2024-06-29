@@ -13,13 +13,13 @@ import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive
 @Component({
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
-  styles: 
-  `tbody > tr{
-    transition: transform 0.1 ease; 
-  }
-  tbody > tr:hover{
-    transform: scaleY(1.1);
-  }`
+  // styles: 
+  // `tbody > tr{
+  //   transition: transform 0.1 ease; 
+  // }
+  // tbody > tr:hover{
+  //   transform: scaleY(1.1);
+  // }`
 })
 export class TransactionsListComponent  implements OnInit{
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -54,7 +54,7 @@ export class TransactionsListComponent  implements OnInit{
     this.transactions$ = this.filter.valueChanges.pipe(
       startWith(''),
       debounceTime(100),
-      switchMap((text) => searchTransactions(text,this.allTransactions$))
+      switchMap((text) => searchTransactions(text, this.allTransactions$))
     )
   }
 

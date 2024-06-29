@@ -12,4 +12,8 @@ export class AppComponent {
   toggleSidebar() {
     this.isSidebarVisible = !this.isSidebarVisible;
   }
+
+  get imagePath(){
+    return '/assets/logo-money.png'
+  }
 }

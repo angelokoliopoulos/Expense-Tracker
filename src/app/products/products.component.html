@@ -2,22 +2,22 @@
   
     <div class="row">
       <div class="col">
-    <div class="d-flex justify-content-betweeen">
-        <div class="input-group">
-            <form>
-                <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
-            </form>
+        <div class="d-flex justify-content-betweeen">
+            <div class="input-group">
+                <form>
+                    <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                </form>
+            </div>
+            <div>
+                <ngb-pagination
+                [collectionSize]="collectionSize"
+                [(page)]="currentPage"
+                [pageSize]="itemsPerPage"
+                (pageChange)="onPageChange($event)">
+            </ngb-pagination>
+            <button class="btn" style="background-color: #00B3BB; color:white;" (click)="addProduct()">Add Product </button>
+            </div>
         </div>
-        <div>
-            <ngb-pagination
-            [collectionSize]="collectionSize"
-            [(page)]="currentPage"
-            [pageSize]="itemsPerPage"
-            (pageChange)="onPageChange($event)">
-        </ngb-pagination>
-            <button class="btn btn-primary"(click)="addProduct()">Add Product </button>
-        </div>
-    </div>
 
         <div *ngIf="isLoading" style="text-align: center!important;">
             <app-loading-spinner  ></app-loading-spinner>
@@ -28,7 +28,6 @@
                 <tr>
                     <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
-                    <!-- <th scope="col" sortable="description" (sort)="onSort($event)">Product Description</th> -->
                 </tr>
             </thead>
             <tbody>

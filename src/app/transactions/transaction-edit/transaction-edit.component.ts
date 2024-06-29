@@ -11,6 +11,8 @@ import { Currency, CurrencyService } from '../../shared/currency.service';
 import { Product } from 'src/app/products/product.model';
 import { NgbdSortableHeader, SortEvent } from 'src/app/shared/sortable.directive';
 import { FormControl } from '@angular/forms';
+import { searchTransactions } from '../../shared/utils';
+import { onSort } from '../../shared/utils';
 import { TransactionProductsModalComponent } from 'src/app/modals/transactionProducts-modal/transactionProducts-modal.component';
 @Component({
   selector: 'app-transaction-edit',
@@ -43,7 +45,7 @@ constructor(private transactionService: TransactionService,
         this.transactionId = params['id']
       }
     )
-    this.currencyService.currencies$.subscribe((data)=>{
+    this.currencyService.currencies$.subscribe( (data) => {
       this.currency = data
     })
 
@@ -65,39 +67,19 @@ constructor(private transactionService: TransactionService,
         this.products$ = this.filter.valueChanges.pipe(
           startWith(''),
           debounceTime(300),
-          switchMap((text) => search(text,this.allProducts$))
+          switchMap((text) => search(text, this.allProducts$))
         );
          
   }
 
-  onSort({ column, direction }: SortEvent) {
-    for (const header of this.headers) {
-  if (header.sortable !== column) {
-    header.direction = '';
-  }
-}
-// Sorting products
-if (direction !== '' || column !== '') {
-  this.products$ = this.products$.pipe(
-    map((products) =>
-      [...products].sort((a, b) => {
-        const res = compare(a[column] as string | number, b[column] as string | number);
-        return direction === 'asc' ? res : -res;
-      })
-    )
-  );
-}
-}
 
-// Modal Methods
-addProduct(){
-  const modalRef = this.modalService.open(TransactionProductsModalComponent,{size: 'xl'})
-  modalRef.componentInstance.mode = 'add'
-  modalRef.componentInstance.transactionId = this.transactionId
+onSort(event: SortEvent){
+    this.products$ = onSort(event, this.headers, this.products$)
 }
 
 
 fetchProducts(id: number) {
+this.isLoading = true
 this.totalSpent = 0
 this.transactionService.getProducts(id,this.itemsPerPage, this.currentPage)
 .subscribe({
@@ -105,16 +87,12 @@ this.transactionService.getProducts(id,this.itemsPerPage, this.currentPage)
     // Get all products from the service and pass it to allProducts$ Behavioral subject
     this.allProducts$.next(data.content);
     this.collectionSize = data.totalElements;
-
+    this.isLoading = false
   },
   error: (error) => {
     this.isLoading = false;
-    this.error = error.message;
-    console.error(error.message);
-  },
-  complete: () => {
-    this.isLoading = false;
-  },
+    console.log(error)
+  }
 });
 }
 
@@ -137,6 +115,14 @@ onPageChange(page: number){
   this.currentPage = page;
   this.fetchProducts(this.transactionId)
 }
+
+// Modal Methods
+addProduct(){
+  const modalRef = this.modalService.open(TransactionProductsModalComponent,{size: 'xl'})
+  modalRef.componentInstance.mode = 'add'
+  modalRef.componentInstance.transactionId = this.transactionId
+}
+
 
 
 }
