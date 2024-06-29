@@ -33,27 +33,7 @@ export class TransactionChartComponent  implements OnInit{
           },
         },
       },
-    //   y: {
-    //     beginAtZero: true,
-    //     title: {
-    //       display: true,
-    //       text: 'Total Spent',
-    //       font: {
-    //         size: 16,
-    //         weight: 'bold',
-    //       },
-    //     },
-    //   },
-    // },
-    // plugins: {
-    //   legend: {
-    //     display: true,
-    //     labels: {
-    //       font: {
-    //         size: 14,
-    //       },
-    //     },
-    //   },
+   
     },
 
   };
@@ -72,7 +52,7 @@ export class TransactionChartComponent  implements OnInit{
 
 
 
-    this.analyticsService.getMonthTotalSpent(currentYear, currentMonth).subscribe({
+    this.analyticsService.getYearTotalSpent(currentYear).subscribe({
       next: (data) =>{
         this.chartService.setChartData(data)
       }

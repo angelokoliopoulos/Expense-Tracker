@@ -21,7 +21,7 @@
 				  </div>
 				  <div class="col-auto d-flex justify-content-center">
 					<button *ngIf="mode==='edit'"  type="submit" class="btn btn-warning mb-3" [disabled]="!shopForm.valid" >Edit</button>
-					<button *ngIf="mode==='add'"  type="submit" class="btn btn-primary mb-3" [disabled]="!shopForm.valid">Submit</button>
+					<button *ngIf="mode==='add'"  type="submit" class="btn mb-3"style="background-color: #00B3BB; color:white;" [disabled]="!shopForm.valid">Submit</button>
 				  </div>
 				  <div *ngIf="!shopForm.valid && shopForm.touched" class="col-auto d-flex justify-content-center" >
 					<span  class="help-block text-center invalid-feedback">Please fill the required fields</span>

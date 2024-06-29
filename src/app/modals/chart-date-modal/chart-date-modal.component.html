@@ -18,10 +18,7 @@
           <div class="mb-3" *ngIf="dateForm.get('month_or_year').value === 'month'">
             <label for="monthSelect" class="form-label">Select Month</label>
             <select class="form-select" formControlName="month" id="monthSelect">
-                <!-- @for (month of months; track month){
-                    <option [ngValue]="month.split(' ')[1]">{{month.split(' ')[0]}}</option>
-                    <option [ngValue]="month">{{month}}</option>
-                } -->
+            
            @for (month of months; track month){
                     <option [ngValue]="month">{{month}}</option>
                 }
@@ -34,7 +31,7 @@
 
           </div>
           <div class="mb-3 d-flex justify-content-center">
-            <button  type="submit" class="btn btn-primary mb-3" [disabled]="!dateForm.valid">Submit</button>
+            <button  type="submit" class="btn mb-3"style="background-color: #00B3BB; color:white;" [disabled]="!dateForm.valid">Submit</button>
           </div>
         </form>
       </div>
