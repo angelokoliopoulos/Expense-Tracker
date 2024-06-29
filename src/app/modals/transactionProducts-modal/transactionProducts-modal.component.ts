@@ -5,6 +5,7 @@ import { ProductService } from "../../products/products.service";
 import {  Observable, OperatorFunction, Subject, debounceTime, distinctUntilChanged, map } from "rxjs";
 import { Product } from "../../products/product.model";
 import { TransactionService } from "../../transactions/transaction.service";
+import { Currency, CurrencyService } from "src/app/shared/currency.service";
 
 @Component({
     selector: 'app-transactionProducts-modal',
@@ -16,11 +17,17 @@ export class TransactionProductsModalComponent implements OnInit{
     selectedProduct: Product
     transactionProductForm: FormGroup;
     transactionId : number
+    currency : Currency;
     constructor(public activeModal: NgbActiveModal, 
-        private fb : FormBuilder, private productService: ProductService, private transactionService: TransactionService){}
+        private fb : FormBuilder, private productService: ProductService, private transactionService: TransactionService
+    ,private currencyService : CurrencyService){}
 
 
     ngOnInit()  {
+    this.currencyService.currencies$.subscribe( (data) => {
+        this.currency = data
+    })
+
         this.initializeForm();
         this.fetchProducts()
     }

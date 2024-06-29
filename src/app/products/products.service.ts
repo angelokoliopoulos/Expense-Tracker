@@ -23,7 +23,7 @@ export class ProductService {
    return this.http.post(`${this.apiRoot}/products`,product).pipe(
     tap(()=> this.productsUpdated.next()),
     catchError(err => {
-      console.log('Error adding product',err)
+      // console.log('Error adding product',err)
       throw err
     })
    )
@@ -40,7 +40,7 @@ export class ProductService {
     return this.http.delete(`${this.apiRoot}/products/id/${productId}`).pipe(
       tap(()=> this.productsUpdated.next()),
       catchError(err => {
-        console.log('Error deleting product',err)
+        // console.log('Error deleting product',err)
         throw err
       })
      )
@@ -50,7 +50,7 @@ export class ProductService {
     return this.http.put(`${this.apiRoot}/products/id/${productId}`,updatedProduct).pipe(
       tap(()=> this.productsUpdated.next()),
       catchError(err => {
-        console.log('Error updating product',err)
+        // console.log('Error updating product',err)
         throw err
       })
      )

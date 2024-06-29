@@ -13,6 +13,7 @@ export class ProductModalComponent implements OnInit {
 product : Product
 productForm: FormGroup
 mode: string
+error : string
 transactionId:number
 constructor(private fb:FormBuilder,
   public activeModal:NgbActiveModal,private productService:ProductService){}
@@ -22,7 +23,6 @@ ngOnInit() {
 if(this.mode == 'edit'){
   this.productService.currentProduct.subscribe((data)=>{
     this.product = data
-    console.log(this.product)
 
   })
   this.initializeEditForm()
@@ -33,16 +33,15 @@ if(this.mode == 'edit'){
 
 }
 onSubmit(){
-  console.log(`mode is ${this.mode}`)
   const formValue = this.productForm.value;
   if(this.mode == 'add'){
     const newProduct = new Product(formValue.productName, formValue.productDescription,formValue.productPrice);
     this.productService
       .addProduct(newProduct).subscribe({
-        next:()=>{
+        next:() => {
           this.handleSuccess()
         },
-        error:(err)=>{
+        error:(err) => {
           this.handleError(err)
         }
       })
@@ -88,7 +87,12 @@ handleSuccess() {
 
 handleError(error) {
   this.initializeForm(); 
-  console.log(error);
+  this.setError(error.error.message)
+}
+
+setError(errMsg: string){
+  this.error = errMsg
+  setTimeout( () => this.error = null, 8000)
 }
 
 }

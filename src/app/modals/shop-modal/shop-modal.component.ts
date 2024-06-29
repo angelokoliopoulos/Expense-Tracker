@@ -11,6 +11,7 @@ export class ShopModalComponent implements OnInit {
 shop : Shop
 shopForm: FormGroup
 mode: string
+error: string;
 constructor(private fb:FormBuilder,
   public activeModal:NgbActiveModal,private shopService:ShopService){}
 
@@ -85,6 +86,12 @@ onSubmit(){
   
   handleError(error) {
     this.initializeForm(); 
-    console.log(error);
+    this.setError(error.error.message)
   }
+  
+  setError(errMsg: string){
+    this.error = errMsg
+    setTimeout( () => this.error = null, 8000)
+  }
+  
 }

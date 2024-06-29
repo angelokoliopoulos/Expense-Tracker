@@ -8,19 +8,22 @@ import { Currency, CurrencyService } from '../shared/currency.service';
 export class SettingsComponent implements OnInit {
 settingsForm : FormGroup
 currencies: Currency[]
+selectedCur: Currency;
 
 constructor(private fb: FormBuilder,private currencyService:CurrencyService){}
 
   ngOnInit() {
    this.currencies = this.currencyService.getCurrencies()
+   this.currencyService.currencies$.subscribe( (data) => {
+    this.selectedCur = data
+   })
     this.initializeForm()
-    console.log(this.settingsForm)
   }
 
 
   initializeForm(){
     this.settingsForm = this.fb.group({
-      selectedCurrency:[]
+      selectedCurrency:[this.selectedCur, Validators.required]
     })
   }
 

@@ -17,7 +17,7 @@ export class ShopsComponent  implements OnInit{
 shops$ : Observable<Shop[]>
 private allShops$ : BehaviorSubject<Shop[]> = new BehaviorSubject([]);
 isLoading: boolean = false;
-error = null;
+error : string
 currentPage: number = 0;
 itemsPerPage: number = 8;
 collectionSize: number;
@@ -45,8 +45,6 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
       switchMap((text) => search(text, this.allShops$))
     );
 
-
-    
   }
 
 
@@ -62,7 +60,7 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
       },
       error: (error) => {
         this.isLoading = false;
-        this.error = error.message;
+        console.log(error)
       },
 
     })
@@ -100,9 +98,16 @@ constructor(private shopService: ShopService,private modalService:NgbModal){}
         },
         error: (err) => {
           console.log(err)
+          this.setError(err.error.message)
         }
       })
     }
+  }
+
+
+  setError(errMsg : string){
+    this.error = errMsg
+    setTimeout( () => this.error = null, 8000)
   }
 
 

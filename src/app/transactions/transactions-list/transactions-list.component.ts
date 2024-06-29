@@ -71,7 +71,7 @@ export class TransactionsListComponent  implements OnInit{
       },
       error:(err) => {
         this.isLoading = false;
-        this.error = err.message;      
+        console.log(err)     
       }
     })
   }

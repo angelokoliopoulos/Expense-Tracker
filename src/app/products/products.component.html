@@ -52,6 +52,10 @@
                 }
             </tbody>
         </table>
+        <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ error }}
+            <button type="button" class="btn-close" aria-label="Close" (click)="error = null"></button>
+          </div>
     </div>
    
   </div>

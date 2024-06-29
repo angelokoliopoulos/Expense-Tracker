@@ -19,7 +19,7 @@ export class ProductsComponent implements OnInit {
   products$:Observable<Product[]>
   private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
   isLoading: boolean = false;
-  error = null;
+  error : string
   currentPage: number = 0;
   itemsPerPage: number = 8;
   collectionSize: number;
@@ -73,7 +73,7 @@ export class ProductsComponent implements OnInit {
       },
       error: (error) => {
         this.isLoading = false;
-        this.error = error.message;
+        console.log(error)
       }
     });
   }
@@ -105,10 +105,18 @@ export class ProductsComponent implements OnInit {
         next:( ) => {
           console.log('product deleted') 
         },
-        error:(err) => console.log(err)
+        error:(err) => {
+          this.setError(err.error.message)
+        }
       })
         
     }
+  }
+
+
+  setError(errMsg: string){
+    this.error = errMsg
+    setTimeout( () => this.error = null, 8000)
   }
 
   

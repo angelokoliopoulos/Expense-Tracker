@@ -32,7 +32,7 @@ constructor(private http: HttpClient){}
         return this.http.post(`${this.apiRoot}/shops`, shop).pipe(
             tap(()=> this.shopsUpdated.next()),
             catchError(err => {
-                console.error("Error adding shop", err)
+                // console.log("Error adding shop", err)
                 throw err
             })
         )
@@ -52,7 +52,7 @@ constructor(private http: HttpClient){}
         return this.http.delete(`${this.apiRoot}/shops/id/${shopId}`).pipe(
             tap(() => this.shopsUpdated.next()),
             catchError( err =>{
-                console.log("Error deleting Shop", err)
+                // console.log("Error deleting Shop", err)
                 throw err
             })
         )

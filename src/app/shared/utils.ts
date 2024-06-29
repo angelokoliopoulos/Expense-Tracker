@@ -1,7 +1,8 @@
-import { Product } from "../products/product.model";
 import { BehaviorSubject, Observable, map } from "rxjs";
 import { NgbdSortableHeader, SortEvent } from "./sortable.directive";
 import { QueryList } from "@angular/core";
+
+
 
 
 export const compare = (v1: string | number, v2: string | number) => (v1 < v2 ? -1 : v1 > v2 ? 1 : 0);
@@ -17,7 +18,7 @@ export function search(text: string,items:BehaviorSubject<any>): Observable<any>
 		  );
 			  }
 
-        export function searchTransactions(text: string,items:BehaviorSubject<any>): Observable<any> {
+export function searchTransactions(text: string,items:BehaviorSubject<any>): Observable<any> {
           return items.pipe(
                 map((items) =>
                   items.filter(

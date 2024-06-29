@@ -8,16 +8,19 @@
 </div>
 <div class="modal-body">
 	<div class="card">
-		
 		<div class="card-body  mt-5">
+			<div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+				{{ error }}
+				<button type="button" class="btn-close" aria-label="Close" (click)="error = null"></button>
+			  </div>
 			<form [formGroup]="productForm"  class="m-0" (ngSubmit)="onSubmit()">
 				<div class="col-auto mb-3">
 					<input formControlName='productName'  type="text"  class="form-control" id="productName"placeholder="Product Name" >
 					<span *ngIf="!productForm.get('productName').valid && productForm.get('productName').touched" class="help-block">Required Field</span>
 				  </div>
-				  <div class="col-auto mb-3">
+				  <!-- <div class="col-auto mb-3">
 					<input formControlName='productDescription'  type="text" class="form-control" id="productDescription" placeholder="Description">
-				  </div>
+				  </div> -->
 				  <div class="col-auto d-flex justify-content-center">
 					<button *ngIf="mode==='edit'"  type="submit" class="btn btn-warning mb-3" [disabled]="!productForm.valid" >Edit</button>
 					<button *ngIf="mode==='add'"  type="submit" class="btn btn-primary mb-3" [disabled]="!productForm.valid">Submit</button>
@@ -33,4 +36,5 @@
 <div class="modal-footer py-0 border-0">
 	<button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
 </div>
+
 

@@ -10,6 +10,10 @@
 	<div class="card">
 	
 		<div class="card-body  mt-5">
+			<div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
+				{{ error }}
+				<button type="button" class="btn-close" aria-label="Close" (click)="error = null"></button>
+			  </div>
 			<form [formGroup]="shopForm"  class="m-0" (ngSubmit)="onSubmit()">
 				<div class="col-auto mb-3">
 					<input formControlName='shopName'  type="text"  class="form-control" id="shopName"placeholder="Shop Name" >
