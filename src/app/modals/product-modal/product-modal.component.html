@@ -25,9 +25,14 @@
 					<button *ngIf="mode==='edit'"  type="submit" class="btn btn-warning mb-3" [disabled]="!productForm.valid" >Edit</button>
 					<button *ngIf="mode==='add'"  type="submit" class="btn mb-3 "style="background-color: #00B3BB; color:white;" [disabled]="!productForm.valid">Submit</button>
 				  </div>
-				  <div *ngIf="!productForm.valid && productForm.touched" class="col-auto d-flex justify-content-center" >
-					<span  class="help-block text-center">Please fill the required fields</span>
-				  </div>
+				
+				  @if(!productForm.valid && productForm.touched){
+					<div  class="col-auto d-flex justify-content-center" >
+						<span  class="help-block text-center">Please fill the required fields</span>
+					  </div>
+				  }
+				  
+				  
 
 			  </form>
 		</div>

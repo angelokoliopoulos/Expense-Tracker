@@ -36,7 +36,7 @@
                     <tr>
                         <td scope="row">{{ prod.id | number }}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
-                        <td>{{ prod.description  }}</td>
+                        <!-- <td>{{ prod.description  }}</td> -->
                         <td class="text-end"> 
                           <div class="d-flex flex-row justify-content-end gap-2">
                             <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">
@@ -51,10 +51,13 @@
                 }
             </tbody>
         </table>
-        <div *ngIf="error" class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ error }}
-            <button type="button" class="btn-close" aria-label="Close" (click)="error = null"></button>
-          </div>
+        @if (error) {
+            <div  class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ error }}
+                <button type="button" class="btn-close" aria-label="Close" (click)="error = null"></button>
+              </div>
+        }
+        
     </div>
    
   </div>

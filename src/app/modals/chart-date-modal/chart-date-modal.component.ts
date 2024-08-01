@@ -9,70 +9,75 @@ import { TransactionChartService } from 'src/app/transaction-chart/transaction-c
   templateUrl: './chart-date-modal.component.html',
 })
 export class ChartDateModalComponent implements OnInit {
-  dateForm: FormGroup
-  //  months : String[] = ["January 1","February 2","March 3","April 4","May 5","June 6","July 7","August 8 ","September 9","Octomber 10","November 11","December 12"]
-   months : String[] = ["January","February","March","April","May","June","July","August","September","Octomber","November","December"]
-  // months : any[] = [['January' ,1],['February' ,2],['March', 3],["April", 4],
-  // ["May",5],["June",6],["July",7],["August", 8] ,["September" ,9],["Octomber", 10],["November", 11],["December", 12]]
+  dateForm: FormGroup;
+  months: String[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'Octomber',
+    'November',
+    'December',
+  ];
 
+  constructor(
+    public activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private analyticsService: AnalyticsService,
+    private chartService: TransactionChartService
+  ) {}
 
+  ngOnInit() {
+    this.initializeForm();
+  }
 
-   constructor(public activeModal: NgbActiveModal, private fb:FormBuilder, private analyticsService: AnalyticsService,
-    private chartService: TransactionChartService){}
-
-   ngOnInit() {
-    this.initializeForm()
-   }
-
-
-
-   
-  initializeForm(){
+  initializeForm() {
     this.dateForm = this.fb.group({
       month_or_year: ['month'],
       month: [this.months[0]],
-      yearInput: [new Date().getFullYear()]
+      yearInput: [new Date().getFullYear()],
     });
   }
 
-
-  onSubmit(){
-    console.log(this.dateForm.value)
-    if(this.dateForm.get('month_or_year').value === 'year'){
-      console.log(`Year is chosen`)
-      this.analyticsService.getYearTotalSpent(this.dateForm.value.yearInput).subscribe({
-        next: (data) => {
-          this.chartService.setChartData(data)
-          this.handleSuccess();
-        }
-      })
-    }else if(this.dateForm.get('month_or_year').value === 'month'){
-      this.analyticsService.getMonthTotalSpent(this.dateForm.value.yearInput, this.dateForm.value.month).subscribe({
-        next:(data) => {
-          this.chartService.setChartData(data)
-          this.handleSuccess();
-        }
-      })
-
-      
-
+  onSubmit() {
+    console.log(this.dateForm.value);
+    if (this.dateForm.get('month_or_year').value === 'year') {
+      console.log(`Year is chosen`);
+      this.analyticsService
+        .getYearTotalSpent(this.dateForm.value.yearInput)
+        .subscribe({
+          next: (data) => {
+            this.chartService.setChartData(data);
+            this.handleSuccess();
+          },
+        });
+    } else if (this.dateForm.get('month_or_year').value === 'month') {
+      this.analyticsService
+        .getMonthTotalSpent(
+          this.dateForm.value.yearInput,
+          this.dateForm.value.month
+        )
+        .subscribe({
+          next: (data) => {
+            this.chartService.setChartData(data);
+            this.handleSuccess();
+          },
+        });
     }
   }
-  
 
   handleSuccess() {
-    this.activeModal.close()
-    this.initializeForm(); 
+    this.activeModal.close();
+    this.initializeForm();
   }
-  
+
   handleError(error) {
-    this.initializeForm(); 
+    this.initializeForm();
     console.log(error);
   }
-  
-
-  
 }
-
-
-
