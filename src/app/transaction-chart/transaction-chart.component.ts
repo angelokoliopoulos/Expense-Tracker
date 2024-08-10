@@ -41,9 +41,6 @@ export class TransactionChartComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const currentMonth = new Date().toLocaleString('default', {
-      month: 'long',
-    });
     const currentYear = new Date().getFullYear().toString();
     this.chartService.chartDatas$.subscribe((data) => {
       this.updateChartData(data);
