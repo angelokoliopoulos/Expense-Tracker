@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Transaction } from '../transactions/transaction.model';
 import { AnalyticsService } from '../analytics/analytics.service';
 import { TransactionChartService } from './transaction-chart.service';
 import { Subscription } from 'rxjs';
-
-type AnalyticsData = {
-  [key: number]: any[];
-};
 
 @Component({
   selector: 'app-transaction-chart',
@@ -34,6 +36,7 @@ export class TransactionChartComponent implements OnInit {
     },
   };
   public barChartLabels: string[] = [];
+  destroyRef = inject(DestroyRef);
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -42,15 +45,21 @@ export class TransactionChartComponent implements OnInit {
 
   ngOnInit() {
     const currentYear = new Date().getFullYear().toString();
-    this.chartService.chartDatas$.subscribe((data) => {
-      this.updateChartData(data);
-    });
+    this.subscriptions.add(
+      this.chartService.chartDatas$.subscribe((data) => {
+        this.updateChartData(data);
+      })
+    );
 
-    this.analyticsService.getYearTotalSpent(currentYear).subscribe({
-      next: (data) => {
-        this.chartService.setChartData(data);
-      },
-    });
+    this.subscriptions.add(
+      this.analyticsService.getYearTotalSpent(currentYear).subscribe({
+        next: (data) => {
+          this.chartService.setChartData(data);
+        },
+      })
+    );
+    console.log(this.subscriptions);
+    this.destroyRef.onDestroy(() => this.subscriptions.unsubscribe());
   }
 
   private updateChartData(data: any[]) {
@@ -87,9 +96,5 @@ export class TransactionChartComponent implements OnInit {
         },
       ],
     };
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 }
