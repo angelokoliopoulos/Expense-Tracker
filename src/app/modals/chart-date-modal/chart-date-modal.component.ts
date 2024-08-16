@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnalyticsService } from 'src/app/analytics/analytics.service';
-import { TransactionChartService } from 'src/app/transaction-chart/transaction-chart.service';
+import { TransactionChartService } from 'src/app/analytics/transaction-chart/transaction-chart.service';
 
 @Component({
   selector: 'app-chart-date-modal',
   templateUrl: './chart-date-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartDateModalComponent implements OnInit {
   dateForm: FormGroup;
