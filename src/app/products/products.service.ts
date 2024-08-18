@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProductService {
   productSource = signal<Product | null>(null);
   productsUpdated = new Subject<void>();
-  apiRoot = 'http://localhost:8080/api/v1/auth';
+  apiRoot = 'http://localhost:8080/api/v1';
 
   constructor(private http: HttpClient) {}
 

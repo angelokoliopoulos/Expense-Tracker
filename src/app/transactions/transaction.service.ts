@@ -10,7 +10,7 @@ export class TransactionService {
   transactionsUpdated = new Subject<void>();
   transactionUpdated = new Subject<void>();
 
-  apiRoot = 'http://localhost:8080/api/v1/auth';
+  apiRoot = 'http://localhost:8080/api/v1';
 
   constructor(private http: HttpClient) {}
 

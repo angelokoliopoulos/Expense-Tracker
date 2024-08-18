@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AnalyticsService {
-  apiRoot = 'http://localhost:8080/api/v1/auth';
+  apiRoot = 'http://localhost:8080/api/v1';
 
   constructor(private http: HttpClient) {}
 

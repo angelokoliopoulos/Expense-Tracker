@@ -10,7 +10,7 @@ export class ShopService {
   private shopSource = new BehaviorSubject<Shop | null>(null);
   currentShop = this.shopSource.asObservable();
   shopsUpdated = new Subject<void>();
-  apiRoot = 'http://localhost:8080/api/v1/auth';
+  apiRoot = 'http://localhost:8080/api/v1';
 
   constructor(private http: HttpClient) {}
 

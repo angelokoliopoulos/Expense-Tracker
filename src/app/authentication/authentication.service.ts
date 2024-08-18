@@ -28,8 +28,10 @@ export class AuthenticationService {
     return this.http
       .post(`${this.apiUrl}/authenticate`, { email, password })
       .pipe(
-        map((token) => {
-          localStorage.setItem('jwtToken', JSON.stringify(token));
+        map((response: any) => {
+          const token = response.access_token;
+          localStorage.setItem('jwtToken', token);
+          return response;
         })
       );
   }
