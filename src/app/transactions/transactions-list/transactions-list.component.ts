@@ -3,8 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
-import { Router } from '@angular/router';
-import { CurrencyService } from 'src/app/shared/currency.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import {
   BehaviorSubject,
@@ -39,7 +38,8 @@ export class TransactionsListComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private transactionService: TransactionService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class TransactionsListComponent implements OnInit {
   }
 
   navigateToTransactionItem(id: number) {
-    this.router.navigate(['/transactions', id, 'edit']);
+    this.router.navigate(['/home', 'transactions', id, 'edit'], {});
   }
 
   onPageChange(page: number) {

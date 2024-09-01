@@ -38,37 +38,29 @@
   
   <nav id="sidebar-menu" [class.show-sidebar]="isSidebarVisible">
     <div class="menu-links">
-      <a routerLink="transactions" routerLinkActive="selected-link" class="link menu-link select" >
-        <i class="fal fa-calendar-alt menu-link-icon select"></i>
+      <a routerLink="transactions" routerLinkActive="selected-link" class="link" >
         <p class="menu-link-text select" >Transactions</p>
       </a>
-      <a routerLink="products" routerLinkActive="selected-link" class="link menu-link select" >
-        <i class="fal fa-calendar-alt menu-link-icon select"></i>
+      <a routerLink="products" routerLinkActive="selected-link" class="link" >
         <p class="menu-link-text select" >Product List</p>
       </a>
-      <a routerLink="shops" routerLinkActive="selected-link"  class="link menu-link select">
-        <i class="fal fa-calendar-week menu-link-icon select"></i>
+      <a routerLink="shops" routerLinkActive="selected-link"  class="link">
         <p class="menu-link-text select">Shops</p>
       </a>
-      <a routerLink="analytics" routerLinkActive="selected-link" class="link menu-link select">
-        <i class="fal fa-calendar-star menu-link-icon select"></i>
+      <a routerLink="analytics" routerLinkActive="selected-link" class="link">
         <p class="menu-link-text select">Analytics</p>
       </a>
     </div>
    <!-- Settings -->
     <div id="settings">
-      <div class="settings">
-      </div>
+      <div class="settings"></div>
       <div class="settings-links-div">
-        <a routerLink="settings" routerLinkActive="selected-link" class="link setting-link setting select" >       
-            <i class="fal fa-fw setting-icon setting select  fa-tools"></i>
+        <a routerLink="settings" routerLinkActive="selected-link" class="link setting-link" >       
             <p class="setting-text setting select" >Settings</p>
           </a>
         </div>
-        <a (click)="onLogOut()" class="link setting-link setting select" >       
-          <i class="fal fa-fw setting-icon setting select  fa-tools"></i>
+        <a (click)="onLogOut()"   class="link setting-link" >       
           <p class="setting-text setting select" >Log out</p>
-      
         </a>
     </div>
   </nav>
