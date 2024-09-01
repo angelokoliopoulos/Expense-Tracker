@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
@@ -21,8 +21,13 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsComponent } from './analytics/analytics.component';
-import { TransactionChartComponent } from './transaction-chart/transaction-chart.component';
+import { TransactionChartComponent } from './analytics/transaction-chart/transaction-chart.component';
 import { ChartDateModalComponent } from './modals/chart-date-modal/chart-date-modal.component';
+import { LoginComponent } from './landing-page/login/login.component';
+import { RegisterComponent } from './landing-page/register/register.component';
+import { JwtInterceptor } from './authentication/jwt.interceptor';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +47,10 @@ import { ChartDateModalComponent } from './modals/chart-date-modal/chart-date-mo
     NgbdSortableHeader,
     LoadingSpinnerComponent,
     TransactionChartComponent,
-
+    LoginComponent,
+    RegisterComponent,
+    LandingPageComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,9 +60,12 @@ import { ChartDateModalComponent } from './modals/chart-date-modal/chart-date-mo
     NgbModule,
     NgxPaginationModule,
     NgbTypeaheadModule,
-    BaseChartDirective
+    BaseChartDirective,
   ],
-  providers: [provideCharts(withDefaultRegisterables())],
-  bootstrap: [AppComponent]
+  providers: [
+    provideCharts(withDefaultRegisterables()),
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

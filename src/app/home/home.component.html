@@ -1,4 +1,4 @@
-
+<!-- 
   <div class="container px-4 py-5" >
     <h2 class="pb-2 border-bottom text-center">Easily track and visualise your expenses.</h2>
 
@@ -26,7 +26,78 @@
             </div>
           </li>
         </ol>
-      </div>
-   
+        <a (click)="onNavigate()" class="link setting-link setting select" >       
+          <i class="fal fa-fw setting-icon setting select  fa-tools"></i>
+          <p class="setting-text setting select" >Log in</p>
+      
+        </a>
+      </div>       
+  
     </div>
+  </div> -->
+  
+  <nav id="sidebar-menu" [class.show-sidebar]="isSidebarVisible">
+    <div class="menu-links">
+      <a routerLink="transactions" routerLinkActive="selected-link" class="link menu-link select" >
+        <i class="fal fa-calendar-alt menu-link-icon select"></i>
+        <p class="menu-link-text select" >Transactions</p>
+      </a>
+      <a routerLink="products" routerLinkActive="selected-link" class="link menu-link select" >
+        <i class="fal fa-calendar-alt menu-link-icon select"></i>
+        <p class="menu-link-text select" >Product List</p>
+      </a>
+      <a routerLink="shops" routerLinkActive="selected-link"  class="link menu-link select">
+        <i class="fal fa-calendar-week menu-link-icon select"></i>
+        <p class="menu-link-text select">Shops</p>
+      </a>
+      <a routerLink="analytics" routerLinkActive="selected-link" class="link menu-link select">
+        <i class="fal fa-calendar-star menu-link-icon select"></i>
+        <p class="menu-link-text select">Analytics</p>
+      </a>
+    </div>
+   <!-- Settings -->
+    <div id="settings">
+      <div class="settings">
+      </div>
+      <div class="settings-links-div">
+        <a routerLink="settings" routerLinkActive="selected-link" class="link setting-link setting select" >       
+            <i class="fal fa-fw setting-icon setting select  fa-tools"></i>
+            <p class="setting-text setting select" >Settings</p>
+          </a>
+        </div>
+        <a (click)="onLogOut()" class="link setting-link setting select" >       
+          <i class="fal fa-fw setting-icon setting select  fa-tools"></i>
+          <p class="setting-text setting select" >Log out</p>
+      
+        </a>
+    </div>
+  </nav>
+  <header class="p-3 mb-3 border-bottom" id="header">
+    <a routerLink="" class="d-flex align-items-center mb-2  px-2 link-body-emphasis text-decoration-none">
+      <img [src]="imagePath" alt="Logo" width="50" height="50">
+   </a>
+    <div class="container">
+      
+      <div class="d-flex flex-wrap align-items-center  justify-content-start">
+        <div class="toggle-menu mb-2"[class.clicked]="isSidebarVisible" (click)="toggleSidebar()">
+          <div class="burger-line"></div>
+          <div class="burger-line"></div>
+          <div class="burger-line"></div>
+        </div>
+        
+      </div>
+    </div>
+  </header>
+  
+  <div class="container-fluid" id="router">
+    <div class="row">
+      <div class="col-12 col-md-8 py-5 m-auto ">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+   
   </div>
+
+
+
+  

@@ -1,0 +1,25 @@
+<div class="row d-flex justify-content-center mt-5">
+    <div class="col-12 col-md-12 col-lg-6 col-xxl-6">
+      <div class="card mb-0 p-5 shadow">
+    
+          <div class="card-body pt-5">
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input formControlName="email" type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input formControlName="password" type="current-password" name="password" class="form-control" id="exampleInputPassword1">
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
+              <div class="d-flex align-items-center justify-content-center">
+                <a class="text-primary fw-bold ms-2" routerLink="../register" >Create an account</a>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
