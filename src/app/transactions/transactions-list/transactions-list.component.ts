@@ -1,5 +1,5 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
@@ -17,10 +17,14 @@ import {
   NgbdSortableHeader,
   SortEvent,
 } from 'src/app/shared/sortable.directive';
+import { AsyncPipe } from '@angular/common';
+import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 
 @Component({
+  standalone: true,
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
+  imports: [AsyncPipe, NgbPaginationModule, LoadingSpinnerComponent],
 })
 export class TransactionsListComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;

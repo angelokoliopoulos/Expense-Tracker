@@ -4,10 +4,13 @@ import { Transaction } from '../../transactions/transaction.model';
 import { AnalyticsService } from '../analytics.service';
 import { TransactionChartService } from './transaction-chart.service';
 import { Subscription } from 'rxjs';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
+  standalone: true,
   selector: 'app-transaction-chart',
   templateUrl: './transaction-chart.component.html',
+  imports: [BaseChartDirective],
 })
 export class TransactionChartComponent implements OnInit {
   chartMode: String;
