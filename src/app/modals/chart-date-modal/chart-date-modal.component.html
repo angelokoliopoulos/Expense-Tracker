@@ -27,8 +27,7 @@
           <div class="mb-3" >
             <label for="yearInput" class="form-label">Select Year</label>
             <input type="number" class="form-control" formControlName="yearInput" id="yearInput" min="1990" max="2100">
-            <span *ngIf="!dateForm.get('yearInput').valid && dateForm.get('yearInput').touched " >Required Field</span>
-
+              <span *ngIf="!dateForm.get('yearInput').valid && dateForm.get('yearInput').touched" >Required Field</span>
           </div>
           <div class="mb-3 d-flex justify-content-center">
             <button  type="submit" class="btn mb-3"style="background-color: #00B3BB; color:white;" [disabled]="!dateForm.valid">Submit</button>

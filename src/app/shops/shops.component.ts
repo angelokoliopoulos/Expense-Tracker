@@ -1,6 +1,10 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbHighlight,
+  NgbModal,
+  NgbPagination,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Shop } from './shop.model';
 import { ShopService } from './shop.service';
 import { ShopModalComponent } from '../modals/shop-modal/shop-modal.component';
@@ -11,10 +15,20 @@ import {
   startWith,
   switchMap,
 } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { search, onSort } from '../shared/utils';
+import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+  standalone: true,
+  imports: [
+    NgbPagination,
+    NgbHighlight,
+    LoadingSpinnerComponent,
+    ReactiveFormsModule,
+    AsyncPipe,
+  ],
   selector: 'app-shops',
   templateUrl: './shops.component.html',
 })
@@ -68,7 +82,7 @@ export class ShopsComponent implements OnInit {
     });
   }
 
-  onSort(event: SortEvent) {
+  onSort(event: any) {
     this.shops$ = onSort(event, this.headers, this.shops$);
   }
 

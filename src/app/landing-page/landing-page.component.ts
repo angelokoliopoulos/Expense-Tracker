@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
+  standalone: true,
+  imports: [RouterOutlet],
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
 })

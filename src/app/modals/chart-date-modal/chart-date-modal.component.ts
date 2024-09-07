@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsService } from 'src/app/analytics/analytics.service';
 import { TransactionChartService } from 'src/app/analytics/transaction-chart/transaction-chart.service';
 
 @Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, NgbTypeahead, CommonModule],
   selector: 'app-chart-date-modal',
   templateUrl: './chart-date-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,9 +50,7 @@ export class ChartDateModalComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.dateForm.value);
     if (this.dateForm.get('month_or_year').value === 'year') {
-      console.log(`Year is chosen`);
       this.analyticsService
         .getYearTotalSpent(this.dateForm.value.yearInput)
         .subscribe({

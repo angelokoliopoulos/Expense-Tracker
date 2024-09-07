@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent,
   HttpErrorResponse,
+  HttpHandlerFn,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
@@ -35,3 +36,29 @@ export class JwtInterceptor implements HttpInterceptor {
     );
   }
 }
+export const authInterceptor = (
+  request: HttpRequest<any>,
+  next: HttpHandlerFn
+): Observable<HttpEvent<unknown>> => {
+  const token = localStorage.getItem('jwtToken');
+  const authService = inject(AuthenticationService);
+
+  if (token) {
+    request = request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  return next(request).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // if (error.error?.statusCode === 401)
+      if (error.status === 401) {
+        authService.logout();
+        alert(`Your session has expired. Please log in again.`);
+      }
+      return throwError(() => error);
+    })
+  );
+};

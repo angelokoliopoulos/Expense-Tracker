@@ -1,10 +1,15 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { NgbModal, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbHighlight,
+  NgbModal,
+  NgbPagination,
+  NgbPaginationModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
@@ -22,9 +27,16 @@ import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-
 
 @Component({
   standalone: true,
+  imports: [
+    NgbPagination,
+    NgbHighlight,
+    AsyncPipe,
+    NgbPaginationModule,
+    LoadingSpinnerComponent,
+    ReactiveFormsModule,
+  ],
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
-  imports: [AsyncPipe, NgbPaginationModule, LoadingSpinnerComponent],
 })
 export class TransactionsListComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
@@ -42,8 +54,7 @@ export class TransactionsListComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private transactionService: TransactionService,
-    private router: Router,
-    private route: ActivatedRoute
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -83,7 +94,7 @@ export class TransactionsListComponent implements OnInit {
       });
   }
 
-  onSort(event: SortEvent) {
+  onSort(event: any) {
     this.transactions$ = onSort(event, this.headers, this.transactions$);
   }
 

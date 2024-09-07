@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  NgZone,
-  OnInit,
-} from '@angular/core';
+import { Component, inject, NgZone, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChartDateModalComponent } from '../modals/chart-date-modal/chart-date-modal.component';
 import { TransactionChartComponent } from './transaction-chart/transaction-chart.component';
