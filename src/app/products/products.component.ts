@@ -9,9 +9,16 @@ import { ProductModalComponent } from '../modals/product-modal/product-modal.com
 import { ProductService } from './products.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgbdSortableHeader, SortEvent } from '../shared/sortable.directive';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { debounceTime, startWith, switchMap } from 'rxjs/operators';
-import { search } from '../shared/utils';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  map,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
+import { compare, search } from '../shared/utils';
 import { onSort } from '../shared/utils';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
@@ -32,13 +39,19 @@ import { AsyncPipe, DecimalPipe } from '@angular/common';
 export class ProductsComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   products$: Observable<Product[]>;
-  private allProducts$: BehaviorSubject<Product[]> = new BehaviorSubject([]);
   isLoading: boolean = false;
   error: string;
-  currentPage: number = 0;
+  currentPage: number = 1;
   itemsPerPage: number = 8;
   collectionSize: number;
   filter = new FormControl('', { nonNullable: true });
+
+  // Subjects for pagination and sorting
+  private pagination$ = new BehaviorSubject<number>(this.currentPage);
+  private sorting$ = new BehaviorSubject<SortEvent>({
+    column: '',
+    direction: '',
+  });
 
   constructor(
     private modalService: NgbModal,
@@ -46,49 +59,65 @@ export class ProductsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fetchProducts();
-    this.productService.productsUpdated.subscribe({
-      next: () => {
-        this.fetchProducts();
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
-    // products$ getting their value from the search method which using the allProducts$ behavioral subject
-    this.products$ = this.filter.valueChanges.pipe(
+    // Observable for filter changes
+    const filter$ = this.filter.valueChanges.pipe(
       startWith(''),
-      debounceTime(100),
-      switchMap((text) => search(text, this.allProducts$))
+      debounceTime(100)
+    );
+
+    // Observable for product updates (additions/deletions)
+    const productsUpdated$ = this.productService.productsUpdated.pipe(
+      startWith(null)
+    );
+
+    // Combine filter, pagination, sorting, and product updates into one stream
+    this.products$ = combineLatest([
+      filter$,
+      productsUpdated$,
+      this.pagination$,
+      this.sorting$,
+    ]).pipe(
+      switchMap(([filterText, _, currentPage, sortEvent]) => {
+        this.isLoading = true;
+        return this.productService
+          .getProducts(this.itemsPerPage, currentPage)
+          .pipe(
+            map((data: any) => {
+              this.collectionSize = data.totalElements;
+              return data.content;
+            }),
+            map((products: Product[]) => {
+              // Apply filtering
+              products = products.filter((product) =>
+                product.name.toLowerCase().includes(filterText.toLowerCase())
+              );
+              // Apply sorting
+              if (sortEvent.column && sortEvent.direction) {
+                products = [...products].sort((a, b) => {
+                  const res = compare(a[sortEvent.column], b[sortEvent.column]);
+                  return sortEvent.direction === 'asc' ? res : -res;
+                });
+              }
+              return products;
+            }),
+            tap(() => (this.isLoading = false)),
+            catchError((error) => {
+              this.isLoading = false;
+              this.setError(error.error.message || 'Error fetching products');
+              return of([]);
+            })
+          );
+      })
     );
   }
 
-  onSort(event: any) {
-    this.products$ = onSort(event, this.headers, this.products$);
-  }
-
-  fetchProducts() {
-    this.isLoading = true;
-    this.productService
-      .getProducts(this.itemsPerPage, this.currentPage)
-      .subscribe({
-        next: (data: any) => {
-          // Get all products from the service and pass it to allProducts$ Behavioral Subject.
-          this.allProducts$.next(data.content);
-          this.collectionSize = data.totalElements;
-          this.isLoading = false;
-        },
-        error: (error) => {
-          this.isLoading = false;
-          console.log(error);
-        },
-      });
+  onSort({ column, direction }: SortEvent) {
+    this.sorting$.next({ column, direction });
   }
 
   onPageChange(page: number) {
     this.currentPage = page;
-    this.fetchProducts();
+    this.pagination$.next(page);
   }
 
   // Modal Methods
@@ -108,11 +137,10 @@ export class ProductsComponent implements OnInit {
   }
 
   onDelete(prod: Product) {
-    console.log('Deleting product with  productId:', prod.id);
     if (window.confirm('Delete Item?')) {
       this.productService.deleteProduct(prod.id).subscribe({
         next: () => {
-          console.log('product deleted');
+          console.log('Product deleted');
         },
         error: (err) => {
           this.setError(err.error.message);
