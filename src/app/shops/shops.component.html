@@ -28,13 +28,13 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Shop Id</th>
+                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Shop ID</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Shop Name</th>
 
                 </tr>
             </thead>
             <tbody>
-                @for (shop of shops$ | async; track shop.name ) {
+                @for (shop of shops$ | async; track shop.id ) {
                     
                     <tr>
                         <td scope="row">{{ shop.id  }}</td>

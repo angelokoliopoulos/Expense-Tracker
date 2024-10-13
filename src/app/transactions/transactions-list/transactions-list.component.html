@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-betweeen">
             <div class="input-group">
                 <form>
-                    <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter" />
+                    <input  class="form-control"   placeholder="Search"  type="text" [formControl]="filter"/>
                 </form>
             </div>
             <div>
@@ -18,10 +18,9 @@
             <button  class="btn" style="background-color:#00B3BB; color: white;"  (click)="open()">Create New</button>
             </div>
         </div>
-    
         @if(isLoading){
             <div  style="text-align: center!important;">
-                <app-loading-spinner  ></app-loading-spinner>
+                <app-loading-spinner ></app-loading-spinner>
             </div>
             
         }
@@ -29,13 +28,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="id" (sort)="onSort($event)" >Transaction Date</th>
-                    <th scope="col" sortable="name" (sort)="onSort($event)" >Shop</th>
+                    <th scope="col" sortable="id" (sort)="onSort($event)">Transaction Date</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">Shop</th>
                 </tr>
             </thead>
             <tbody>
-                @for (trans of transactions$ | async ; track trans.date ) {
-                    
+                @for (trans of transactions$ | async; track trans.id) {                   
                     <tr>
                         <td scope="row">{{ trans.date  }}</td>
                         <td>{{trans.shopName}}</td>

@@ -13,6 +13,11 @@ export interface SortEvent {
   direction: SortDirection;
 }
 
+export interface Pagination {
+  currentPage: number;
+  itemsPerPage: number;
+}
+
 @Directive({
   standalone: true,
   selector: 'th[sortable]',

@@ -28,12 +28,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Product Id</th>
+                    <th scope="col" sortable="id"  (sort)="onSort($event)" >Product ID</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">Product Name</th>
                 </tr>
             </thead>
             <tbody>
-                @for (prod of products$ | async; track prod.name ) {
+                @for (prod of products$ | async; track prod.id ) {
                     
                     <tr>
                         <td scope="row">{{ prod.id | number }}</td>

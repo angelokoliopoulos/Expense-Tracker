@@ -19,7 +19,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { compare, search } from '../shared/utils';
-import { onSort } from '../shared/utils';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 @Component({
@@ -139,12 +138,8 @@ export class ProductsComponent implements OnInit {
   onDelete(prod: Product) {
     if (window.confirm('Delete Item?')) {
       this.productService.deleteProduct(prod.id).subscribe({
-        next: () => {
-          console.log('Product deleted');
-        },
-        error: (err) => {
-          this.setError(err.error.message);
-        },
+        next: () => console.log('Product deleted.'),
+        error: (err) => this.setError(err.error.message),
       });
     }
   }
