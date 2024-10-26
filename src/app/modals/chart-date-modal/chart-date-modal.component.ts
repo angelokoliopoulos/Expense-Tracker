@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
-import { BaseChartDirective } from 'ng2-charts';
 import { AnalyticsService } from 'src/app/analytics/analytics.service';
 import { TransactionChartService } from 'src/app/analytics/transaction-chart/transaction-chart.service';
 
@@ -15,19 +14,19 @@ import { TransactionChartService } from 'src/app/analytics/transaction-chart/tra
 })
 export class ChartDateModalComponent implements OnInit {
   dateForm: FormGroup;
-  months: String[] = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'Octomber',
-    'November',
-    'December',
+  months: any = [
+    { name: 'January', number: 1 },
+    { name: 'February', number: 2 },
+    { name: 'March', number: 3 },
+    { name: 'April', number: 4 },
+    { name: 'May', number: 5 },
+    { name: 'June', number: 6 },
+    { name: 'July', number: 7 },
+    { name: 'August', number: 8 },
+    { name: 'Sepember', number: 9 },
+    { name: 'October', number: 10 },
+    { name: 'November', number: 11 },
+    { name: 'December', number: 12 },
   ];
 
   constructor(
@@ -44,7 +43,7 @@ export class ChartDateModalComponent implements OnInit {
   initializeForm() {
     this.dateForm = this.fb.group({
       month_or_year: ['month'],
-      month: [this.months[0]],
+      month: [this.months[0].number],
       yearInput: [new Date().getFullYear()],
     });
   }

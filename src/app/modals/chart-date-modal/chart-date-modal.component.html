@@ -19,8 +19,8 @@
             <label for="monthSelect" class="form-label">Select Month</label>
             <select class="form-select" formControlName="month" id="monthSelect">
             
-           @for (month of months; track month){
-                    <option [ngValue]="month">{{month}}</option>
+           @for (month of months; track month.number){
+                    <option  [ngValue]="month.number">{{month.name}}</option>
                 }
             </select>
           </div>

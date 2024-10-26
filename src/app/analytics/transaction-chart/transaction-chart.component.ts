@@ -1,11 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { Transaction } from '../../transactions/transaction.model';
 import { AnalyticsService } from '../analytics.service';
