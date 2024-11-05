@@ -28,15 +28,16 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col" sortable="id" (sort)="onSort($event)">Transaction Date</th>
-                    <th scope="col" sortable="name" (sort)="onSort($event)">Shop</th>
+                    <th scope="col" sortable="id">Transaction Date</th>
+                    <th scope="col" sortable="name">Shop</th>
                 </tr>
             </thead>
             <tbody>
                 @for (trans of transactions$ | async; track trans.id) {                   
                     <tr>
-                        <td scope="row">{{ trans.date  }}</td>
-                        <td>{{trans.shopName}}</td>
+                        <td scope="col">{{ trans.date  }}</td>
+                        <td><ngb-highlight [result]="trans.shopName" [term]="filter.value"></ngb-highlight></td>
+                        <!-- <td>{{trans.shopName}}</td> -->
                         <td class="text-end"> 
                           <div class="d-flex flex-row justify-content-end gap-2">
                             <button type="submit" class="btn btn-warning btn-sm" (click)="navigateToTransactionItem(trans.id)">

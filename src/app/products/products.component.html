@@ -36,8 +36,9 @@
                 @for (prod of products$ | async; track prod.id ) {
                     
                     <tr>
-                        <td scope="row">{{ prod.id | number }}</td>
+                        <td scope="col">{{ prod.id  }}</td>
                         <td><ngb-highlight [result]="prod.name" [term]="filter.value"></ngb-highlight>  </td>
+                        <!-- <td>{{prod.name}}</td> -->
                         <td class="text-end"> 
                           <div class="d-flex flex-row justify-content-end gap-2">
                             <button type="submit" class="btn btn-warning btn-sm" (click)="onEdit(prod)">

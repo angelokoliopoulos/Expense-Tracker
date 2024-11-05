@@ -8,16 +8,20 @@ import {
 import { TransactionModalComponent } from '../../modals/transaction-modal/transaction-modal.component';
 import { TransactionService } from '../transaction.service';
 import { Transaction } from '../transaction.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   BehaviorSubject,
   Observable,
+  catchError,
+  combineLatest,
   debounceTime,
+  map,
+  of,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs';
-import { onSort, searchTransactions } from 'src/app/shared/utils';
 import {
   NgbdSortableHeader,
   SortEvent,
@@ -41,15 +45,15 @@ import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-
 export class TransactionsListComponent implements OnInit {
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
   transactions$: Observable<Transaction[]>;
-  private allTransactions$: BehaviorSubject<Transaction[]> =
-    new BehaviorSubject([]);
-  id: string;
   isLoading: boolean = false;
-  error = null;
-  currentPage: number = 0;
+  error: string;
+  currentPage: number = 1;
   itemsPerPage: number = 8;
   collectionSize: number;
   filter = new FormControl('', { nonNullable: true });
+
+  // Subject for pagination
+  private pagination$ = new BehaviorSubject<number>(this.currentPage);
 
   constructor(
     private modalService: NgbModal,
@@ -58,44 +62,48 @@ export class TransactionsListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.fetchTransactions();
-    this.transactionService.transactionsUpdated.subscribe({
-      next: () => {
-        this.fetchTransactions();
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-
-    this.transactions$ = this.filter.valueChanges.pipe(
+    //Observable for filter changes
+    const filter$ = this.filter.valueChanges.pipe(
       startWith(''),
-      debounceTime(100),
-      switchMap((text) => searchTransactions(text, this.allTransactions$))
+      debounceTime(100)
     );
-  }
 
-  fetchTransactions() {
-    this.isLoading = true;
+    // Observable for product updates (additions/deletions)
+    const transactionsUpdated$ =
+      this.transactionService.transactionUpdated.pipe(startWith(null));
 
-    this.transactionService
-      .getTransactions(this.itemsPerPage, this.currentPage)
-      .subscribe({
-        next: (data: any) => {
-          //Get all transactions from the service and pass it to allTransactions$ Behavioral Subject.
-          this.allTransactions$.next(data.content);
-          this.collectionSize = data.totalElements;
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.isLoading = false;
-          console.log(err);
-        },
-      });
-  }
-
-  onSort(event: any) {
-    this.transactions$ = onSort(event, this.headers, this.transactions$);
+    this.transactions$ = combineLatest([
+      filter$,
+      transactionsUpdated$,
+      this.pagination$,
+    ]).pipe(
+      switchMap(([filterText, _, currentPage]) => {
+        this.isLoading = true;
+        return this.transactionService
+          .getTransactions(this.itemsPerPage, currentPage)
+          .pipe(
+            map((data: any) => {
+              this.collectionSize = data.totalElements;
+              return data.content;
+            }),
+            map((transactions: Transaction[]) => {
+              transactions = transactions.filter((transaction) =>
+                transaction.shopName
+                  .toLowerCase()
+                  .includes(filterText.toLowerCase())
+              );
+              return transactions;
+            }),
+            tap(() => (this.isLoading = false)),
+            catchError((error) => {
+              this.isLoading = false;
+              this.setError(error);
+              console.error('Error fetching transactions', error);
+              return of([]);
+            })
+          );
+      })
+    );
   }
 
   navigateToTransactionItem(id: number) {
@@ -104,7 +112,8 @@ export class TransactionsListComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
-    this.fetchTransactions();
+    // Emits the new page number to the pagination$ observable, triggering the data fetch for the new page via the reactive pipeline.
+    this.pagination$.next(page);
   }
 
   //Modal Methods
@@ -125,5 +134,10 @@ export class TransactionsListComponent implements OnInit {
         error: (err) => console.log(err),
       });
     }
+  }
+
+  setError(message: string) {
+    this.error = message;
+    setTimeout(() => (this.error = null), 8000);
   }
 }
