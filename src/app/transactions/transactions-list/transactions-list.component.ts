@@ -22,10 +22,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
-import {
-  NgbdSortableHeader,
-  SortEvent,
-} from 'src/app/shared/sortable.directive';
+import { NgbdSortableHeader } from 'src/app/shared/sortable.directive';
 import { AsyncPipe } from '@angular/common';
 import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 

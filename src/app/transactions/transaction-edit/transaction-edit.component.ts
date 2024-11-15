@@ -1,14 +1,13 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { TransactionService } from '../transaction.service';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Transaction } from '../transaction.model';
+import { ActivatedRoute } from '@angular/router';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 import {
   NgbHighlight,
   NgbModal,
   NgbPagination,
 } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject, combineLatest, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,

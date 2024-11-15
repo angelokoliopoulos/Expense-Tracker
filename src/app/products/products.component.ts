@@ -18,7 +18,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { compare, search } from '../shared/utils';
+import { compare } from '../shared/utils';
 import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
 import { AsyncPipe, DecimalPipe } from '@angular/common';
 @Component({
@@ -83,8 +83,6 @@ export class ProductsComponent implements OnInit {
           .pipe(
             map((data: any) => {
               this.collectionSize = data.totalElements;
-              console.log(this.collectionSize);
-
               return data.content;
             }),
             map((products: Product[]) => {
@@ -118,6 +116,7 @@ export class ProductsComponent implements OnInit {
 
   onPageChange(page: number) {
     this.currentPage = page;
+    // Emits the new page number to the pagination$ observable, triggering the data fetch for the new page via the reactive pipeline.
     this.pagination$.next(page);
   }
 

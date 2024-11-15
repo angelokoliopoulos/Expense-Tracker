@@ -18,10 +18,8 @@ export class ShopService {
     this.shopSource.next(shop);
   }
 
-  getShops(itemsPerPage: number, page: number): Observable<any> {
-    return this.http.get(
-      `${this.apiRoot}/shops?size=${itemsPerPage},page=${page - 1}`
-    );
+  getShops(size: number, page: number): Observable<any> {
+    return this.http.get(`${this.apiRoot}/shops?size=${size}&page=${page - 1}`);
   }
 
   getAllShops(): Observable<any> {
