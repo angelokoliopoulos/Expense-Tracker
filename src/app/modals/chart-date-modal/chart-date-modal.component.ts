@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgbActiveModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AnalyticsService } from 'src/app/analytics/analytics.service';
 import { TransactionChartService } from 'src/app/analytics/transaction-chart/transaction-chart.service';
 
 @Component({
   standalone: true,
-  imports: [ReactiveFormsModule, NgbTypeahead, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   selector: 'app-chart-date-modal',
   templateUrl: './chart-date-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

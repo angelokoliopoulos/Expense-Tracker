@@ -58,30 +58,54 @@ export class TransactionChartComponent implements OnInit {
     this.destroyRef.onDestroy(() => this.subscriptions.unsubscribe());
   }
 
-  private updateChartData(data: any[]) {
+  private updateChartData(data: any) {
+    let accumulatedValues;
     if (!data) {
       return;
     }
+    if (data.length === 0) {
+      this.barChartData = {
+        labels: [],
+        datasets: [
+          {
+            data: [],
+            label: 'No results',
+          },
+        ],
+      };
+      return;
+    }
 
-    const accumulatedValues = data.reduce(
-      (acc, curr) => {
-        if (curr[1] !== null) {
-          if (data[0].length > 2) {
-            acc.labels.push(`${curr[0].replace(' ', '-')}  ${curr[1]}`);
-            acc.totals.push(curr[2]);
-          } else {
-            acc.labels.push(curr[0]);
-            acc.totals.push(curr[1]);
-          }
-        }
-        return acc;
-      },
-      { labels: [], totals: [] }
-    );
+    if (data[0].date) {
+      const dateOptions: Intl.DateTimeFormatOptions = {
+        day: 'numeric',
+        month: 'long',
+      };
+      accumulatedValues = data.reduce(
+        (acc, curr) => {
+          let formatedDate = new Intl.DateTimeFormat(
+            'en-GB',
+            dateOptions
+          ).format(new Date(curr.date));
+          acc.labels.push(`${formatedDate} - ${curr.shop}`);
+          acc.totals.push(curr.cost);
+          return acc;
+        },
+        { labels: [], totals: [] }
+      );
+    } else if (data[0].monthName) {
+      accumulatedValues = data.reduce(
+        (acc, curr) => {
+          acc.labels.push(curr.monthName);
+          acc.totals.push(curr.totalSpent);
+          return acc;
+        },
+        { labels: [], totals: [] }
+      );
+    }
 
-    this.barChartLabels = accumulatedValues.labels;
     this.barChartData = {
-      labels: this.barChartLabels,
+      labels: accumulatedValues.labels,
       datasets: [
         {
           data: accumulatedValues.totals,
