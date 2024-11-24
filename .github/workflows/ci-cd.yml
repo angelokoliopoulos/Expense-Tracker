@@ -1,0 +1,37 @@
+name: Expense-Tracker CI/CD
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [trigger-frontend-build]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Dependencies and Build Frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: Build Frontend Docker Image
+        run: docker build . --file ./Dockerfile --tag ghcr.io/angeloskol/expense-tracker:latest
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Push Frontend Docker Image to GHCR
+        run: docker push ghcr.io/angeloskol/expense-tracker:latest
